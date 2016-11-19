@@ -18,6 +18,7 @@
  */
 package com.pandoroid;
 
+import android.support.v7.app.AppCompatActivity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -25,13 +26,14 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.pandoroid.R;
+import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
 
-public class AboutDialog extends SherlockActivity {
+public class AboutDialog extends AppCompatActivity {
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		setTheme(Base_Theme_AppCompat_Light);
 		setContentView(R.layout.about);
 		String version_name = "";
 		int build_num = 0;

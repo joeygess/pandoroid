@@ -3,18 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="20dip">
-
+    android:padding="20dip"
+    android:background="@color/black">
+
     <TextView
         android:id="@+id/version_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" />
-
+        android:gravity="center"
+        android:textColor="#ffffff" />
+
+
+
     <TextView
         android:id="@+id/about_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="left" />
+        android:gravity="left"
+        android:textColor="#ffffff" />
 
 </LinearLayout>

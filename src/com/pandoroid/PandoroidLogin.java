@@ -17,9 +17,9 @@
  */
 package com.pandoroid;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.pandoroid.R;
 
+import android.support.v7.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -39,7 +39,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class PandoroidLogin extends SherlockActivity {
+public class PandoroidLogin extends AppCompatActivity {
 	private SharedPreferences m_prefs;
 
 	/*
@@ -48,7 +48,7 @@ public class PandoroidLogin extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setTheme(R.style.Theme_Sherlock);
+		/*setTheme(R.style.Theme_Sherlock); */
 		setContentView(R.layout.login);
 		
 		m_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());	

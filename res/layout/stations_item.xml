@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/PandoroidBlackBgTheme"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/PandoroidWhiteBgTheme"
+    android:background="@android:color/background_light">
 
     <ImageView
         android:id="@+id/stations_icon"

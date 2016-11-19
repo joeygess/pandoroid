@@ -22,10 +22,9 @@ import java.io.IOException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Song;
 import com.pandoroid.playback.MediaPlaybackController;
@@ -56,12 +55,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.appcompat.R.style;
 
-public class PandoroidPlayer extends SherlockActivity {
+import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
+
+public class PandoroidPlayer extends AppCompatActivity {
 
 //	public static final int REQUIRE_SELECT_STATION = 0x10;
 //	public static final int REQUIRE_LOGIN_CREDS = 0x20;
 	public static final String RATING_BAN = "ban";
+    //public static final String RATING_TEMPBAN = "ban";
 	public static final String RATING_LOVE = "love";
 	public static final String RATING_NONE = null;
 
@@ -88,7 +92,7 @@ public class PandoroidPlayer extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setTheme(R.style.Theme_Sherlock);
+		setTheme(Base_Theme_AppCompat_Light);
 		setContentView(R.layout.player);
 
 		m_prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -150,7 +154,7 @@ public class PandoroidPlayer extends SherlockActivity {
 					updateForNewSong(song);
 				}
 			});
-			m_service.setListener(OnPlaybackContinuedListener.class, 
+			m_service.setListener(OnPlaybackContinuedListener.class,
 								  new OnPlaybackContinuedListener(){
 				public void onPlaybackContinued(){
 					dismissSongHaltedProgress();
@@ -164,7 +168,7 @@ public class PandoroidPlayer extends SherlockActivity {
 			});
 			m_service.setListener(PandoraRadioService.OnInvalidAuthListener.class,
 								  new PandoraRadioService.OnInvalidAuthListener() {
-									
+
 									@Override
 									public void onInvalidAuth() {
 										partnerLogin();
@@ -207,7 +211,7 @@ public class PandoroidPlayer extends SherlockActivity {
 	}
 	/* End Service */
 
-	
+
 	public void controlButtonPressed(View button) {
 		switch (button.getId()) {
 		case R.id.player_ban:
@@ -218,6 +222,11 @@ public class PandoroidPlayer extends SherlockActivity {
 				m_service.skip();
 			}
 			break;
+        /*case R.id.player_tempban:
+		    m_service.sleepSong(RATING_TEMPBAN);
+			Toast.makeText(getApplicationContext(),
+					getString(R.string.tempbaned_song), Toast.LENGTH_SHORT).show();
+			break;*/
 
 		case R.id.player_love:
 			m_service.rate(RATING_LOVE);
@@ -251,7 +260,7 @@ public class PandoroidPlayer extends SherlockActivity {
 		View progress = findViewById(R.id.progressUpdate);
 		progress.setVisibility(View.INVISIBLE);
 	}
-	
+
 	/**
 	 * Description: Removes waiting prompts.
 	 */
@@ -289,9 +298,9 @@ public class PandoroidPlayer extends SherlockActivity {
 			prefs_edit.remove("pandora_username");
 			prefs_edit.remove("pandora_password");
 			prefs_edit.remove("lastStationId");
-			prefs_edit.remove("pandora_one_flag");
+            prefs_edit.remove("pandora_one_flag");
 			prefs_edit.apply();
-			dismissSongHaltedProgress(); 
+			dismissSongHaltedProgress();
 			userLogin();
 			return true;
 
@@ -333,7 +342,7 @@ public class PandoroidPlayer extends SherlockActivity {
 		m_alert_active_flag = false;
 		finish();
 	}
-	
+
 	/**
 	 * Description: Executes the RetrieveStationsTask.
 	 */
@@ -358,16 +367,16 @@ public class PandoroidPlayer extends SherlockActivity {
 		m_alert.show();
 		m_alert_active_flag = true;
 	}
-	
+
 	private void showSongHaltedProgress(int reason){
 		m_song_halted_reason = reason;
 		View progress = findViewById(R.id.progressUpdate);
 		TextView view_text = (TextView) findViewById(R.id.progressText);
-		
+
 		int reason_str;
 		switch(reason){
 			case MediaPlaybackController.HALT_STATE_NO_NETWORK:
-				reason_str = R.string.no_network; 
+				reason_str = R.string.no_network;
 				break;
 			case MediaPlaybackController.HALT_STATE_NO_INTERNET:
 				reason_str = R.string.no_internet;
@@ -384,10 +393,10 @@ public class PandoroidPlayer extends SherlockActivity {
 			default:
 				reason_str = R.string.buffering;
 		}
-	 
+
 		view_text.setText(reason_str);
-		progress.setVisibility(View.VISIBLE);	
-		
+		progress.setVisibility(View.VISIBLE);
+
 	}
 
 	/**
@@ -408,7 +417,7 @@ public class PandoroidPlayer extends SherlockActivity {
 	private void songRefresh(Song song) {
 		TextView top = (TextView) findViewById(R.id.player_topText);
 		ImageView image = (ImageView) findViewById(R.id.player_image);
-		
+
 		if (song != null){
 			getSupportActionBar().setTitle(String.format("" + song.getTitle()));
 			m_service.image_downloader.download(song.getAlbumCoverUrl(), image);
@@ -429,7 +438,7 @@ public class PandoroidPlayer extends SherlockActivity {
 		m_prefs.edit().remove("pandora_password").apply();
 		startActivity(new Intent(this, PandoroidLogin.class));
 	}
-	
+
 	/**
 	 * Description: Starts a new station selection activity.
 	 */
@@ -439,7 +448,7 @@ public class PandoroidPlayer extends SherlockActivity {
 
 	/**
 	 * Description: This gets executed whenever the activity has to be
-	 * 	restarted/resumed. 
+	 * 	restarted/resumed.
 	 */
 	private void startup() {
 		if (m_alert_active_flag) {
@@ -448,7 +457,7 @@ public class PandoroidPlayer extends SherlockActivity {
 			partnerLogin();
 		} else if (!m_service.isUserAuthorized()) {
 			userLogin();
-		} 
+		}
 		else if (m_service.getCurrentStation() == null){
 			setStation();
 		}
@@ -461,7 +470,7 @@ public class PandoroidPlayer extends SherlockActivity {
 			}
 			catch(Exception e){
 				songRefresh(null);
-			}			
+			}
 			dismissWaiting();
 		}
 	}
@@ -503,21 +512,21 @@ public class PandoroidPlayer extends SherlockActivity {
 	 * @param <Params> -Parameters specific to the doInBackground() execution.
 	 */
 	private abstract class PandoroidPlayerServerTask<Params> extends ServerAsyncTask<Params>{
-		
+
 		protected AlertDialog.Builder buildErrorDialog(int error){
 			return super.buildErrorDialog(error, PandoroidPlayer.this);
 		}
-		
+
 		protected void quit(){
 			PandoroidPlayer.this.quit();
 		}
-		
+
 		protected void reportAction(){
 			String issue_url = "https://github.com/dylanPowers/pandoroid/issues";
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(issue_url));
 			startActivity(i);
 		}
-		
+
 		protected void showAlert(AlertDialog alert){
 			PandoroidPlayer.this.showAlert(alert);
 		}
@@ -566,17 +575,17 @@ public class PandoroidPlayer extends SherlockActivity {
 			} else {
 				userLogin();
 			}
-			
+
 			m_partner_login_finished_flag = true;
 		}
-		
+
 		protected void retryAction() {
 			m_alert_active_flag = false;
 			partnerLogin();
 		}
 
 	}
-	
+
 	/**
 	 * Description: A retrieving stations asynchronous task.
 	 * @author Dylan Powers <dylan.kyle.powers@gmail.com>
@@ -587,7 +596,7 @@ public class PandoroidPlayer extends SherlockActivity {
 			showWaiting("Acquiring a station...");
 
 		}
-		
+
 		protected Integer doInBackground(Void... massive_void){
 			Integer success_flag = -1;
 			try{
@@ -605,10 +614,10 @@ public class PandoroidPlayer extends SherlockActivity {
 				Log.e("Pandoroid", "Error fetching stations.", e);
 				success_flag = generalExceptionHandler(e);
 			}
-			
-			return success_flag;		
+
+			return success_flag;
 		}
-		
+
 		protected void onPostExecute(Integer success_int){
 			if (success_int.intValue() < 0){
 				dismissWaiting();
@@ -624,10 +633,10 @@ public class PandoroidPlayer extends SherlockActivity {
 				AlertDialog.Builder alert_builder = buildErrorDialog(success_int);
 				showAlert(alert_builder.create());
 			}
-			
+
 			m_retrieve_stations_finished_flag = true;
 		}
-		
+
 		protected void retryAction(){
 			m_alert_active_flag = false;
 			setStation();
@@ -643,7 +652,7 @@ public class PandoroidPlayer extends SherlockActivity {
 		protected void onPreExecute() {
 			showWaiting(getString(R.string.signing_in));
 		}
-		
+
 		protected Integer doInBackground(String... strings) {
 			Integer success_flag = -1;
 			try {
@@ -684,7 +693,7 @@ public class PandoroidPlayer extends SherlockActivity {
 			} else {
 				setStation();
 			}
-			
+
 			m_user_login_finished_flag = true;
 		}
 

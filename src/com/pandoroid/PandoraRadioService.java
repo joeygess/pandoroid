@@ -37,8 +37,11 @@ import com.pandoroid.R;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.support.v7.app.NotificationCompat;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,6 +60,8 @@ import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Description: Someone really needs to give this class some loving, document
@@ -176,8 +181,22 @@ public class PandoraRadioService extends Service {
 		}
 		this.unregisterReceiver(m_music_intent_receiver);
 		stopForeground(true);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(001);
+		//NotificationCompat.Builder mBuilder =
+        //        (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+        //        .setOngoing(false);
+		//mNotificationManager.notify(001, mBuilder.build());
+        Intent resultIntent = new Intent(this, PandoraRadioService.class);
+        onTaskRemoved(resultIntent);
 		return;
 	}
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(001);
+    }
 	
 	public Song getCurrentSong() throws Exception{
 		return m_song_playback.getSong();
@@ -262,23 +281,35 @@ public class PandoraRadioService extends Service {
 	public void setNotification() {
 		if (!m_paused){
 			try {
-				Song tmp_song;
-				tmp_song = m_song_playback.getSong();
-				Notification notification = new Notification(R.drawable.icon, 
-                        									 "Pandoroid Radio", 
-                        									 System.currentTimeMillis());
-				Intent notificationIntent = new Intent(this, PandoroidPlayer.class);
-				PendingIntent contentIntent = PendingIntent.getActivity(this, 
-                                   										NOTIFICATION_SONG_PLAYING, 
-                               											notificationIntent, 
-                               											0);
-				notification.flags |= Notification.FLAG_ONGOING_EVENT | 
-									  Notification.FLAG_FOREGROUND_SERVICE;
-				notification.setLatestEventInfo(getApplicationContext(), 
-												tmp_song.getTitle(),
-												tmp_song.getArtist() + " on " + tmp_song.getAlbum(), 
-												contentIntent);
-				startForeground(NOTIFICATION_SONG_PLAYING, notification);
+                Song tmp_song;
+                tmp_song = m_song_playback.getSong();
+                Log.i(TAG, "setNotification:" + tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString());
+                NotificationCompat.Builder mBuilder =
+                        (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                                .setSmallIcon(R.drawable.notification_icon)
+                                .setContentTitle("Pandoroid")
+                                .setContentText(tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString())
+                                .setOngoing(true);
+                Intent resultIntent = new Intent(this, PandoraRadioService.class);
+                // Because clicking the notification opens a new ("special") activity, there's
+                // no need to create an artificial back stack.
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+								0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                //PendingIntent resultPendingIntent;
+                mBuilder.setContentIntent(resultPendingIntent);
+                //NotificationCompat.Builder mBuilder;
+                // Sets an ID for the notification
+                int mNotificationId = 001;
+                // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                // Builds the notification and issues it.
+                mNotifyMgr.notify(mNotificationId, mBuilder.build());
 			} catch (Exception e) {}
 		}
 	}
@@ -341,12 +372,28 @@ public class PandoraRadioService extends Service {
 		m_paused = false;
 		m_song_playback.play();
 		setNotification();
-	}
+        //Log.i(TAG, "play: Notification Set");
+    }
 	
 	private void pause() {
 		m_song_playback.pause();			
 		m_paused = true;
 		stopForeground(true);
+        Song tmp_song = null;
+        try {
+            tmp_song = m_song_playback.getSong();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //mNotificationManager.cancel(001);
+        NotificationCompat.Builder mBuilder =
+                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("Pandoroid")
+                .setContentText(tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString())
+                .setOngoing(false);
+        mNotificationManager.notify(001, mBuilder.build());
 	}
 	
 	

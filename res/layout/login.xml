@@ -10,7 +10,7 @@
                 You are free to distribute, modify, and wreck for all I care. GPL ya!
 -->
  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/PandoroidBlackBgTheme"
+    style="@style/PandoroidWhiteBgTheme"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
@@ -40,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_txtUsername"
         android:layout_centerHorizontal="true"
-        android:singleLine="true" />
+        android:maxLines="1"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/login_txtPassword"
@@ -58,7 +59,8 @@
         android:layout_below="@+id/login_txtPassword"
         android:layout_centerHorizontal="true"
         android:inputType="textPassword"
-        android:singleLine="true" />
+        android:maxLines="1"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/login_button"
