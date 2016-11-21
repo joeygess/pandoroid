@@ -99,7 +99,7 @@ public class PandoraDB extends SQLiteOpenHelper {
             stations[s].put("isQuickMix", records.getInt(3));
             stations[s].put("stationName", records.getString(4));
         }
-        
+        records.close();
         return stations;
     }
 }
