@@ -13,7 +13,8 @@
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:paddingTop="20dip"
-        android:text="@string/loading" >
+        android:text="@string/loading"
+        android:textColor="#ffffff">
 
     </TextView>
 
