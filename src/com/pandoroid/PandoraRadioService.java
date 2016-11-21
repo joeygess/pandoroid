@@ -283,7 +283,7 @@ public class PandoraRadioService extends Service {
             try {
                 Song tmp_song;
                 tmp_song = m_song_playback.getSong();
-                Log.i(TAG, "setNotification:" + tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString());
+                Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.notification_icon)
