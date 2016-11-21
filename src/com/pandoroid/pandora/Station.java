@@ -25,91 +25,91 @@ import android.util.Log;
 
 
 public class Station implements Comparable<Station>, Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private String id;
-	private String idToken;
-	//private boolean isCreator;
-	private boolean isQuickMix;
-	private String name;
+    private static final long serialVersionUID = 1L;
+    
+    private String id;
+    private String idToken;
+    //private boolean isCreator;
+    private boolean isQuickMix;
+    private String name;
 
-	transient private Song[] currentPlaylist;
-	//transient private boolean useQuickMix;
-	transient private PandoraRadio pandora;
+    transient private Song[] currentPlaylist;
+    //transient private boolean useQuickMix;
+    transient private PandoraRadio pandora;
 
-	public Station(HashMap<String, Object> d, PandoraRadio instance) {
-		id = (String) d.get("stationId");
-		idToken = (String) d.get("stationIdToken");
-		//isCreator = (Boolean) d.get("isCreator");
-		isQuickMix = (Boolean) d.get("isQuickMix");
-		name = (String) d.get("stationName");
+    public Station(HashMap<String, Object> d, PandoraRadio instance) {
+        id = (String) d.get("stationId");
+        idToken = (String) d.get("stationIdToken");
+        //isCreator = (Boolean) d.get("isCreator");
+        isQuickMix = (Boolean) d.get("isQuickMix");
+        name = (String) d.get("stationName");
 
-		pandora = instance;
-		//useQuickMix = false;
-	}
-	
-	public Song[] getPlaylist(boolean forceDownload) {
-		return getPlaylist(PandoraRadio.DEFAULT_AUDIO_FORMAT, forceDownload);
-	}
-	
-	public Song[] getPlaylist(String format, boolean forceDownload) {
-		if(forceDownload || currentPlaylist == null) {
-			return getPlaylist();
-		}
-		else {
-			return currentPlaylist;
-		}
-	}
+        pandora = instance;
+        //useQuickMix = false;
+    }
+    
+    public Song[] getPlaylist(boolean forceDownload) {
+        return getPlaylist(PandoraRadio.DEFAULT_AUDIO_FORMAT, forceDownload);
+    }
+    
+    public Song[] getPlaylist(String format, boolean forceDownload) {
+        if(forceDownload || currentPlaylist == null) {
+            return getPlaylist();
+        }
+        else {
+            return currentPlaylist;
+        }
+    }
 
-	public Song[] getPlaylist() {		
-		
-		try{
-			Vector<Song> result = pandora.getPlaylist(idToken);
-			Song[] list = new Song[result.size()];
-			result.copyInto(list);
-			currentPlaylist = list;
-		}
-		catch (Exception e){
-			Log.e("Pandoroid","Exception getting playlist",e);
-		}
+    public Song[] getPlaylist() {       
+        
+        try{
+            Vector<Song> result = pandora.getPlaylist(idToken);
+            Song[] list = new Song[result.size()];
+            result.copyInto(list);
+            currentPlaylist = list;
+        }
+        catch (Exception e){
+            Log.e("Pandoroid","Exception getting playlist",e);
+        }
 
-		return currentPlaylist;
-	}
+        return currentPlaylist;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getStationImageUrl() {
-		getPlaylist(false);
-		return currentPlaylist[0].getAlbumCoverUrl();
-	}
-	
-	public int compareTo(Station another) {
-		return getName().compareTo(another.getName());
-	}
-	
-	public int compareTo(String id){
-		return getStationId().compareTo(id);
-	}
-	
-	public boolean equals(Station another) {
-		return getName().equals(another.getName());
-	}
+    public String getStationImageUrl() {
+        getPlaylist(false);
+        return currentPlaylist[0].getAlbumCoverUrl();
+    }
+    
+    public int compareTo(Station another) {
+        return getName().compareTo(another.getName());
+    }
+    
+    public int compareTo(String id){
+        return getStationId().compareTo(id);
+    }
+    
+    public boolean equals(Station another) {
+        return getName().equals(another.getName());
+    }
 
-	public String getStationId() {
-		return id;
-	}
+    public String getStationId() {
+        return id;
+    }
 
-	public String getStationIdToken() {
-		return idToken;
-	}
+    public String getStationIdToken() {
+        return idToken;
+    }
 
-//	public boolean isCreator() {
-//		return isCreator;
-//	}
+//  public boolean isCreator() {
+//      return isCreator;
+//  }
 
-	public boolean isQuickMix() {
-		return isQuickMix;
-	}
+    public boolean isQuickMix() {
+        return isQuickMix;
+    }
 }

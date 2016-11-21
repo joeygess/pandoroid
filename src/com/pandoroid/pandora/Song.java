@@ -26,143 +26,143 @@ import java.util.Map;
 import android.util.Log;
 
 public class Song {
-	private String album;
-	private String artist;
-	private String fileGain;
-	private String musicId;
-	private Integer rating;
-	private String stationId;
-	private String title;
-	private String songDetailURL;
-	private String albumDetailURL;
-	private String album_art_url;
-	private boolean tired;
-	private String message;
-	private Object startTime;
-	private boolean finished;
-	private long time_acquired;
+    private String album;
+    private String artist;
+    private String fileGain;
+    private String musicId;
+    private Integer rating;
+    private String stationId;
+    private String title;
+    private String songDetailURL;
+    private String albumDetailURL;
+    private String album_art_url;
+    private boolean tired;
+    private String message;
+    private Object startTime;
+    private boolean finished;
+    private long time_acquired;
 
-	private LinkedList<PandoraAudioUrl> audio_urls;
-	
-	private static final int MAX_TIME_ALIVE = 60 * 60 * 1000; //60 minutes
+    private LinkedList<PandoraAudioUrl> audio_urls;
+    
+    private static final int MAX_TIME_ALIVE = 60 * 60 * 1000; //60 minutes
 
-	public Song(){
-		album = "";
-		artist = "";
-		fileGain = "";
-		musicId = "";
-		rating = 0;
-		stationId = "";
-		title = "";
-		songDetailURL = "";
-		albumDetailURL = "";
-		album_art_url = "";			
-		
-		audio_urls = new LinkedList<PandoraAudioUrl>();		
-		tired = false;
-		message = "";
-		startTime = null;
-		finished = false;
-		time_acquired = System.currentTimeMillis();
-	}
+    public Song(){
+        album = "";
+        artist = "";
+        fileGain = "";
+        musicId = "";
+        rating = 0;
+        stationId = "";
+        title = "";
+        songDetailURL = "";
+        albumDetailURL = "";
+        album_art_url = "";         
+        
+        audio_urls = new LinkedList<PandoraAudioUrl>();     
+        tired = false;
+        message = "";
+        startTime = null;
+        finished = false;
+        time_acquired = System.currentTimeMillis();
+    }
 
-	public Song(Map<String,Object> d, List<PandoraAudioUrl> audio_urls_in) {		
-		album = (String) d.get("albumName");
-		artist = (String) d.get("artistName");
-		fileGain = (String) d.get("trackGain");
-		musicId = (String) d.get("trackToken");
-		rating = (Integer) d.get("songRating");
-		stationId = (String) d.get("stationId");
-		title = (String) d.get("songName");
-		songDetailURL = (String) d.get("songDetailURL");
-		albumDetailURL = (String) d.get("albumDetailURL");
-		album_art_url = (String) d.get("albumArtUrl");			
-		
-		audio_urls = new LinkedList<PandoraAudioUrl>();
-		
-		//Let's sort the audio_urls from highest to lowest;
-		Collections.sort(audio_urls_in);
-		int i = audio_urls_in.size();
-		while (i > 0){
-			--i;
-			audio_urls.add(audio_urls_in.get(i));
-		}
-		
-		tired = false;
-		message = "";
-		startTime = null;
-		finished = false;
-		time_acquired = System.currentTimeMillis();
-	}
+    public Song(Map<String,Object> d, List<PandoraAudioUrl> audio_urls_in) {        
+        album = (String) d.get("albumName");
+        artist = (String) d.get("artistName");
+        fileGain = (String) d.get("trackGain");
+        musicId = (String) d.get("trackToken");
+        rating = (Integer) d.get("songRating");
+        stationId = (String) d.get("stationId");
+        title = (String) d.get("songName");
+        songDetailURL = (String) d.get("songDetailURL");
+        albumDetailURL = (String) d.get("albumDetailURL");
+        album_art_url = (String) d.get("albumArtUrl");          
+        
+        audio_urls = new LinkedList<PandoraAudioUrl>();
+        
+        //Let's sort the audio_urls from highest to lowest;
+        Collections.sort(audio_urls_in);
+        int i = audio_urls_in.size();
+        while (i > 0){
+            --i;
+            audio_urls.add(audio_urls_in.get(i));
+        }
+        
+        tired = false;
+        message = "";
+        startTime = null;
+        finished = false;
+        time_acquired = System.currentTimeMillis();
+    }
 
-	public String getId() {
-		return musicId;
-	}
+    public String getId() {
+        return musicId;
+    }
 
-	public boolean isStillValid() {
-		return (System.currentTimeMillis() - time_acquired) < MAX_TIME_ALIVE;
-	}
+    public boolean isStillValid() {
+        return (System.currentTimeMillis() - time_acquired) < MAX_TIME_ALIVE;
+    }
 
 
-	
-	public String getAlbumCoverUrl() {
-		return album_art_url;
-	}
-	
-	/**
-	 * Description: Returns a linked list of PandoraAudioUrls sorted from highest
-	 * 	to lowest audio quality.
-	 * @return
-	 */
-	public LinkedList<PandoraAudioUrl> getSortedAudioUrls(){
-		return this.audio_urls;
-	}
-	
-	public String getAudioUrl(String audio_quality) {
-		ListIterator<PandoraAudioUrl> iter = audio_urls.listIterator();
-		while (iter.hasNext()){
-			PandoraAudioUrl next = iter.next();
-			if (audio_quality.compareTo(next.m_type) == 0){
-				return next.toString();
-			}
-		}
-		return null;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	public String getArtist() {
-		return artist;
-	}
-	public String getAlbum() {
-		return album;
-	}
-	public Integer getRating() {
-		return rating;
-	}
-	public String getFileGain() {
-		return fileGain;
-	}
-	public String getStationId() {
-		return stationId;
-	}
-	public String getSongDetailURL() {
-		return songDetailURL;
-	}
-	public String getAlbumDetailURL() {
-		return albumDetailURL;
-	}
-	public boolean isTired() {
-		return tired;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public Object getStartTime() {
-		return startTime;
-	}
-	public boolean isFinished() {
-		return finished;
-	}
+    
+    public String getAlbumCoverUrl() {
+        return album_art_url;
+    }
+    
+    /**
+     * Description: Returns a linked list of PandoraAudioUrls sorted from highest
+     *  to lowest audio quality.
+     * @return
+     */
+    public LinkedList<PandoraAudioUrl> getSortedAudioUrls(){
+        return this.audio_urls;
+    }
+    
+    public String getAudioUrl(String audio_quality) {
+        ListIterator<PandoraAudioUrl> iter = audio_urls.listIterator();
+        while (iter.hasNext()){
+            PandoraAudioUrl next = iter.next();
+            if (audio_quality.compareTo(next.m_type) == 0){
+                return next.toString();
+            }
+        }
+        return null;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    public String getArtist() {
+        return artist;
+    }
+    public String getAlbum() {
+        return album;
+    }
+    public Integer getRating() {
+        return rating;
+    }
+    public String getFileGain() {
+        return fileGain;
+    }
+    public String getStationId() {
+        return stationId;
+    }
+    public String getSongDetailURL() {
+        return songDetailURL;
+    }
+    public String getAlbumDetailURL() {
+        return albumDetailURL;
+    }
+    public boolean isTired() {
+        return tired;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public Object getStartTime() {
+        return startTime;
+    }
+    public boolean isFinished() {
+        return finished;
+    }
 }

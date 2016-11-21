@@ -27,7 +27,7 @@ public class PandoroidSettings extends PreferenceActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	/* this.setTheme(R.style.Theme_Sherlock); */
+        /* this.setTheme(R.style.Theme_Sherlock); */
         super.onCreate(savedInstanceState);
         
         // Load the preferences from an XML resource

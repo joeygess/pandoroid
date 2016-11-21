@@ -23,5 +23,5 @@ import com.pandoroid.pandora.Song;
  * @author Dylan Powers <dylan.kyle.powers@gmail.com>
  */
 public abstract class OnNewSongListener {
-	public abstract void onNewSong(Song song);
+    public abstract void onNewSong(Song song);
 }

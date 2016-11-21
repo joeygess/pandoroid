@@ -31,27 +31,27 @@ import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class AboutDialog extends AppCompatActivity {
 
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		setTheme(Base_Theme_AppCompat_Light);
-		setContentView(R.layout.about);
-		String version_name = "";
-		int build_num = 0;
-		try {
-			version_name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-			build_num = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {}
-		
-		String version_text = "Version " + version_name + " (" + build_num + ")";
-		SpannableString about_text = new SpannableString(getString(R.string.about) + 
-														 " (https://github.com/dylanPowers/pandoroid/wiki).");
-		int url_start = about_text.length() - 47;
-		int url_end = about_text.length() - 2;
-		about_text.setSpan(new URLSpan("https://github.com/dylanPowers/pandoroid/wiki"), 
-					       url_start, url_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		((TextView) findViewById(R.id.version_text)).setText(version_text);
-		TextView about_view = (TextView) findViewById(R.id.about_text);
-		about_view.setText(about_text);
-		about_view.setMovementMethod(LinkMovementMethod.getInstance());
-	}
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setTheme(Base_Theme_AppCompat_Light);
+        setContentView(R.layout.about);
+        String version_name = "";
+        int build_num = 0;
+        try {
+            version_name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            build_num = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {}
+        
+        String version_text = "Version " + version_name + " (" + build_num + ")";
+        SpannableString about_text = new SpannableString(getString(R.string.about) + 
+                                                         " (https://github.com/dylanPowers/pandoroid/wiki).");
+        int url_start = about_text.length() - 47;
+        int url_end = about_text.length() - 2;
+        about_text.setSpan(new URLSpan("https://github.com/dylanPowers/pandoroid/wiki"), 
+                           url_start, url_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((TextView) findViewById(R.id.version_text)).setText(version_text);
+        TextView about_view = (TextView) findViewById(R.id.about_text);
+        about_view.setText(about_text);
+        about_view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
 }

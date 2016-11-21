@@ -17,5 +17,5 @@
 package com.pandoroid.playback;
 
 public abstract class OnPlaybackContinuedListener {
-	public abstract void onPlaybackContinued();
+    public abstract void onPlaybackContinued();
 }
