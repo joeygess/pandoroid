@@ -290,7 +290,7 @@ public class PandoraRadioService extends Service {
                                 .setContentTitle("Pandoroid")
                                 .setContentText(tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString())
                                 .setOngoing(true);
-                Intent resultIntent = new Intent(this, PandoraRadioService.class);
+                Intent resultIntent = new Intent(this, PandoroidPlayer.class);
                 // Because clicking the notification opens a new ("special") activity, there's
                 // no need to create an artificial back stack.
                 PendingIntent resultPendingIntent =
