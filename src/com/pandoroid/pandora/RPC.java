@@ -17,6 +17,8 @@
 
 package com.pandoroid.pandora;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -94,6 +96,7 @@ public class RPC {
         
         URI uri = new URI(full_url.concat(makeUrlParamString(url_params)));
         request.setURI(uri);
+        Log.i("pandoroid", "URI: " + uri);
         StringEntity entity = null;
         
         try{

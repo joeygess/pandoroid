@@ -139,9 +139,11 @@ public class PandoraRadioService extends Service {
             boolean pausedForRing = false;
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
+                Log.i("pandoroid telephony", "State changed: " + state);
                 switch(state) {
 
                 case TelephonyManager.CALL_STATE_IDLE:
+                    Log.d("DEBUG", "***********IDLE********");
                     if(pausedForRing && m_song_playback != null) {
                         if(m_prefs.getBoolean("behave_resumeOnHangup", true)) {
                             if(m_song_playback != null && !m_paused){
@@ -149,12 +151,13 @@ public class PandoraRadioService extends Service {
                             }
                         }
                     }
-                    
+
                     pausedForRing = false;
                     break;
 
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                 case TelephonyManager.CALL_STATE_RINGING:
+                    Log.d("DEBUG", "***********RINGING********");
                     if(m_song_playback != null) {
                         m_song_playback.pause();
                     }                   

@@ -1,5 +1,7 @@
 package com.pandoroid.pandora;
 
+import android.util.Log;
+
 import java.util.Map;
 
 /**
@@ -31,6 +33,7 @@ public class PandoraAudioUrl implements Comparable<PandoraAudioUrl>{
         
         this.m_bitrate = Integer.parseInt((String) extended_audio_url.get("bitrate"));
         this.m_url_str = (String) extended_audio_url.get("audioUrl");
+        Log.i("pandoroid", "Audio URI: " + extended_audio_url);
     }
     
     public String toString(){
