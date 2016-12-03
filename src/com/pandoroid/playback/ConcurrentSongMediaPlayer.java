@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.pandoroid.pandora.PandoraAudioUrl;
 import com.pandoroid.pandora.Song;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 
@@ -28,6 +29,7 @@ public class ConcurrentSongMediaPlayer{
      */
     public ConcurrentSongMediaPlayer(Song song){
         m_player = new MediaPlayer();
+        m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         setSong(song);
     }
     
