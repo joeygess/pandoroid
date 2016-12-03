@@ -59,6 +59,7 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.appcompat.R.style;
 
+import static android.R.color.white;
 import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class PandoroidPlayer extends AppCompatActivity {
@@ -396,6 +397,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         view_text.setText(reason_str);
+        view_text.setTextColor(getResources().getColor(white));
         progress.setVisibility(View.VISIBLE);
 
     }
