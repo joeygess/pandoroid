@@ -37,6 +37,8 @@ import com.pandoroid.R;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.ComponentName;
+import android.media.session.MediaSession;
 import android.support.v7.app.NotificationCompat;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -290,9 +292,17 @@ public class PandoraRadioService extends Service {
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.notification_icon)
-                                .setContentTitle("Pandoroid")
-                                .setContentText(tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString())
-                                .setOngoing(true);
+                                .setOngoing(true)
+                                .setStyle(new NotificationCompat.MediaStyle()
+                                        )
+                                //.setLargeIcon(R.drawable.notification_icon)
+                                .setContentText(tmp_song.getArtist().toString())
+                                .setContentInfo(tmp_song.getAlbum().toString())
+                                .setContentTitle(tmp_song.getTitle().toString())
+                                .addAction(R.drawable.ic_menu_play_clip, "pause", retreivePlaybackAction(1))
+                                .addAction(R.drawable.ic_menu_forward, "next", retreivePlaybackAction(2))
+                        ;
+                //.setMediaSession(MediaSession.Token)
                 Intent resultIntent = new Intent(this, PandoroidPlayer.class);
                 // Because clicking the notification opens a new ("special") activity, there's
                 // no need to create an artificial back stack.
@@ -315,6 +325,38 @@ public class PandoraRadioService extends Service {
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
             } catch (Exception e) {}
         }
+    }
+
+    private PendingIntent retreivePlaybackAction(int which) {
+        Intent action;
+        PendingIntent pendingIntent;
+        final ComponentName serviceName = new ComponentName(this, PandoraRadioService.class);
+        switch (which) {
+            case 1:
+                // Play and pause
+                //action = new Intent(ACTION_NEXT);
+                //action.setComponent(serviceName);
+                //pendingIntent = PendingIntent.getService(this, 1, action, 0);
+                //return pendingIntent;
+                Log.i("Pandoroid", "Pause Clicked");
+            case 2:
+                // Skip tracks
+                //action = new Intent(ACTION_NEXT);
+                //action.setComponent(serviceName);
+                //pendingIntent = PendingIntent.getService(this, 2, action, 0);
+                //return pendingIntent;
+                Log.i("Pandoroid", "Skip Clicked");
+            case 3:
+                // Skip tracks
+                //action = new Intent(ACTION_NEXT);
+                //action.setComponent(serviceName);
+                //pendingIntent = PendingIntent.getService(this, 2, action, 0);
+                //return pendingIntent;
+                Log.i("Pandoroid", "Play Clicked");
+            default:
+                break;
+        }
+        return null;
     }
     
     public void signOut() {
@@ -393,9 +435,15 @@ public class PandoraRadioService extends Service {
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Pandoroid")
-                .setContentText(tmp_song.getTitle().toString() + " By " + tmp_song.getArtist().toString())
-                .setOngoing(false);
+                .setOngoing(false)
+                .setStyle(new NotificationCompat.MediaStyle()
+                        )
+                //.setLargeIcon(R.drawable.notification_icon)
+                .setContentText(tmp_song.getArtist().toString())
+                .setContentInfo(tmp_song.getAlbum().toString())
+                .setContentTitle(tmp_song.getTitle().toString())
+                .addAction(R.drawable.ic_menu_play_clip, "play", retreivePlaybackAction(3))
+                .addAction(R.drawable.ic_menu_forward, "next", retreivePlaybackAction(2));
         mNotificationManager.notify(001, mBuilder.build());
     }
     
