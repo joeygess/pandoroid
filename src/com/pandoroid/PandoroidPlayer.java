@@ -22,6 +22,7 @@ import java.io.IOException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
+import android.os.Build;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -281,8 +282,10 @@ public class PandoroidPlayer extends AppCompatActivity {
         sub.add(0, R.id.menu_about, Menu.NONE, R.string.menu_about);
 
         MenuItem subMenu = sub.getItem();
-        subMenu.setIcon(R.drawable.ic_sysbar_menu);
-        MenuItemCompat.setShowAsAction(subMenu, MenuItem.SHOW_AS_ACTION_ALWAYS);
+        subMenu.setIcon(R.drawable.menu);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            MenuItemCompat.setShowAsAction(subMenu, MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
