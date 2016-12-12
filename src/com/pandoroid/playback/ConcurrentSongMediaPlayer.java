@@ -22,14 +22,13 @@ public class ConcurrentSongMediaPlayer{
         m_alive = false;
         m_buffering_counter = -1;
     }
-    
+
     /**
      * Description: Overloaded constructor for setting the song upon creation.
      * @param song -The song to initialize to.
      */
     public ConcurrentSongMediaPlayer(Song song){
         m_player = new MediaPlayer();
-        m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         setSong(song);
     }
     
