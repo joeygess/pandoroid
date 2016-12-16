@@ -65,6 +65,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -116,6 +117,7 @@ public class PandoraRadioService extends Service {
     private MediaSessionManager mManager;
     private MediaSession mSession;
     private MediaController mController;
+    private PowerManager.WakeLock mWakeLock;
 
     //Taken straight from the Android service reference
     /**
@@ -153,7 +155,7 @@ public class PandoraRadioService extends Service {
         //final MediaSession mediaSession = new MediaSession(this, "pandoroid session");
 
         MediaPlayer m_player = new MediaPlayer();
-        m_player.setWakeMode(getApplicationContext() , PowerManager.PARTIAL_WAKE_LOCK);
+        //m_player.setWakeMode(getApplicationContext() , PowerManager.PARTIAL_WAKE_LOCK);
         m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //mediaSession.setActive(true);
         //mediaSession.setCallback(new MediaSession.Callback() {
@@ -181,6 +183,10 @@ public class PandoraRadioService extends Service {
         //    }
         //});
         //mediaSession.setFlags(MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "PandoroidWakelock");
 
         // Register the listener with the telephony manager
         telephonyManager.listen(new PhoneStateListener() {
@@ -236,6 +242,9 @@ public class PandoraRadioService extends Service {
         mNotificationManager.cancel(001);
         Intent resultIntent = new Intent(this, PandoraRadioService.class);
         onTaskRemoved(resultIntent);
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
         return;
     }
 
@@ -243,6 +252,9 @@ public class PandoraRadioService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
     }
     
     public Song getCurrentSong() throws Exception{
@@ -361,8 +373,8 @@ public class PandoraRadioService extends Service {
                         );
                 mBuilder.setContentIntent(resultPendingIntent);
                 int mNotificationId = 001;
-                final MediaSession mediaSession = new MediaSession(this, "pandoroid session");
-                final MediaController.TransportControls controls = mediaSession.getController().getTransportControls();
+                //final MediaSession mediaSession = new MediaSession(this, "pandoroid session");
+                //final MediaController.TransportControls controls = mediaSession.getController().getTransportControls();
                 NotificationManager mNotifyMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
@@ -503,7 +515,11 @@ public class PandoraRadioService extends Service {
         m_paused = false;
         m_song_playback.play();
         setNotification();
-        //Log.i(TAG, "play: Notification Set");
+        if (mWakeLock.isHeld()) {
+            Log.i("Pandoroid", "WakeLock Already Active");
+        } else {
+            mWakeLock.acquire();
+        }
     }
     
     private void pause() {
@@ -511,6 +527,10 @@ public class PandoraRadioService extends Service {
         m_paused = true;
         stopForeground(true);
         setNotification();
+        if (mWakeLock.isHeld()) {
+            Log.i("Pandoroid", "WakeLock Active...releasing");
+            mWakeLock.release();
+        }
     }
     
     
