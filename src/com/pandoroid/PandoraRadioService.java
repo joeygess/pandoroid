@@ -187,6 +187,7 @@ public class PandoraRadioService extends Service {
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "PandoroidWakelock");
+        mWakeLock.acquire();
 
         // Register the listener with the telephony manager
         telephonyManager.listen(new PhoneStateListener() {
