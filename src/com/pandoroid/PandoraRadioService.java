@@ -241,11 +241,11 @@ public class PandoraRadioService extends Service {
         stopForeground(true);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
-        Intent resultIntent = new Intent(this, PandoraRadioService.class);
-        onTaskRemoved(resultIntent);
         if (mWakeLock.isHeld()) {
             mWakeLock.release();
         }
+        Intent resultIntent = new Intent(this, PandoraRadioService.class);
+        onTaskRemoved(resultIntent);
         return;
     }
 
