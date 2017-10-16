@@ -42,6 +42,7 @@ public class AboutDialog extends AppCompatActivity {
             version_name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             build_num = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
         } catch (NameNotFoundException e) {
+            Log.e("Pandoroid", "Version name or build number not found", e);
         }
         
         String version_text = "Version " + version_name + " (" + build_num + ")";
