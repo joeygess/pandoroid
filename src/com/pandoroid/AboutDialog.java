@@ -25,6 +25,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.widget.TextView;
 import com.pandoroid.R;
 import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
@@ -40,7 +41,8 @@ public class AboutDialog extends AppCompatActivity {
         try {
             version_name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             build_num = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        } catch (NameNotFoundException e) {}
+        } catch (NameNotFoundException e) {
+        }
         
         String version_text = "Version " + version_name + " (" + build_num + ")";
         SpannableString about_text = new SpannableString(getString(R.string.about) + 
