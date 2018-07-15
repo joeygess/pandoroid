@@ -368,6 +368,18 @@ public class PandoraRadioService extends Service {
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
                 //private PandoraRadioService m_service;
                 //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
+                Intent resultIntent = new Intent(this, PandoroidPlayer.class);
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                this,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                PendingIntent stopIntent = PendingIntent.getService(this, 0, resultIntent, 0) ;
+                PendingIntent nextIntent = PendingIntent.getService(this, 0, resultIntent, 0) ;
+                mBuilder.addAction(R.drawable.play, "Play", stopIntent);
+                mBuilder.addAction(R.drawable.next, "next", nextIntent);
                 mBuilder
                         //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
                         .setLargeIcon(largeIcon)
@@ -377,6 +389,7 @@ public class PandoraRadioService extends Service {
                         .setStyle(new MediaStyle()
                                 .setMediaSession(mSessionToken)
                                 .setShowCancelButton(true)
+                                .setShowActionsInCompactView(0, 1)
                                 .setCancelButtonIntent(
                                         MediaButtonReceiver.buildMediaButtonPendingIntent(
                                                 this, PlaybackStateCompat.ACTION_STOP
@@ -388,14 +401,6 @@ public class PandoraRadioService extends Service {
                         .setContentTitle(tmp_song.getTitle())
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
-                Intent resultIntent = new Intent(this, PandoroidPlayer.class);
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                this,
-                                0,
-                                resultIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
                 mBuilder.setContentIntent(resultPendingIntent);
                 int mNotificationId = 001;
                 NotificationManager mNotifyMgr =
