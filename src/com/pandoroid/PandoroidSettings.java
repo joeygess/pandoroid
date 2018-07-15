@@ -17,11 +17,8 @@
  */
 package com.pandoroid;
 
-import com.pandoroid.R;
-
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
 
 public class PandoroidSettings extends PreferenceActivity {
     /** Called when the activity is first created. */

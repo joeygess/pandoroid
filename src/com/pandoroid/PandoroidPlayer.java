@@ -19,11 +19,9 @@ package com.pandoroid;
 
 import java.io.IOException;
 
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
 import android.os.Build;
-import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -34,21 +32,15 @@ import com.pandoroid.playback.OnNewSongListener;
 import com.pandoroid.playback.OnPlaybackContinuedListener;
 import com.pandoroid.playback.OnPlaybackHaltedListener;
 import com.pandoroid.PandoraRadioService.ServerAsyncTask;
-import com.pandoroid.R;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -58,7 +50,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.appcompat.R.style;
 
 import static android.R.color.white;
 import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;

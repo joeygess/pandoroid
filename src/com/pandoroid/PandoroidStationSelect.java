@@ -18,7 +18,6 @@
 package com.pandoroid;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.HttpResponseException;
@@ -26,7 +25,6 @@ import org.apache.http.client.HttpResponseException;
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Station;
 import com.pandoroid.PandoraRadioService.ServerAsyncTask;
-import com.pandoroid.R;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -37,15 +35,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;

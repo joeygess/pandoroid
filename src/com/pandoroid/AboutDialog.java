@@ -27,7 +27,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.TextView;
-import com.pandoroid.R;
 import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class AboutDialog extends AppCompatActivity {
