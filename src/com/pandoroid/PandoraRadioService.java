@@ -46,7 +46,7 @@ import android.media.MediaPlayer;
 import android.media.session.MediaSessionManager;
 import android.os.PowerManager;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -351,11 +351,11 @@ public class PandoraRadioService extends Service {
                                 .setSmallIcon(R.drawable.notification_icon)
                                 .setOngoing(true)
                                 .setShowWhen(false)
-                                .setStyle(new NotificationCompat.MediaStyle()
-                                                .setMediaSession(mSessionToken)
-                                                .setShowCancelButton(true)
-                                        //.setCancelButtonIntent(resultPendingIntent)
-                                )
+                                //.setStyle(new NotificationCompat.MessagingStyle(resources.getString(R.string.reply_name))
+                                //                .setMediaSession(mSessionToken)
+                                //                .setShowCancelButton(true)
+                                //        //.setCancelButtonIntent(resultPendingIntent)
+                                //)
                                 .setContentText(tmp_song.getArtist())
                                 .setContentInfo(tmp_song.getAlbum())
                                 .setContentTitle(tmp_song.getTitle())
@@ -393,11 +393,11 @@ public class PandoraRadioService extends Service {
                                         .setSmallIcon(R.drawable.notification_icon)
                                         .setOngoing(false)
                                         .setShowWhen(false)
-                                        .setStyle(new NotificationCompat.MediaStyle()
-                                                        .setMediaSession(mSessionToken)
-                                                        .setShowCancelButton(true)
-                                                //.setCancelButtonIntent(resultPendingIntent)
-                                        )
+                                        //.setStyle(new NotificationCompat.MediaStyle()
+                                        //                .setMediaSession(mSessionToken)
+                                        //                .setShowCancelButton(true)
+                                        //        //.setCancelButtonIntent(resultPendingIntent)
+                                        //)
                                         .setContentText(tmp_song.getArtist())
                                         .setContentInfo(tmp_song.getAlbum())
                                         .setContentTitle(tmp_song.getTitle())

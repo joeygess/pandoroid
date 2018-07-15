@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 
     <application
-        android:name="com.pandoroid"
+        android:name="com.pandoroid.Pandoroid"
         android:icon="@drawable/icon"
         android:label="pandoroid"
         android:theme="@style/Theme.AppCompat.Light">

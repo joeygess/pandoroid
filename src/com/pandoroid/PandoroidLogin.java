@@ -21,6 +21,7 @@ import com.pandoroid.R;
 
 import android.support.v7.app.AppCompatActivity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
