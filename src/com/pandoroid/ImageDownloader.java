@@ -15,6 +15,7 @@
  */
 package com.pandoroid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -250,69 +251,40 @@ public class ImageDownloader {
             url = params[0];
             URI uri = URI.create(url);
             try {
-                URL url = uri.toURL();
+                //final URL url =  uri.toURL();
+                final HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+                int state = c.getResponseCode();
+                Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + url);
+                //if (c.getResponseCode() = "200") {
+                //    Log.i("Pandoroid", "200 url for Bitmap in ImageDownloader." + url);}
+                //if (c.getResponseCode() = "401") {
+                //    Log.i("Pandoroid", "error 401 for url for Bitmap in ImageDownloader." + url);}
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                InputStream is = c.getInputStream();
+                //while( is.read() >= 0 ) ;
+                final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+                outputStream = new BufferedOutputStream(dataStream, IO_BUFFER_SIZE);
+                if (is != null && outputStream != null) {
+                copy(is, outputStream);
+                outputStream.flush();
+                final byte[] data = dataStream.toByteArray();
+                final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                Log.i("Pandoroid", "input and output not null");
+                return bitmap;
+                }
             }
             catch (MalformedURLException e){
-                Log.e("Pandoroid", "improper url for Bitmap in ImageDownloader.", e);
+                Log.e("Pandoroid", "improper url for Bitmap in ImageDownloader." + url, e);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             final HttpGet getRequest = new HttpGet(url);
             String cookie = params[1];
             if (cookie != null) {
                 getRequest.setHeader("cookie", cookie);
             }
-
-            //try {
-                //HttpResponse response = client.execute(getRequest);
-                //final int statusCode = response.getStatusLine().getStatusCode();
-                //if (statusCode != HttpStatus.SC_OK) {
-                //    Log.w("ImageDownloader", "Error " + statusCode +
-                //            " while retrieving bitmap from " + url);
-                //    return null;
-                //}
-
-                //final HttpEntity entity = response.getEntity();
-                //if (entity != null) {
-                //    InputStream inputStream = null;
-                //    OutputStream outputStream = null;
-                //    try {
-                //        inputStream = entity.getContent();
-                //        final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-                //        outputStream = new BufferedOutputStream(dataStream, IO_BUFFER_SIZE);
-                //        copy(inputStream, outputStream);
-                //        outputStream.flush();
-//
-                //        final byte[] data = dataStream.toByteArray();
-                //        final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-//
-                //        // FIXME : Should use BitmapFactory.decodeStream(inputStream) instead.
-                //        //final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//
-                //        return bitmap;
-//
-                //    } finally {
-                //        if (inputStream != null) {
-                //            inputStream.close();
-                //        }
-                //        if (outputStream != null) {
-                //            outputStream.close();
-                //        }
-                //        entity.consumeContent();
-                //    }
-                //}
-            //} catch (IOException e) {
-            //    getRequest.abort();
-            //    Log.w(LOG_TAG, "I/O error while retrieving bitmap from " + url, e);
-            //} catch (IllegalStateException e) {
-            //    getRequest.abort();
-            //    Log.w(LOG_TAG, "Incorrect URL: " + url);
-            //} catch (Exception e) {
-            //    getRequest.abort();
-            //    Log.w(LOG_TAG, "Error while retrieving bitmap from " + url, e);
-            //} finally {
-            //    if (client != null) {
-            //        client.close();
-            //    }
-            //}
+            
             return null;
         }
 
