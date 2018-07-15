@@ -16,15 +16,15 @@
     <application
         android:name="com.pandoroid"
         android:icon="@drawable/icon"
-        android:label="@string/app_name"
+        android:label="pandoroid"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name="com.pandoroid.PandoroidLogin"
-            android:label="@string/app_name"
+            android:label="pandoroid"
             android:noHistory="false"></activity>
         <activity
             android:name="com.pandoroid.PandoroidPlayer"
-            android:label="@string/app_name"
+            android:label="pandoroid"
             android:screenOrientation="fullSensor"
             android:theme="@style/PandoroidStartUpTheme"
             android:launchMode="singleTop">
