@@ -3,6 +3,10 @@ bin/*
 hs_err_pid*.log
 R.java
 consoleTesting
+.gradle
+.idea
+build
+local.properties
 
 # The gen/ directory should be ignored as everything there is automatically generated.
 gen/
