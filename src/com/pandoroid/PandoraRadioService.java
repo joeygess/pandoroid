@@ -42,6 +42,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
 import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.MediaPlayer;
@@ -365,9 +366,12 @@ public class PandoraRadioService extends Service {
                 NotificationCompat.Builder mBuilder =
                         (NotificationCompat.Builder) new NotificationCompat.Builder(this, "default");
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
+                //private PandoraRadioService m_service;
+                //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
                 mBuilder
+                        //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
                         .setLargeIcon(largeIcon)
-                        .setSmallIcon(R.id.player_image)
+                        .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(true)
                         .setShowWhen(false)
                         .setStyle(new MediaStyle()
@@ -464,6 +468,7 @@ public class PandoraRadioService extends Service {
             Log.i("Pandoroid", "WakeLock Already Active");
         } else {
             mWakeLock.acquire();
+            Log.i("Pandoroid", "WakeLock Acquired");
         }
     }
     
@@ -471,7 +476,6 @@ public class PandoraRadioService extends Service {
         m_song_playback.pause();            
         m_paused = true;
         stopForeground(true);
-        setNotification();
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "WakeLock Active...releasing");
             mWakeLock.release();
