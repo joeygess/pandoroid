@@ -253,7 +253,7 @@ public class ImageDownloader {
                 URL url = uri.toURL();
             }
             catch (MalformedURLException e){
-
+                Log.e("Pandoroid", "improper url for Bitmap in ImageDownloader.", e);
             }
             final HttpGet getRequest = new HttpGet(url);
             String cookie = params[1];
