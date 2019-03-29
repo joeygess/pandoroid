@@ -2,14 +2,21 @@ package com.pandoroid.playback;
 
 import java.io.IOException;
 
+import com.pandoroid.Pandoroid;
 import com.pandoroid.pandora.PandoraAudioUrl;
 import com.pandoroid.pandora.Song;
 
-import android.media.AudioManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
+import android.media.audiofx.Equalizer;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class ConcurrentSongMediaPlayer{
+    private SharedPreferences m_prefs;
+    private Equalizer mEqualizer;
     
     //A constant for setting the percentage of a song's total length that needs
     //to be played before it is determined as being effectively finished.
@@ -194,6 +201,42 @@ public class ConcurrentSongMediaPlayer{
         }
         return m_num_100_buffer_updates;
     }
+
+    public void setupeq() {
+        Context context = Pandoroid.getContext();
+        m_prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (isEqualizerSupported()) {
+            mEqualizer = new Equalizer(0, m_player.getAudioSessionId());
+            short CurrentPreset = mEqualizer.getCurrentPreset();
+            short NumberOfPresets = mEqualizer.getNumberOfPresets();
+            final Equalizer.Settings settings = new Equalizer.Settings();
+            settings.curPreset = CurrentPreset;
+            //try {
+            //    equalizer.setProperties(settings);
+            //} catch (IllegalArgumentException e) {
+            //    Log.e(TAG, "Failed restoring equalizer settings", e);
+            //}
+            if (m_prefs.getBoolean("player_equalizer", true)) {
+                mEqualizer.setEnabled(true);
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS enabled");
+            }
+            else{
+                mEqualizer.setEnabled(false);
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS disabled");
+            }
+            //int preset = m_prefs.getInt("player_preset", 0);
+            int preset = 3;
+            if (preset >= 0 && preset < mEqualizer.getNumberOfPresets()){
+                short presetset = (short) preset;
+                mEqualizer.usePreset(presetset);
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getCurrentPreset());
+            }
+            Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS supported");
+        }
+        else{
+            Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq NOT supported");
+        }
+    }
     
     /**
      * Description: Synchronized method that pauses the underlying MediaPlayer.
@@ -201,6 +244,7 @@ public class ConcurrentSongMediaPlayer{
     public void pause(){
         synchronized(this){
             m_player.pause();
+            mEqualizer.release();
         }
     }
     
@@ -228,11 +272,11 @@ public class ConcurrentSongMediaPlayer{
         synchronized(this){
             m_player.setDataSource(url.toString());
             m_player.prepare();
-            if (prev_playback_pos > 0){
-                m_seeking_flag = true;
-                setOnSeekCompleteListener();
-                m_player.seekTo(prev_playback_pos);
-            }
+            //if (prev_playback_pos > 0){
+            //    m_seeking_flag = true;
+            //    setOnSeekCompleteListener();
+            //    m_player.seekTo(prev_playback_pos);
+            //}
         }
         m_alive = true;
         setBuffering(false);
@@ -307,6 +351,13 @@ public class ConcurrentSongMediaPlayer{
             m_player.setOnInfoListener(listener);
         }
     }
+
+    //FIXME
+    //public void setOnParameterChangeListener(Equalizer.OnParameterChangeListener listener){
+    //    synchronized(this){
+    //        m_player.setOnParameterChangeListener(listener);
+    //    }
+    //}
     
     /**
      * Description: Resets the player with the specified song.
@@ -325,7 +376,24 @@ public class ConcurrentSongMediaPlayer{
     public void start(){
         synchronized(this){
             m_player.start();
+            setupeq();
         }
+    }
+
+    public boolean isEqualizerSupported() {
+        int noOfBands = 0;
+        int noOfPresents = 0;
+        try {
+            Equalizer equalizer = new Equalizer(0, m_player.getAudioSessionId());
+            noOfBands = equalizer.getNumberOfBands();
+            noOfPresents = equalizer.getNumberOfPresets();
+            equalizer.release();
+            equalizer = null;
+		    return true;
+        } catch (Exception e) {
+        Log.e("pandoroid", "isequalizersupported: false" + e);
+		return false;
+        }    
     }
     
     private final Object buffer_lock = new Object();

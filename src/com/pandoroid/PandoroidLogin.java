@@ -38,9 +38,8 @@ public class PandoroidLogin extends AppCompatActivity {
      * Activity start and end stuff
      */
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_AppCompat);
         super.onCreate(savedInstanceState);
-        
-        /*setTheme(R.style.Theme_Sherlock); */
         setContentView(R.layout.login);
         
         m_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());  

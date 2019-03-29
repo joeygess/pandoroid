@@ -25,4 +25,15 @@
         <CheckBoxPreference android:key="behave_nextOnBan" android:summary="@string/skip_desc" android:title="@string/skip_title" android:defaultValue="true"></CheckBoxPreference>
         <CheckBoxPreference android:key="behave_resumeOnHangup" android:summary="@string/resume_desc" android:title="@string/resume_title" android:defaultValue="true"></CheckBoxPreference>    
     </PreferenceCategory>
+    <PreferenceCategory android:title="Equalizer Settings">
+        <CheckBoxPreference android:key="player_equalizer" android:summary="Check to enable equalizer" android:title="Enable Equalizer" android:defaultValue="true"></CheckBoxPreference>
+        <ListPreference
+            android:key="player_preset"
+            android:summary="TODO preset goes here"
+            android:title="Preset"
+            android:entries="@array/preset"
+            android:entryValues="@array/presetvalue"
+            android:defaultValue="0"
+        />
+    </PreferenceCategory>
 </PreferenceScreen>

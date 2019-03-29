@@ -147,41 +147,12 @@ public class PandoraRadioService extends Service {
         connectivity_manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         m_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        //final MediaSession mediaSession = new MediaSession(this, "pandoroid session");
 
-        MediaPlayer m_player = new MediaPlayer();
-        //m_player.setWakeMode(getApplicationContext() , PowerManager.PARTIAL_WAKE_LOCK);
-        m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        //mediaSession.setActive(true);
-        //mediaSession.setCallback(new MediaSession.Callback() {
-        //    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
-        //        Log.d(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
-        //        return false;
-        //    }
-
-        //    public void onPause() {
-        //        Log.d(TAG, "onPause called (media button pressed)");
-        //        //super.onPause();
-        //        m_song_playback.pause();
-        //    }
-
-        //    public void onPlay() {
-        //        Log.d(TAG, "onPlay called (media button pressed)");
-        //        //super.onPlay();
-        //        m_song_playback.play();
-        //    }
-
-        //    public void onStop() {
-        //        Log.d(TAG, "onStop called (media button pressed)");
-        //        //super.onStop();
-        //        m_song_playback.skip();
-        //    }
-        //});
-        //mediaSession.setFlags(MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        //m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "PandoroidWakelock");
+                "Pandoroid:Wakelock");
         mWakeLock.acquire();
 
         // Register the listener with the telephony manager
