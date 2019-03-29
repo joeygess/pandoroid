@@ -3,6 +3,7 @@ package com.pandoroid.playback;
 import java.io.IOException;
 
 import com.pandoroid.Pandoroid;
+import com.pandoroid.PandoroidPlayer;
 import com.pandoroid.pandora.PandoraAudioUrl;
 import com.pandoroid.pandora.Song;
 
@@ -224,23 +225,29 @@ public class ConcurrentSongMediaPlayer{
                 mEqualizer.setEnabled(false);
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS disabled");
             }
-            //int preset = m_prefs.getInt("player_preset", 0);
-            int preset = 6;
-            if (preset >= 0 && preset < mEqualizer.getNumberOfPresets()){
-                short presetset = (short) preset;
-                mEqualizer.usePreset(presetset);
+            String preset = m_prefs.getString("player_preset", "0");
+            //int preset = 6;
+            int presetset = Integer.parseInt(preset);
+            if (presetset >= 0 && presetset < mEqualizer.getNumberOfPresets()){
+
+                mEqualizer.usePreset((short) presetset);
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets" + mEqualizer.getNumberOfPresets());
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getCurrentPreset());
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 0));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 1));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 2));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 3));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 4));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 5));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 6));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 7));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 8));
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 9));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: current preset " + presetset + " " + mEqualizer.getCurrentPreset() + " " + mEqualizer.getPresetName((short) mEqualizer.getCurrentPreset()));
+                //Number of supported = 10 aka 0-9
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 0));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 1));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 2));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 3));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 4));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 5));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 6));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 7));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 8));
+                //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 9));
+            }
+            else{
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset invalid reverting to normal");
+                mEqualizer.usePreset((short) 0);
             }
             Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS supported");
         }
