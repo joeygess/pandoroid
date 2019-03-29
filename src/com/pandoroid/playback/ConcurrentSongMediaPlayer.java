@@ -225,11 +225,22 @@ public class ConcurrentSongMediaPlayer{
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS disabled");
             }
             //int preset = m_prefs.getInt("player_preset", 0);
-            int preset = 3;
+            int preset = 6;
             if (preset >= 0 && preset < mEqualizer.getNumberOfPresets()){
                 short presetset = (short) preset;
                 mEqualizer.usePreset(presetset);
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets" + mEqualizer.getNumberOfPresets());
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getCurrentPreset());
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 0));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 1));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 2));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 3));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 4));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 5));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 6));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 7));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 8));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 9));
             }
             Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS supported");
         }
