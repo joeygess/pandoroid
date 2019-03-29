@@ -231,8 +231,8 @@ public class ConcurrentSongMediaPlayer{
             if (presetset >= 0 && presetset < mEqualizer.getNumberOfPresets()){
 
                 mEqualizer.usePreset((short) presetset);
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets" + mEqualizer.getNumberOfPresets());
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: current preset " + presetset + " " + mEqualizer.getCurrentPreset() + " " + mEqualizer.getPresetName((short) mEqualizer.getCurrentPreset()));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets: " + mEqualizer.getNumberOfPresets());
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: current preset: " + presetset + " " + mEqualizer.getCurrentPreset() + " " + mEqualizer.getPresetName((short) mEqualizer.getCurrentPreset()));
                 //Number of supported = 10 aka 0-9
                 //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 0));
                 //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 1));
