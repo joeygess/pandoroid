@@ -3,7 +3,6 @@ package com.pandoroid.playback;
 import java.io.IOException;
 
 import com.pandoroid.Pandoroid;
-import com.pandoroid.PandoroidPlayer;
 import com.pandoroid.pandora.PandoraAudioUrl;
 import com.pandoroid.pandora.Song;
 

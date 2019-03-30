@@ -17,10 +17,7 @@
 
 package com.pandoroid.playback;
 
-import android.content.Context;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;

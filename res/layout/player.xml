@@ -71,7 +71,7 @@
             android:layout_marginLeft="15dp"
             android:text="@string/loading"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

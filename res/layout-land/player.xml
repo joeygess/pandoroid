@@ -4,7 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
-
+
+
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -46,7 +48,35 @@
         </TextView>
 
     </RelativeLayout>
-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <LinearLayout
         android:id="@+id/progressUpdate"
         android:layout_width="fill_parent"
@@ -65,7 +95,10 @@
             android:id="@+id/progressSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
+
+
+
+
         <TextView
             android:id="@+id/progressText"
             android:layout_width="wrap_content"
@@ -74,7 +107,7 @@
             android:layout_marginLeft="15dp"
             android:text="@string/loading"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

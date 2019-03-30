@@ -23,8 +23,6 @@ import java.util.ListIterator;
 import java.util.LinkedList;
 import java.util.Map;
 
-import android.util.Log;
-
 public class Song {
     private String album;
     private String artist;
