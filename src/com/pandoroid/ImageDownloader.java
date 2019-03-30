@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import java.io.BufferedOutputStream;
@@ -247,6 +248,9 @@ public class ImageDownloader {
             URI uri = URI.create(url);
             try {
                 //final URL url =  uri.toURL();
+                if (!URLUtil.isValidUrl(url)){
+                    url = "http:\\" + url;
+                }
                 final HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
                 int state = c.getResponseCode();
                 Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + url);
@@ -265,7 +269,6 @@ public class ImageDownloader {
                 outputStream.flush();
                 final byte[] data = dataStream.toByteArray();
                 final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Log.i("Pandoroid", "input and output not null");
                 return bitmap;
                 }
             }
