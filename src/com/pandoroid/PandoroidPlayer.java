@@ -541,7 +541,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         protected Integer doInBackground(Boolean... subscriber_type) {
             Integer success_flag = -1;
             try {
-                m_service.runPartnerLogin(subscriber_type[0].booleanValue());
+                m_service.runPartnerLogin(subscriber_type[0]);
                 // exceptionTest();
             } catch (RPCException e) {
                 Log.e("Pandoroid", "Error running partner login.", e);
@@ -565,7 +565,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         protected void onPostExecute(Integer success_int) {
-            int success = success_int.intValue();
+            int success = success_int;
             if (success >= 0) {
                 AlertDialog.Builder alert_builder = buildErrorDialog(success);
                 showAlert(alert_builder.create());
@@ -616,7 +616,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         protected void onPostExecute(Integer success_int){
-            if (success_int.intValue() < 0){
+            if (success_int < 0){
                 dismissWaiting();
                 String last_station_id = m_prefs.getString("lastStationId", null);
                 if (last_station_id != null && m_service.setCurrentStation(last_station_id)){
@@ -677,7 +677,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         protected void onPostExecute(Integer success_int) {
-            int success = success_int.intValue();
+            int success = success_int;
             if (success == ERROR_BAD_CREDENTIALS) {
                 int len = Toast.LENGTH_LONG;
                 CharSequence text = "Wrong username and/or password!";

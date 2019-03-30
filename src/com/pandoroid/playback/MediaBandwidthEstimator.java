@@ -77,14 +77,14 @@ public class MediaBandwidthEstimator {
                 if (session.queued_flag == true){
                     resetQueueFlags();
                     if (m_bitrate_queue.size() == NUM_AVERAGED_DATA_POINTS){
-                        m_sum -= m_bitrate_queue.poll().floatValue();
+                        m_sum -= m_bitrate_queue.poll();
                     }
                     m_bitrate_queue.add(Float.valueOf(bandwidth));
                 }
                 else{
                     float total_bandwidth = 0F;
                     if (m_bitrate_queue.size() != 0){
-                        total_bandwidth = m_bitrate_queue.pollLast().floatValue();
+                        total_bandwidth = m_bitrate_queue.pollLast();
                     }
                     total_bandwidth += bandwidth;
                     m_bitrate_queue.add(total_bandwidth);

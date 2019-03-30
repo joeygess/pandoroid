@@ -232,7 +232,7 @@ public class PandoroidStationSelect extends ListActivity {
         }
         
         protected void onPostExecute(Integer success){
-            if (success.intValue() < 0){
+            if (success < 0){
                 m_stations_current_flag = true;
                 showStations();
             }

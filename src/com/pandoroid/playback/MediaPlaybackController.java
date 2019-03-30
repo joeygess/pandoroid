@@ -111,7 +111,7 @@ public class MediaPlaybackController implements Runnable{
         m_reset_player_flag = false;
         
         Boolean alive = true;
-        while(alive.booleanValue()){            
+        while(alive){
             bufferUpdateLoop();
             
             //Prevent a null pointer exception in case an active network is not
@@ -231,7 +231,7 @@ public class MediaPlaybackController implements Runnable{
      * @return
      */
     public boolean isAlive(){
-        return m_alive.booleanValue();
+        return m_alive;
     }
     
     /**
