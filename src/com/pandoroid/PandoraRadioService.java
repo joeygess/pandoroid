@@ -362,6 +362,7 @@ public class PandoraRadioService extends Service {
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotifyMgr.notify(mNotificationId, mBuilder.build());
             } catch (Exception e) {
+                Log.i("Pandoroid", "Error Setting Notification");
             }
         }else{
             NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

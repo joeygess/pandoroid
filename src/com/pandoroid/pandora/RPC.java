@@ -27,6 +27,8 @@ import java.util.Map;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -111,7 +113,8 @@ public class RPC {
         
         request.setEntity(entity);
         
-        //Send to the server and get our response 
+        //Send to the server and get our response
+        client.getConnectionManager().getSchemeRegistry().register( new Scheme("https", SSLSocketFactory.getSocketFactory(), 443) );
         HttpResponse response = client.execute(request);
         int status_code = response.getStatusLine().getStatusCode();
         if (status_code != HttpStatus.SC_OK){

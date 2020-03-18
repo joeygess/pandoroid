@@ -12,7 +12,8 @@
         android:name="com.pandoroid.Pandoroid"
         android:icon="@drawable/icon"
         android:label="pandoroid"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/Theme.AppCompat.Light"
+        android:usesCleartextTraffic="true">
         <activity
             android:name="com.pandoroid.PandoroidLogin"
             android:label="pandoroid"
