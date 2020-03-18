@@ -229,7 +229,12 @@ public class PandoroidPlayer extends AppCompatActivity {
             break;
 
         case R.id.player_pause:
-            m_service.playPause();
+            // Pause or play the song and update the button respectively
+            ImageView pauseButton = (ImageView) findViewById(R.id.player_pause);
+            if (m_service.playPause())
+                pauseButton.setImageResource(R.drawable.ic_menu_pause_clip);
+            else
+                pauseButton.setImageResource(R.drawable.ic_menu_play_clip);
             break;
 
         case R.id.player_next:

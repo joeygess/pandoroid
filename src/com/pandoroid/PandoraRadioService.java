@@ -413,15 +413,18 @@ public class PandoraRadioService extends Service {
     
 
     
-    public void playPause(){
+    public boolean playPause(){
         if (m_song_playback != null){
             if (!m_paused){
                 pause();
+                return false;
             }
             else{
                 play();
+                return true;
             }
         }
+        return false;
     }
 
     private void play() {
