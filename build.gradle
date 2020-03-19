@@ -4,14 +4,14 @@ apply plugin: 'com.android.application'
 
 ext.versionMajor = 1
 ext.versionMinor = 3
-ext.versionPatch = 0
+ext.versionPatch = 1
 ext.versionClassifier = null
 ext.isSnapshot = true
 ext.minimumSdkVersion = 19
 
 android {
     compileSdkVersion(29)
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.3'
     defaultConfig{
         applicationId 'com.pandoroid'
         minSdkVersion 24
