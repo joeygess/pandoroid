@@ -206,7 +206,7 @@ public class ConcurrentSongMediaPlayer{
         Context context = Pandoroid.getContext();
         m_prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (isEqualizerSupported()) {
-            mEqualizer = new Equalizer(0, m_player.getAudioSessionId());
+            mEqualizer = new Equalizer(0, this.getAudioSessionId());
             short CurrentPreset = mEqualizer.getCurrentPreset();
             short NumberOfPresets = mEqualizer.getNumberOfPresets();
             final Equalizer.Settings settings = new Equalizer.Settings();

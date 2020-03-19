@@ -50,34 +50,6 @@
 
     </RelativeLayout>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <LinearLayout
         android:id="@+id/progressUpdate"
         android:layout_width="fill_parent"
@@ -120,7 +92,7 @@
         
         <ImageView
             android:id="@+id/player_next"
-            android:src="@drawable/ic_menu_forward"
+            android:src="@android:drawable/ic_media_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"
@@ -131,7 +103,7 @@
         
         <ImageView
             android:id="@+id/player_pause"
-            android:src="@drawable/ic_menu_play_clip"
+            android:src="@android:drawable/ic_media_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"
@@ -145,7 +117,7 @@
 
         <ImageView
             android:id="@+id/player_love"
-            android:src="@drawable/ic_menu_star"
+            android:src="@android:drawable/btn_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/player_pause"
@@ -159,7 +131,7 @@
         
         <ImageView
             android:id="@+id/player_ban"
-            android:src="@drawable/ic_menu_block"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"

@@ -29,6 +29,7 @@ import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Song;
 import com.pandoroid.pandora.Station;
 import com.pandoroid.pandora.SubscriberTypeException;
+import com.pandoroid.playback.ConcurrentSongMediaPlayer;
 import com.pandoroid.playback.MediaPlaybackController;
 import com.pandoroid.playback.OnNewSongListener;
 import com.pandoroid.playback.OnPlaybackContinuedListener;
@@ -46,6 +47,7 @@ import android.media.MediaPlayer;
 import android.media.session.MediaSessionManager;
 import android.os.Build;
 import android.os.PowerManager;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
@@ -65,6 +67,7 @@ import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 
 /**
  * Description: Someone really needs to give this class some loving, document
@@ -111,6 +114,19 @@ public class PandoraRadioService extends Service {
     private MediaSession mSession;
     private MediaController mController;
     private PowerManager.WakeLock mWakeLock;
+
+    //MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
+            //.putString(MediaMetadataCompat.METADATA_KEY_TITLE, this.getCurrentSong())
+            //.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, ConcurrentSongMediaPlayer.getSong());
+            //.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, m_song_playback.getSong().getArtist())
+            //.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, m_song_playback.getSong().getArtist())
+            //.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, this.getCurrentSong())
+            //.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getCoverBitmap(info));
+
+    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    //    metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getCount());
+    //}
+    //mSession.setMetadata(metaData.build());
 
     //Taken straight from the Android service reference
     /**
@@ -340,10 +356,16 @@ public class PandoraRadioService extends Service {
                         .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(false)
                         .setShowWhen(false)
-                        .addAction(R.drawable.ic_menu_play_clip, "Play", pendingIntentYes)
-                        .addAction(R.drawable.ic_menu_forward, "next", pendingIntentYes)
+                        //.addAction(android.R.drawable.ic_media_play, "Play", pendingIntentYes) // #0
+                        .addAction(generateAction(android.R.drawable.ic_media_play, "Play", KeyEvent.KEYCODE_MEDIA_PLAY))
+                        //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
+                        .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
                         .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                                .setMediaSession(mSessionToken))
+                                .setShowActionsInCompactView(0,1 /* #1: pause button */)
+                                .setMediaSession(mSessionToken)
+                                .setShowCancelButton(true)
+                                .setCancelButtonIntent(generateActionIntent(getApplicationContext(), KeyEvent.KEYCODE_MEDIA_STOP))
+                        )
                         .setContentText(tmp_song.getArtist())
                         .setContentInfo(tmp_song.getAlbum())
                         .setContentTitle(tmp_song.getTitle())
@@ -355,9 +377,12 @@ public class PandoraRadioService extends Service {
                         .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(false)
                         .setShowWhen(false)
-                        .addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo)
-                        .addAction(R.drawable.ic_menu_forward, "next", pendingIntentYes)
+                        //.addAction(android.R.drawable.ic_media_pause, "Pause", pendingIntentNo) // #0
+                        .addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", KeyEvent.KEYCODE_MEDIA_PAUSE))
+                        //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
+                        .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
                         .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                                .setShowActionsInCompactView(0,1 /* #1: pause button */)
                                 .setMediaSession(mSessionToken))
                         .setContentText(tmp_song.getArtist())
                         .setContentInfo(tmp_song.getAlbum())
@@ -373,6 +398,21 @@ public class PandoraRadioService extends Service {
         //}else{
         //    NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //    mNotifyMgr.cancel(001);
+    }
+
+    private NotificationCompat.Action generateAction( int icon, String title, int mediaKeyEvent) {
+        PendingIntent pendingIntent = generateActionIntent(getApplicationContext(), mediaKeyEvent);
+        return new NotificationCompat.Action.Builder( icon, title, pendingIntent ).build();
+    }
+
+
+    private static PendingIntent generateActionIntent(Context context, int mediaKeyEvent)
+    {
+        Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        intent.setPackage(context.getPackageName());
+        intent.putExtra(Intent.EXTRA_KEY_EVENT,
+                new KeyEvent(KeyEvent.ACTION_DOWN, mediaKeyEvent));
+        return PendingIntent.getBroadcast(context, mediaKeyEvent, intent, 0);
     }
     
     public void signOut() {
