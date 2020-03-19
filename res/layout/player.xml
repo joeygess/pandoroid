@@ -86,7 +86,7 @@
 
         <ImageView
             android:id="@+id/player_ban"
-            android:src="@drawable/ic_menu_block"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -98,7 +98,7 @@
 
         <ImageView
             android:id="@+id/player_love"
-            android:src="@drawable/ic_menu_star"
+            android:src="@android:drawable/btn_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_ban"
@@ -112,7 +112,7 @@
 
         <ImageView
             android:id="@+id/player_pause"
-            android:src="@drawable/ic_menu_pause_clip"
+            android:src="@android:drawable/ic_media_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_love"
@@ -126,7 +126,7 @@
 
         <ImageView
             android:id="@+id/player_next"
-            android:src="@drawable/ic_menu_forward"
+            android:src="@android:drawable/ic_media_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_pause"
