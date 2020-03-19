@@ -18,7 +18,7 @@ public class TurboTimer {
         times.add((Long) System.currentTimeMillis());
     }
     
-    private LinkedList<Long> times = new LinkedList<Long>();
+    private LinkedList<Long> times = new LinkedList<>();
     
     private void cleanTimes(){
         while(needsCleaned()){

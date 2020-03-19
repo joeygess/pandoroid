@@ -38,6 +38,7 @@ import org.apache.http.client.HttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 /**
@@ -105,7 +106,7 @@ public class PandoraRadio {
      * 
      */
     public PandoraRadio(){
-        standard_url_params = new HashMap<String, String>();
+        standard_url_params = new HashMap<>();
         credentials = new PartnerCredentials();
         last_acquired_playlist_time = 0;
         last_acquired_playlist_station = new String();
@@ -186,7 +187,7 @@ public class PandoraRadio {
                                           "the application is not authorized.");
         }
         
-        Map<String, Object> request_args = new HashMap<String, Object>();
+        Map<String, Object> request_args = new HashMap<>();
         request_args.put("loginType", "user");
         request_args.put("username", user);
         request_args.put("password", password);
@@ -255,7 +256,7 @@ public class PandoraRadio {
         }
         
         Map<String, String> 
-            url_params = new HashMap<String, String>(standard_url_params);
+            url_params = new HashMap<>(standard_url_params);
         url_params.put("method", method);
         if (opt_url_params != null){
             url_params.putAll(opt_url_params);
@@ -322,10 +323,10 @@ public class PandoraRadio {
                                         "the user has not been logged in yet.");
         }
         
-        Vector<Song> songs = new Vector<Song>();
+        Vector<Song> songs = new Vector<>();
         
 
-        Map<String, Object> request_args = new HashMap<String, Object>();
+        Map<String, Object> request_args = new HashMap<>();
         request_args.put("stationToken", station_token);
         
         //Order matters in this URL request. The same order given here is 
@@ -340,7 +341,7 @@ public class PandoraRadio {
         for (int i = 0; i < songs_returned.length(); ++i){
             try{
                 Map<String, Object> song_data = JSONHelper.toMap(songs_returned.getJSONObject(i));
-                ArrayList<PandoraAudioUrl> audio_url_mappings = new ArrayList<PandoraAudioUrl>();
+                ArrayList<PandoraAudioUrl> audio_url_mappings = new ArrayList<>();
                 if (song_data.get("additionalAudioUrl") instanceof Vector<?>){
                     Vector<String> audio_urls = (Vector<String>) song_data.get("additionalAudioUrl");
     
@@ -411,13 +412,13 @@ public class PandoraRadio {
         
         //Our stations come in a JSONArray within the JSONObject
         JSONArray result_stations = result.getJSONArray("stations");
-        ArrayList<Station> stations = new ArrayList<Station>();
+        ArrayList<Station> stations = new ArrayList<>();
 
         //Run through the stations within the array, and pick out some of the
         //properties we want.
         for (int i = 0; i < result_stations.length(); ++i){
             JSONObject single_station = result_stations.getJSONObject(i);
-            HashMap<String, Object> station_prep = new HashMap<String, Object>();
+            HashMap<String, Object> station_prep = new HashMap<>();
             station_prep.put("stationId", single_station.get("stationId"));
             station_prep.put("stationIdToken", single_station.get("stationToken"));
             station_prep.put("stationName", single_station.get("stationName"));
@@ -539,7 +540,7 @@ public class PandoraRadio {
                                        IOException,
                                        HttpResponseException,
                                        Exception{
-        Map<String, Object> partner_params = new HashMap<String, Object>(4);
+        Map<String, Object> partner_params = new HashMap<>(4);
         partner_params.put("username", credentials.username);
         partner_params.put("password", credentials.password);
         partner_params.put("deviceModel", credentials.device_model);
@@ -564,7 +565,7 @@ public class PandoraRadio {
                                                        IOException,
                                                        HttpResponseException,
                                                        Exception{
-        Map<String, Object> feedback_params = new HashMap<String, Object>(2);
+        Map<String, Object> feedback_params = new HashMap<>(2);
         feedback_params.put("trackToken", song.getId());
         feedback_params.put("isPositive", rating);
         this.doCall("station.addFeedback", feedback_params, false, true, null);
@@ -586,7 +587,8 @@ public class PandoraRadio {
      * Description: Sets the cipher keys up.
      * @throws Exception
      */
-    private void setCipher() throws NoSuchAlgorithmException, 
+    @SuppressLint("GetInstance")
+    private void setCipher() throws NoSuchAlgorithmException,
                                     NoSuchPaddingException,
                                     InvalidKeyException {
         //We're using the built in Blowfish cipher here.

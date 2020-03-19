@@ -99,7 +99,7 @@ public class ConcurrentSongMediaPlayer{
     /**
      * Description: Synchronized method that retrieves the duration of the 
      *  song from the underlying MediaPlayer.
-     * @return
+     * @return int time
      */
     public int getDuration(){
         if (m_alive){
@@ -114,7 +114,7 @@ public class ConcurrentSongMediaPlayer{
     
     /**
      * Description: Synchronized method that returns the underlying MediaPlayer.
-     * @return
+     * @return mediaplayer instance
      */
     public MediaPlayer getPlayer(){
         synchronized(this){
@@ -124,7 +124,7 @@ public class ConcurrentSongMediaPlayer{
     
     /**
      * Description: Returns the song.
-     * @return
+     * @return song title
      */
     public Song getSong(){
         return m_song;
@@ -132,7 +132,7 @@ public class ConcurrentSongMediaPlayer{
     
     /**
      * Description: Gets the url.
-     * @return
+     * @return url
      */
     public PandoraAudioUrl getUrl(){
         return m_url;
@@ -141,7 +141,7 @@ public class ConcurrentSongMediaPlayer{
     /**
      * Description: If this player is in fact buffering, then for every 5 calls,
      *  it will return true;
-     * @return
+     * @return true/false if we are buffering
      */
     public boolean isBuffering(){
         synchronized(buffer_lock){
@@ -180,7 +180,7 @@ public class ConcurrentSongMediaPlayer{
     /**
      * Description: Synchronized method that determines if the underlying 
      *  MediaPlayer is playing.
-     * @return
+     * @return true/false is media play instance playing
      */
     public boolean isPlaying(){
         synchronized(this){
@@ -332,7 +332,7 @@ public class ConcurrentSongMediaPlayer{
     
     /**
      * Description: Sets an internal buffer flag.
-     * @param bool
+     * @param bool true flase buffering
      */
     public void setBuffering(boolean bool){
         synchronized(buffer_lock){
@@ -424,12 +424,6 @@ public class ConcurrentSongMediaPlayer{
     private MediaPlayer m_player;
     
     private void setOnSeekCompleteListener(){
-        m_player.setOnSeekCompleteListener(new OnSeekCompleteListener(){
-
-            public void onSeekComplete(MediaPlayer mp) {
-                m_seeking_flag = false;
-            }
-            
-        });
+        m_player.setOnSeekCompleteListener(mp -> m_seeking_flag = false);
     }
 }

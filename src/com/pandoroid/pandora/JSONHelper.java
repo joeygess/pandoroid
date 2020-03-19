@@ -35,7 +35,7 @@ public abstract class JSONHelper {
      *  implementation, and it seems very darn complete to me. --Dylan Powers
      */
     public static Map<String, Object> toMap(JSONObject object){
-        Map<String, Object> mapping = new HashMap<String, Object>();
+        Map<String, Object> mapping = new HashMap<>();
         
         //These iterators are like gimped up shadows of what iterators should be.
         @SuppressWarnings("rawtypes")
@@ -67,7 +67,7 @@ public abstract class JSONHelper {
      * Description: Same as above except for JSONArrays.
      */
     public static Vector<Object> toVector(JSONArray object){
-        Vector<Object> array = new Vector<Object>();
+        Vector<Object> array = new Vector<>();
         int object_len = object.length();
         for (int i = 0; i != object_len; ++i){
             Object item = object.opt(i);

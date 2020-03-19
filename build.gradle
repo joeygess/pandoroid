@@ -10,12 +10,12 @@ ext.isSnapshot = true
 ext.minimumSdkVersion = 19
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
     buildToolsVersion '28.0.3'
     defaultConfig{
         applicationId 'com.pandoroid'
         minSdkVersion 24
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 19
         versionName generateVersionName()
     }
@@ -76,10 +76,10 @@ allprojects {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.core:core:1.0.0'
-    implementation 'androidx.media:media:1.0.0'
+    implementation 'androidx.core:core:1.2.0'
+    implementation 'androidx.media:media:1.1.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.7'
     implementation 'org.apache.httpcomponents:httpcore:4.4.11'
     implementation 'commons-io:commons-io:2.6'

@@ -175,17 +175,12 @@ public class PandoroidStationSelect extends ListActivity {
         setListAdapter(new StationListAdapter(m_service.getStations(), 
                                               PandoroidStationSelect.this));
         lv.setTextFilterEnabled(true);
-        lv.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, 
-                                    View view, 
-                                    int position, 
-                                    long id) {
-                String str_id = Long.toString(id);
-                m_service.setCurrentStation(str_id);
-                m_service.startPlayback();
-                m_stations_current_flag = false;
-                finish();
-            }
+        lv.setOnItemClickListener((parent, view, position, id) -> {
+            String str_id = Long.toString(id);
+            m_service.setCurrentStation(str_id);
+            m_service.startPlayback();
+            m_stations_current_flag = false;
+            finish();
         });
     }
     
@@ -240,26 +235,18 @@ public class PandoroidStationSelect extends ListActivity {
                 AlertDialog.Builder 
                     alert_builder = super.buildErrorDialog(success, 
                                                            PandoroidStationSelect.this);
-                alert_builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dismissAlert();
-                            m_stations_current_flag = false;
-                            if (m_service.getCurrentStation() == null){
-                                moveTaskToBack(true);
-                            }
-                            else{
-                                finish();
-                            }
-                        }
-                    });
-                alert_builder.setCancelable(true);
-                alert_builder.setOnCancelListener(new OnCancelListener(){
-
-                    public void onCancel(DialogInterface arg0) {
-                        m_alert_active_flag = false;                        
+                alert_builder.setPositiveButton("Back", (dialog, which) -> {
+                    dismissAlert();
+                    m_stations_current_flag = false;
+                    if (m_service.getCurrentStation() == null){
+                        moveTaskToBack(true);
                     }
-                    
+                    else{
+                        finish();
+                    }
                 });
+                alert_builder.setCancelable(true);
+                alert_builder.setOnCancelListener(arg0 -> m_alert_active_flag = false);
                 showAlert(alert_builder.create());
             }
         }

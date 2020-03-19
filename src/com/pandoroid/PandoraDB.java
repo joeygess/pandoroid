@@ -59,22 +59,19 @@ public class PandoraDB extends SQLiteOpenHelper {
     /** */
     public void syncStations(ArrayList<Station> stations) {
         SQLiteDatabase write = getWritableDatabase();
-        Iterator<Station> stationIter = stations.iterator();
-        
-        while(stationIter.hasNext()) {
-            Station station = stationIter.next();
-            
+
+        for (Station station : stations) {
             ContentValues values = new ContentValues(5);
             values.put("stationId", station.getStationId());
             values.put("stationIdToken", station.getStationIdToken());
             //values.put("isCreator", station.isCreator());
             values.put("isQuickMix", station.isQuickMix());
             values.put("stationName", station.getName());
-            
-            write.insertWithOnConflict(PandoraDB.STATION_TABLE_NAME, 
-                                       null, 
-                                       values, 
-                                       SQLiteDatabase.CONFLICT_IGNORE);
+
+            write.insertWithOnConflict(PandoraDB.STATION_TABLE_NAME,
+                    null,
+                    values,
+                    SQLiteDatabase.CONFLICT_IGNORE);
         }
     }
     

@@ -47,9 +47,9 @@ public class MediaBandwidthEstimator {
      * Description: Constructor
      */
     public MediaBandwidthEstimator(){
-        m_active_audio_sessions = new LinkedList<AudioSession>();
+        m_active_audio_sessions = new LinkedList<>();
         m_sum = 0;
-        m_bitrate_queue = new LinkedList<Float>();
+        m_bitrate_queue = new LinkedList<>();
     }
     
     /**
@@ -79,7 +79,7 @@ public class MediaBandwidthEstimator {
                     if (m_bitrate_queue.size() == NUM_AVERAGED_DATA_POINTS){
                         m_sum -= m_bitrate_queue.poll();
                     }
-                    m_bitrate_queue.add(Float.valueOf(bandwidth));
+                    m_bitrate_queue.add(bandwidth);
                 }
                 else{
                     float total_bandwidth = 0F;

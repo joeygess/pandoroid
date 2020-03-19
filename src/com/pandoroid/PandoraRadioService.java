@@ -93,7 +93,7 @@ public class PandoraRadioService extends Service {
     
     //We'll use this for now as the database implementation is garbage.
     private ArrayList<Station> m_stations; 
-    private HashMap<Class<?>,Object> listeners = new HashMap<Class<?>,Object>();
+    private HashMap<Class<?>,Object> listeners = new HashMap<>();
 
     protected PandoraDB db;
 
@@ -139,7 +139,7 @@ public class PandoraRadioService extends Service {
         m_paused = false;
         m_pandora_remote = new PandoraRadio();
         image_downloader = new ImageDownloader();
-        m_stations = new ArrayList<Station>();
+        m_stations = new ArrayList<>();
         
         
         connectivity_manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -637,34 +637,20 @@ public class PandoraRadioService extends Service {
             AlertDialog.Builder alert_builder = new AlertDialog.Builder(context);
             alert_builder.setCancelable(false);
             alert_builder.setPositiveButton("Quit",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            quit();
-                        }
-                    });
+                    (dialog, which) -> quit());
 
             switch (error) {
             case ERROR_NETWORK:
             case ERROR_UNKNOWN:
             case ERROR_REMOTE_SERVER:
                 alert_builder.setNeutralButton("Retry",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                retryAction();
-                            }
-                        });
+                        (dialog, which) -> retryAction());
             }
 
             switch (error) {
             case ERROR_UNSUPPORTED_API:
                 alert_builder.setNeutralButton("Report",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                reportAction();
-                            }
-                        });
+                        (dialog, which) -> reportAction());
                 alert_builder.setMessage("Please update the app. "
                         + "The current Pandora API is unsupported.");
                 break;

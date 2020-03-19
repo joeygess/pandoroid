@@ -41,7 +41,8 @@
         android:layout_below="@+id/login_txtUsername"
         android:layout_centerHorizontal="true"
         android:maxLines="1"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFF"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/login_txtPassword"
@@ -50,7 +51,8 @@
         android:layout_below="@+id/login_username"
         android:layout_centerHorizontal="true"
         android:paddingTop="14dip"
-        android:text="@string/signin_password" />
+        android:text="@string/signin_password"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/login_password"
@@ -60,7 +62,9 @@
         android:layout_centerHorizontal="true"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFF"
+        android:importantForAutofill="no"
+        android:autofillHints="password"/>
 
     <Button
         android:id="@+id/login_button"

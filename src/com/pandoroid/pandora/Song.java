@@ -56,7 +56,7 @@ public class Song {
         albumDetailURL = "";
         album_art_url = "";         
         
-        audio_urls = new LinkedList<PandoraAudioUrl>();     
+        audio_urls = new LinkedList<>();
         tired = false;
         message = "";
         startTime = null;
@@ -76,7 +76,7 @@ public class Song {
         albumDetailURL = (String) d.get("albumDetailURL");
         album_art_url = (String) d.get("albumArtUrl");          
         
-        audio_urls = new LinkedList<PandoraAudioUrl>();
+        audio_urls = new LinkedList<>();
         
         //Let's sort the audio_urls from highest to lowest;
         Collections.sort(audio_urls_in);
@@ -117,10 +117,8 @@ public class Song {
     }
     
     public String getAudioUrl(String audio_quality) {
-        ListIterator<PandoraAudioUrl> iter = audio_urls.listIterator();
-        while (iter.hasNext()){
-            PandoraAudioUrl next = iter.next();
-            if (audio_quality.compareTo(next.m_type) == 0){
+        for (PandoraAudioUrl next : audio_urls) {
+            if (audio_quality.compareTo(next.m_type) == 0) {
                 return next.toString();
             }
         }

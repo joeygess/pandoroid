@@ -96,12 +96,8 @@ public class PandoroidLogin extends AppCompatActivity {
                 AlertDialog.Builder 
                     alert_builder = new AlertDialog.Builder(PandoroidLogin.this);
                 alert_builder.setMessage("Internal Error. Please Try Again");
-                alert_builder.setPositiveButton("Retry", 
-                        new DialogInterface.OnClickListener() {                     
-                    public void onClick(DialogInterface dialog, int which) {
-                        commitCredentials();
-                    }
-                });
+                alert_builder.setPositiveButton("Retry",
+                        (dialog, which) -> commitCredentials());
             }
         }
         else{

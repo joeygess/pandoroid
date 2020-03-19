@@ -107,7 +107,7 @@ public class MediaPlaybackController implements Runnable{
         m_alive = true;
         m_cached_player_ready_flag = false;     
         m_need_next_song = true;
-        m_play_queue = new LinkedList<Song>();
+        m_play_queue = new LinkedList<>();
         m_reset_player_flag = false;
         
         Boolean alive = true;
@@ -238,13 +238,11 @@ public class MediaPlaybackController implements Runnable{
      * Description: Starts/resumes media playback.
      */
     public void play(){
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                if (m_valid_play_command_flag){
-                    m_active_player.start();
-                }
-                m_pause = false;
+        Thread t = new Thread(() -> {
+            if (m_valid_play_command_flag){
+                m_active_player.start();
             }
+            m_pause = false;
         });
         
         t.start();
@@ -254,15 +252,13 @@ public class MediaPlaybackController implements Runnable{
      * Description: Pauses media playback.
      */
     public void pause(){
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                if (isAlive()){                 
-                    if (m_active_player.isPlaying()){
-                        m_active_player.pause();
-                    }                   
+        Thread t = new Thread(() -> {
+            if (isAlive()){
+                if (m_active_player.isPlaying()){
+                    m_active_player.pause();
                 }
-                m_pause = true;
             }
+            m_pause = true;
         });
         
         t.start();
@@ -341,12 +337,10 @@ public class MediaPlaybackController implements Runnable{
      * Description: Skips to the next song.
      */
     public void skip(){
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                if (isAlive()){         
-                    m_need_next_song = true;
-                    m_playback_engine_thread.interrupt();
-                }
+        Thread t = new Thread(() -> {
+            if (isAlive()){
+                m_need_next_song = true;
+                m_playback_engine_thread.interrupt();
             }
         });
         
@@ -359,11 +353,7 @@ public class MediaPlaybackController implements Runnable{
      *  in.
      */
     public void stop(){
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                stopTask();
-            }
-        }); 
+        Thread t = new Thread(() -> stopTask());
         
         t.start();
     }
@@ -392,7 +382,7 @@ public class MediaPlaybackController implements Runnable{
     
     //Our thread safe queue for the buffer samples
     private final ConcurrentLinkedQueue<BufferSample> 
-        m_buffer_sample_queue = new ConcurrentLinkedQueue<BufferSample>();
+        m_buffer_sample_queue = new ConcurrentLinkedQueue<>();
     
     //Other variables required for the controller to run.
     private volatile Boolean m_alive = false;
@@ -410,7 +400,7 @@ public class MediaPlaybackController implements Runnable{
     private volatile Boolean m_reset_player_flag;
     private volatile Boolean m_restart_song_flag;
     private String m_station_token;
-    private Exchanger<Boolean> m_stop_exchanger = new Exchanger<Boolean>();
+    private Exchanger<Boolean> m_stop_exchanger = new Exchanger<>();
     private TurboTimer m_turbo_mode = new TurboTimer();
     private volatile Boolean m_valid_play_command_flag = false;
     
@@ -736,16 +726,9 @@ public class MediaPlaybackController implements Runnable{
                     m_valid_play_command_flag = true;
                     m_need_next_song = false;
                 } 
-                catch (IllegalArgumentException e) {
+                catch (IllegalArgumentException | SecurityException | IllegalStateException e) {
                     Log.e("Pandoroid", e.getMessage(), e);
-                }
-                catch (SecurityException e) {
-                    Log.e("Pandoroid", e.getMessage(), e);
-                } 
-                catch (IllegalStateException e) {
-                    Log.e("Pandoroid", e.getMessage(), e);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     sendPlaybackHaltedNotification(HALT_STATE_NO_INTERNET);
                     m_reset_player_flag = true;
                     m_need_next_song = false;
@@ -769,19 +752,10 @@ public class MediaPlaybackController implements Runnable{
                 m_cached_player.prepare(getOptimizedPandoraAudioUrl(m_cached_player.getSong()));
                 m_cached_player_ready_flag = true;
             } 
-            catch (IllegalArgumentException e) {
+            catch (IllegalArgumentException | SecurityException | IllegalStateException e) {
                 Log.e("Pandoroid", e.getMessage(), e);
                 m_cached_player.release();
-            }
-            catch (SecurityException e) {
-                Log.e("Pandoroid", e.getMessage(), e);
-                m_cached_player.release();
-            } 
-            catch (IllegalStateException e) {
-                Log.e("Pandoroid", e.getMessage(), e);
-                m_cached_player.release();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Log.e("Pandoroid", e.getMessage());
                 m_cached_player.release();
             }
@@ -837,19 +811,10 @@ public class MediaPlaybackController implements Runnable{
                 m_valid_play_command_flag = true;
                 m_reset_player_flag = false;
             } 
-            catch (IllegalArgumentException e) {
+            catch (IllegalArgumentException | SecurityException | IllegalStateException e) {
                 Log.e("Pandoroid", e.getMessage(), e);
                 m_need_next_song = true;
-            }
-            catch (SecurityException e) {
-                Log.e("Pandoroid", e.getMessage(), e);
-                m_need_next_song = true;
-            } 
-            catch (IllegalStateException e) {
-                Log.e("Pandoroid", e.getMessage(), e);
-                m_need_next_song = true;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 sendPlaybackHaltedNotification(HALT_STATE_NO_INTERNET);
                 m_reset_player_flag = true;
                 Log.e("Pandoroid", e.getMessage());
@@ -1001,18 +966,16 @@ public class MediaPlaybackController implements Runnable{
         public void onCompletion(MediaPlayer mp){
             final boolean previous_play_flag = m_valid_play_command_flag;
             m_valid_play_command_flag = false;
-            Thread t = new Thread(new Runnable(){
-                public void run(){
-                    if (m_active_player.isPlaybackComplete()){
-                        m_need_next_song = true;
-                    }
-                    else{
-                        sendPlaybackHaltedNotification(HALT_STATE_BUFFERING);
-                        m_reset_player_flag = true;
-                    }
-                    m_valid_play_command_flag = previous_play_flag;
-                    m_playback_engine_thread.interrupt();
+            Thread t = new Thread(() -> {
+                if (m_active_player.isPlaybackComplete()){
+                    m_need_next_song = true;
                 }
+                else{
+                    sendPlaybackHaltedNotification(HALT_STATE_BUFFERING);
+                    m_reset_player_flag = true;
+                }
+                m_valid_play_command_flag = previous_play_flag;
+                m_playback_engine_thread.interrupt();
             });
             t.start();
         }

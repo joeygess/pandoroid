@@ -50,6 +50,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import static android.R.color.white;
 import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
@@ -396,7 +398,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         view_text.setText(reason_str);
-        view_text.setTextColor(getResources().getColor(white));
+        view_text.setTextColor(ContextCompat.getColor(this, android.R.color.white));
         progress.setVisibility(View.VISIBLE);
 
     }
