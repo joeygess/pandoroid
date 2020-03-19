@@ -35,11 +35,11 @@
         <activity
             android:name="com.pandoroid.PandoroidSettings"
             android:noHistory="false"></activity>
-
         <service
             android:name="com.pandoroid.PandoraRadioService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false">
+        </service>
         <activity
             android:name="com.pandoroid.AboutDialog"
             android:theme="@android:style/Theme.Dialog"></activity>

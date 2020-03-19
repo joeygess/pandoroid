@@ -16,6 +16,7 @@
 package com.pandoroid;
 
 import org.apache.http.client.methods.HttpGet;
+import org.apache.commons.io.IOUtils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,9 +30,11 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -253,29 +256,53 @@ public class ImageDownloader {
                 }
                 final HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
                 int state = c.getResponseCode();
+                c.setConnectTimeout(15000);
+                c.setReadTimeout(15000);
                 Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + url);
-                //if (c.getResponseCode() = "200") {
-                //    Log.i("Pandoroid", "200 url for Bitmap in ImageDownloader." + url);}
-                //if (c.getResponseCode() = "401") {
-                //    Log.i("Pandoroid", "error 401 for url for Bitmap in ImageDownloader." + url);}
-                InputStream inputStream = null;
-                OutputStream outputStream = null;
-                InputStream is = c.getInputStream();
-                //while( is.read() >= 0 ) ;
+                if (c.getResponseCode() == 200) {
+                    Log.i("Pandoroid", "200 url for Bitmap in ImageDownloader." + url);}
+                if (c.getResponseCode() == 401) {
+                    Log.i("Pandoroid", "error 401 for url for Bitmap in ImageDownloader." + url);}
+                //InputStream is = null;
+                //OutputStream outputStream = null;
+                //InputStream is = c.getInputStream();
+                InputStream is = (InputStream) new URL(url).getContent();
+                final long totalSize = c.getContentLengthLong();
+                Log.i("Pandoroid", "Content-Length: " + totalSize);
                 final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-                outputStream = new BufferedOutputStream(dataStream, IO_BUFFER_SIZE);
-                if (is != null && outputStream != null) {
-                copy(is, outputStream);
-                outputStream.flush();
-                final byte[] data = dataStream.toByteArray();
-                final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                return bitmap;
+                //outputStream = new BufferedOutputStream(dataStream, 1024);
+
+                if (is != null) {
+                    //IOUtils.copy(is, outputStream, 1024);
+                    //if (is.equals(outputStream)){
+                    //    Log.i("Pandoroid", "Outputstream length: " + dataStream.size());
+                    //}
+                    //final byte[] data;
+                    ////final ByteArrayOutputStream data;
+                    ////data = dataStream;
+                    //data = dataStream.toByteArray();
+                    //final Bitmap bitmap;
+                    ////bitmap = BitmapFactory.decodeStream(is);
+                    //bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    //Log.i("Pandoroid", "Outputstream length: " + dataStream.size());
+                    //Log.i("Pandoroid", "Outputstream length: " + dataStream.size());
+                    //outputStream.flush();
+                    //is.close();
+                    //final BitmapFactory.Options options = new BitmapFactory.Options();
+                    //options.inJustDecodeBounds = true;
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    return bitmap;
                 }
+
             }
             catch (MalformedURLException e){
                 Log.e("Pandoroid", "improper url for Bitmap in ImageDownloader." + url, e);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("Pandoroid", "IOException for Bitmap in ImageDownloader." + url, e);
+                //e.printStackTrace();
+            } catch (OutOfMemoryError e) {
+                Log.e("Pandoroid", "OutOfMemoryError for Bitmap in ImageDownloader." + url, e);
             }
             final HttpGet getRequest = new HttpGet(url);
             String cookie = params[1];
@@ -312,13 +339,13 @@ public class ImageDownloader {
             }
         }
 
-        public void copy(InputStream in, OutputStream out) throws IOException {
-            byte[] b = new byte[IO_BUFFER_SIZE];
-            int read;
-            while ((read = in.read(b)) != -1) {
-                out.write(b, 0, read);
-            }
-        }
+        //public void copy(InputStream in, OutputStream out, long totalSize) throws IOException {
+        //    byte[] b = new byte[IO_BUFFER_SIZE];
+        //    int read;
+        //    while ((read = in.read(b)) != -1) {
+        //        out.write(b, 0, read);
+        //    }
+        //}
     }
 
     /**
