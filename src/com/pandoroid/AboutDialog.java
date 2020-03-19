@@ -18,7 +18,7 @@
  */
 package com.pandoroid;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -27,7 +27,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.TextView;
-import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
+import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class AboutDialog extends AppCompatActivity {
 

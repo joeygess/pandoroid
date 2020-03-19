@@ -49,10 +49,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static android.R.color.white;
-import static android.support.v7.appcompat.R.style.Base_Theme_AppCompat_Light;
+import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class PandoroidPlayer extends AppCompatActivity {
 

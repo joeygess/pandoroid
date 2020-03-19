@@ -47,8 +47,8 @@ import android.media.session.MediaSessionManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.media.app.NotificationCompat.MediaStyle;
+import androidx.core.app.NotificationCompat;
+import androidx.media.app.NotificationCompat.MediaStyle;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -303,7 +303,6 @@ public class PandoraRadioService extends Service {
     }   
     
     public void setNotification() {
-        if (!m_paused) {
             try {
                 Song tmp_song;
                 tmp_song = m_song_playback.getSong();
@@ -323,18 +322,18 @@ public class PandoraRadioService extends Service {
                 Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
                 //private PandoraRadioService m_service;
                 //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
-                Intent resultIntent = new Intent(Pandoroid.getContext(), PandoroidPlayer.class);
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                Pandoroid.getContext(),
-                                0,
-                                resultIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-                PendingIntent stopIntent = PendingIntent.getService(Pandoroid.getContext(), 0, resultIntent, 0);
-                PendingIntent nextIntent = PendingIntent.getService(Pandoroid.getContext(), 0, resultIntent, 0);
-                mBuilder.addAction(R.drawable.play, "Play", stopIntent);
-                mBuilder.addAction(R.drawable.next, "next", nextIntent);
+                Intent yesReceive = new Intent();
+                yesReceive.setAction(AppConstant.YES_ACTION);
+                PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+                Intent noReceive = new Intent();
+                yesReceive.setAction(AppConstant.NO_ACTION);
+                PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, 12345, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (m_paused)
+                    mBuilder.addAction(R.drawable.ic_menu_play_clip, "Play", pendingIntentYes);
+                if (!m_paused)
+                    mBuilder.addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo);
+                if (!m_paused)
+                    mBuilder.addAction(R.drawable.ic_menu_forward, "next", pendingIntentYes);
                 mBuilder
                         //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
                         .setLargeIcon(largeIcon)
@@ -356,7 +355,6 @@ public class PandoraRadioService extends Service {
                         .setContentTitle(tmp_song.getTitle())
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
-                mBuilder.setContentIntent(resultPendingIntent);
                 int mNotificationId = 001;
                 NotificationManager mNotifyMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -364,11 +362,10 @@ public class PandoraRadioService extends Service {
             } catch (Exception e) {
                 Log.i("Pandoroid", "Error Setting Notification");
             }
-        }else{
-            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.cancel(001);
+        //}else{
+        //    NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //    mNotifyMgr.cancel(001);
         }
-    }
     
     public void signOut() {
         if(m_song_playback != null) {
@@ -545,14 +542,23 @@ public class PandoraRadioService extends Service {
             }           
         }
     }
-    
+    public class AppConstant
+    {
+        public static final String YES_ACTION = "YES_ACTION";
+        public static final String NO_ACTION = "NO_ACTION";
+    }
+
     public class MusicIntentReceiver extends android.content.BroadcastReceiver {
+        @Override
         public void onReceive(Context ctx, Intent intent){
-            if (intent.getAction().equals(
-                    android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY)){
-                if (m_song_playback != null){
-                    pause();
-                }
+            String action = intent.getAction();
+            if (AppConstant.YES_ACTION.equals(action)) {
+                Log.i("Pandoroid", "Play Pressed");
+                play();
+            }
+            if (AppConstant.NO_ACTION.equals(action)) {
+                Log.i("Pandoroid", "Pause Pressed");
+                pause();
             }
         }
     }
