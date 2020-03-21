@@ -84,6 +84,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
+
+        <!--<SeekBar
+            android:id="@+id/player_seekbar"
+            android:indeterminate="false"
+            android:progressDrawable="@android:drawable/progress_horizontal"
+            android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+            android:indeterminateBehavior="cycle"
+            android:indeterminateOnly="false"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"></SeekBar> -->
+
         <ImageView
             android:id="@+id/player_ban"
             android:src="@android:drawable/ic_menu_close_clear_cancel"

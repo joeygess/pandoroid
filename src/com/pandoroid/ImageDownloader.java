@@ -251,9 +251,11 @@ public class ImageDownloader {
                     url = "http:\\" + url;
                 }
                 final HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
-                int state = c.getResponseCode();
+                //int state = c.getResponseCode();
+                c.setUseCaches(false);
                 c.setConnectTimeout(15000);
                 c.setReadTimeout(15000);
+                c.setDoOutput(false);
                 Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + url);
                 if (c.getResponseCode() == 200) {
                     Log.i("Pandoroid", "200 url for Bitmap in ImageDownloader." + url);}
@@ -299,12 +301,14 @@ public class ImageDownloader {
                 //e.printStackTrace();
             } catch (OutOfMemoryError e) {
                 Log.e("Pandoroid", "OutOfMemoryError for Bitmap in ImageDownloader." + url, e);
+            } catch (Exception e) {
+                Log.e("Pandoroid", "Exception for Bitmap in ImageDownloader." + url, e);
             }
-            final HttpGet getRequest = new HttpGet(url);
-            String cookie = params[1];
-            if (cookie != null) {
-                getRequest.setHeader("cookie", cookie);
-            }
+            //final HttpGet getRequest = new HttpGet(url);
+            //String cookie = params[1];
+            //if (cookie != null) {
+            //    getRequest.setHeader("cookie", cookie);
+            //}
             
             return null;
         }

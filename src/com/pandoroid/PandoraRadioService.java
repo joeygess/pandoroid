@@ -50,11 +50,10 @@ import android.os.PowerManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.media.app.NotificationCompat.MediaStyle;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -109,24 +108,28 @@ public class PandoraRadioService extends Service {
     public static final String ACTION_PAUSE = "action_pause";
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_NEXT = "action_next";
-    private MediaPlayer mMediaPlayer;
-    private MediaSessionManager mManager;
     private MediaSession mSession;
-    private MediaController mController;
     private PowerManager.WakeLock mWakeLock;
 
-    //MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-            //.putString(MediaMetadataCompat.METADATA_KEY_TITLE, this.getCurrentSong())
-            //.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, ConcurrentSongMediaPlayer.getSong());
-            //.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, m_song_playback.getSong().getArtist())
-            //.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, m_song_playback.getSong().getArtist())
-            //.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, this.getCurrentSong())
-            //.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getCoverBitmap(info));
-
-    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-    //    metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getCount());
+    //public MediaMetadataCompat updateMetadata() {
+    //    Song tmp_song;
+    //    tmp_song = m_song_playback.getSong();
+    //    Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
+    //    MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
+    //    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, tmp_song.getTitle())
+    //    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, tmp_song.getArtist())
+    //    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, tmp_song.getAlbum())
+    //    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, tmp_song.getArtist());
+    //    //.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, tmp_song.get)
+    //    //.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, tmp_song.)
+//
+    //    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    //    //    metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getCount());
+    //    //}
+    //    //mSession.setMetadata(metaData);
+    //    return metaData.build();
+    //    this.
     //}
-    //mSession.setMetadata(metaData.build());
 
     //Taken straight from the Android service reference
     /**
@@ -166,8 +169,15 @@ public class PandoraRadioService extends Service {
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "Pandoroid:Wakelock");
-        mWakeLock.acquire();
+                "Pandoroid:PandoraRadioServiceWakelock");
+        try {
+            if (!mWakeLock.isHeld()) {
+                Log.i("Pandoroid", "onCreate Acquiring WakeLock");
+                mWakeLock.acquire();
+            }
+        }catch (Exception e) {
+            Log.e("Pandoroid", "Error Acquiring WakeLock");
+        }
 
         // Register the listener with the telephony manager
         telephonyManager.listen(new PhoneStateListener() {
@@ -222,6 +232,7 @@ public class PandoraRadioService extends Service {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
         if (mWakeLock.isHeld()) {
+            Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
             mWakeLock.release();
         }
         Intent resultIntent = new Intent(this, PandoraRadioService.class);
@@ -234,6 +245,7 @@ public class PandoraRadioService extends Service {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
         if (mWakeLock.isHeld()) {
+            Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
             mWakeLock.release();
         }
     }
@@ -351,7 +363,7 @@ public class PandoraRadioService extends Service {
             //    mBuilder.addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo);
             if (m_paused)
                 mBuilder
-                        //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
+                        //.setLargeIcon(BitmapFactory.decodeStream(image_downloader)
                         .setLargeIcon(largeIcon)
                         .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(false)
