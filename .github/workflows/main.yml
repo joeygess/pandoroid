@@ -39,3 +39,5 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Debug APK Publisher
+        uses: ShaunLWM/action-release-debugapk@0.0.5
