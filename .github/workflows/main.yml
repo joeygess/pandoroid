@@ -34,5 +34,8 @@ jobs:
           java-version: 1.8
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
-      - name: Debug APK Publisher
-        uses: ShaunLWM/action-release-debugapk@0.0.5
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: build/outputs/apk/debug/pandoroid-debug.apk
