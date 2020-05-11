@@ -34,10 +34,5 @@ jobs:
           java-version: 1.8
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
-        with:
-          name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
       - name: Debug APK Publisher
         uses: ShaunLWM/action-release-debugapk@0.0.5
