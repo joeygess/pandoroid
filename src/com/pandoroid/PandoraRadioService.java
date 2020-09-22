@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpResponseException;
+import cz.msebera.android.httpclient.HttpStatus;
+import cz.msebera.android.httpclient.client.HttpResponseException;
 
 import com.pandoroid.pandora.PandoraRadio;
 import com.pandoroid.pandora.RPCException;

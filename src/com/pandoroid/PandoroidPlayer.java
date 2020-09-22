@@ -19,7 +19,7 @@ package com.pandoroid;
 
 import java.io.IOException;
 
-import org.apache.http.client.HttpResponseException;
+import cz.msebera.android.httpclient.client.HttpResponseException;
 
 import android.os.Build;
 import android.view.Menu;

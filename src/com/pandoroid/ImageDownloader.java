@@ -15,7 +15,7 @@
  */
 package com.pandoroid;
 
-import org.apache.http.client.methods.HttpGet;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
 import org.apache.commons.io.IOUtils;
 
 import android.graphics.Bitmap;

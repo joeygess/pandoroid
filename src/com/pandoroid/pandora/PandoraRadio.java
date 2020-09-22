@@ -34,7 +34,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 
-import org.apache.http.client.HttpResponseException;
+import cz.msebera.android.httpclient.client.HttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

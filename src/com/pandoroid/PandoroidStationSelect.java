@@ -20,7 +20,7 @@ package com.pandoroid;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.http.client.HttpResponseException;
+import cz.msebera.android.httpclient.client.HttpResponseException;
 
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Station;
