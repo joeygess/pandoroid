@@ -226,6 +226,24 @@ public class ImageDownloader {
         return null;
     }
 
+    static Bitmap getBitmapFromCachee(String url) {
+
+        // Then try the soft reference cache
+        SoftReference<Bitmap> bitmapReference = sSoftBitmapCache.get(url);
+        if (bitmapReference != null) {
+            final Bitmap bitmap = bitmapReference.get();
+            if (bitmap != null) {
+                // Bitmap found in soft cache
+                return bitmap;
+            } else {
+                // Soft reference has been Garbage Collected
+                sSoftBitmapCache.remove(url);
+            }
+        }
+
+        return null;
+    }
+
     /**
      * The actual AsyncTask that will asynchronously download the image.
      */

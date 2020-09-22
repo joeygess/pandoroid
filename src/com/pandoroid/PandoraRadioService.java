@@ -95,7 +95,7 @@ public class PandoraRadioService extends Service {
     
     //We'll use this for now as the database implementation is garbage.
     private ArrayList<Station> m_stations; 
-    private HashMap<Class<?>,Object> listeners = new HashMap<>();
+    private final HashMap<Class<?>,Object> listeners = new HashMap<>();
 
     protected PandoraDB db;
 
@@ -144,7 +144,7 @@ public class PandoraRadioService extends Service {
     }
     
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return mBinder;
     }
 
@@ -167,7 +167,7 @@ public class PandoraRadioService extends Service {
 
         //m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "Pandoroid:PandoraRadioServiceWakelock");
         try {
@@ -175,7 +175,7 @@ public class PandoraRadioService extends Service {
                 Log.i("Pandoroid", "onCreate Acquiring WakeLock");
                 mWakeLock.acquire();
             }
-        }catch (Exception e) {
+        }catch (final Exception e) {
             Log.e("Pandoroid", "Error Acquiring WakeLock");
         }
 
@@ -183,7 +183,7 @@ public class PandoraRadioService extends Service {
         telephonyManager.listen(new PhoneStateListener() {
             boolean pausedForRing = false;
             @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
+            public void onCallStateChanged(final int state, final String incomingNumber) {
                 Log.i("pandoroid telephony", "State changed: " + state);
                 switch(state) {
 
@@ -219,7 +219,7 @@ public class PandoraRadioService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
         return START_STICKY;
     }
     
@@ -229,20 +229,20 @@ public class PandoraRadioService extends Service {
         }
         this.unregisterReceiver(m_music_intent_receiver);
         stopForeground(true);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
             mWakeLock.release();
         }
-        Intent resultIntent = new Intent(this, PandoraRadioService.class);
+        final Intent resultIntent = new Intent(this, PandoraRadioService.class);
         onTaskRemoved(resultIntent);
         return;
     }
 
     @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    public void onTaskRemoved(final Intent rootIntent) {
+        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(001);
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
@@ -270,7 +270,7 @@ public class PandoraRadioService extends Service {
         return m_pandora_remote.isUserAuthorized();
     }
     
-    public void runPartnerLogin(boolean pandora_one_subscriber_flag) throws RPCException, 
+    public void runPartnerLogin(final boolean pandora_one_subscriber_flag) throws RPCException, 
                                                                             IOException,
                                                                             HttpResponseException,
                                                                             Exception{
@@ -281,7 +281,7 @@ public class PandoraRadioService extends Service {
         m_pandora_remote.runPartnerLogin(pandora_one_subscriber_flag);
     }
     
-    public void runUserLogin(String user, String password) throws HttpResponseException, 
+    public void runUserLogin(final String user, final String password) throws HttpResponseException, 
                                                                   RPCException,
                                                                   IOException, 
                                                                   Exception{
@@ -306,7 +306,7 @@ public class PandoraRadioService extends Service {
                 m_pandora_remote.connect(user, password);
                 failure_but_not_epic_failure = false; //Or any type of fail for that matter.
             }
-            catch (SubscriberTypeException e){
+            catch (final SubscriberTypeException e){
                 needs_partner_login = true;
                 is_pandora_one_user = e.is_pandora_one;
                 Log.i("Pandoroid", 
@@ -314,7 +314,7 @@ public class PandoraRadioService extends Service {
                       (is_pandora_one_user? "Pandora One": "standard Pandora") +
                       " subscriber.");
             }
-            catch (RPCException e){
+            catch (final RPCException e){
                 if (e.code == RPCException.INVALID_AUTH_TOKEN){
                     needs_partner_login = true;
                     Log.e("Pandoroid", e.getMessage());
@@ -326,7 +326,7 @@ public class PandoraRadioService extends Service {
         }
     }
     
-    public void setListener(Class<?> klass, Object listener) {
+    public void setListener(final Class<?> klass, final Object listener) {
         listeners.put(klass, listener);
     }
 
@@ -334,28 +334,32 @@ public class PandoraRadioService extends Service {
         try {
             Song tmp_song;
             tmp_song = m_song_playback.getSong();
+            tmp_song.getAlbumCoverUrl();
+            tmp_song.getAlbum();
             Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationManager notificationManager =
+                final NotificationManager notificationManager =
                         (NotificationManager) Pandoroid.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                NotificationChannel notificationChannel = new NotificationChannel("default", "Pandoroid", NotificationManager.IMPORTANCE_LOW);
+                final NotificationChannel notificationChannel = new NotificationChannel("default", "Pandoroid", NotificationManager.IMPORTANCE_LOW);
                 notificationChannel.setDescription("Channel description");
                 notificationChannel.enableLights(false);
                 notificationChannel.enableVibration(false);
                 notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
                 notificationManager.createNotificationChannel(notificationChannel);
             }
-            NotificationCompat.Builder mBuilder =
+            final NotificationCompat.Builder mBuilder =
                     (NotificationCompat.Builder) new NotificationCompat.Builder(Pandoroid.getContext(), "default");
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
+            //final Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
+            Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
+            Log.i("Pandoroid", "setNotification:" + " By " + tmp_song.getAlbumCoverUrl());
             //private PandoraRadioService m_service;
             //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
-            Intent yesReceive = new Intent();
+            final Intent yesReceive = new Intent();
             yesReceive.setAction(AppConstant.YES_ACTION);
-            PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-            Intent noReceive = new Intent();
+            final PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+            final Intent noReceive = new Intent();
             yesReceive.setAction(AppConstant.NO_ACTION);
-            PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, 12345, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, 12345, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
             //androidx.media.app.NotificationCompat.MediaStyle notificationStyle = new androidx.media.app.NotificationCompat.MediaStyle();
             //notificationStyle.setShowActionsInCompactView(1, 2);
             //notificationStyle.setMediaSession(mSessionToken);
@@ -400,11 +404,11 @@ public class PandoraRadioService extends Service {
                         .setContentInfo(tmp_song.getAlbum())
                         .setContentTitle(tmp_song.getTitle())
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            int mNotificationId = 001;
-            NotificationManager mNotifyMgr =
+            final int mNotificationId = 001;
+            final NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Log.i("Pandoroid", "Error Setting Notification");
         }
         //}else{
@@ -412,15 +416,15 @@ public class PandoraRadioService extends Service {
         //    mNotifyMgr.cancel(001);
     }
 
-    private NotificationCompat.Action generateAction( int icon, String title, int mediaKeyEvent) {
-        PendingIntent pendingIntent = generateActionIntent(getApplicationContext(), mediaKeyEvent);
+    private NotificationCompat.Action generateAction( final int icon, final String title, final int mediaKeyEvent) {
+        final PendingIntent pendingIntent = generateActionIntent(getApplicationContext(), mediaKeyEvent);
         return new NotificationCompat.Action.Builder( icon, title, pendingIntent ).build();
     }
 
 
-    private static PendingIntent generateActionIntent(Context context, int mediaKeyEvent)
+    private static PendingIntent generateActionIntent(final Context context, final int mediaKeyEvent)
     {
-        Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        final Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         intent.setPackage(context.getPackageName());
         intent.putExtra(Intent.EXTRA_KEY_EVENT,
                 new KeyEvent(KeyEvent.ACTION_DOWN, mediaKeyEvent));
@@ -453,9 +457,9 @@ public class PandoraRadioService extends Service {
         m_stations = m_pandora_remote.getStations();
     }
     
-    public boolean setCurrentStation(String station_id) {
+    public boolean setCurrentStation(final String station_id) {
         for(int i = 0; i < m_stations.size(); ++i){
-            Station tmp_station = m_stations.get(i);
+            final Station tmp_station = m_stations.get(i);
             if (tmp_station.compareTo(station_id) == 0){
                 m_current_station = tmp_station;
                 stopForeground(true);
@@ -510,7 +514,7 @@ public class PandoraRadioService extends Service {
     
 
     
-    public void rate(String rating) {
+    public void rate(final String rating) {
         if(rating == PandoroidPlayer.RATING_NONE) {
             // cannot set rating to none
             return;
@@ -534,7 +538,7 @@ public class PandoraRadioService extends Service {
                 m_song_playback.setOnErrorListener(new PlaybackOnErrorListener());
 
             } 
-            catch (Exception e) {
+            catch (final Exception e) {
                 Log.e("Pandoroid", e.getMessage(), e);
             }
         }
@@ -557,7 +561,7 @@ public class PandoraRadioService extends Service {
             }
             resetPlaybackListeners();
         } 
-        catch (Exception e) {
+        catch (final Exception e) {
             Log.e("Pandoroid", e.getMessage(), e);
             m_song_playback = null;
         }
@@ -569,7 +573,7 @@ public class PandoraRadioService extends Service {
     
     public void startPlayback(){        
         if (m_song_playback != null){
-            Thread t = new Thread(m_song_playback);
+            final Thread t = new Thread(m_song_playback);
             t.start();
         }       
     }
@@ -586,14 +590,14 @@ public class PandoraRadioService extends Service {
     }
     
     public class PlaybackOnErrorListener extends com.pandoroid.playback.OnErrorListener{
-        public void onError(String error_message, 
-                            Throwable e, 
-                            boolean remote_error_flag,
-                            int rpc_error_code){
+        public void onError(final String error_message, 
+                            final Throwable e, 
+                            final boolean remote_error_flag,
+                            final int rpc_error_code){
             if (remote_error_flag){
                 if (rpc_error_code == RPCException.INVALID_AUTH_TOKEN){
                     m_pandora_remote.disconnect();
-                    OnInvalidAuthListener 
+                    final OnInvalidAuthListener 
                         listener = (OnInvalidAuthListener) listeners.get(OnInvalidAuthListener.class);
                     if (listener != null){
                         listener.onInvalidAuth();
@@ -610,8 +614,8 @@ public class PandoraRadioService extends Service {
 
     public class MusicIntentReceiver extends android.content.BroadcastReceiver {
         @Override
-        public void onReceive(Context ctx, Intent intent){
-            String action = intent.getAction();
+        public void onReceive(final Context ctx, final Intent intent){
+            final String action = intent.getAction();
             if (AppConstant.YES_ACTION.equals(action)) {
                 Log.i("Pandoroid", "Play Pressed");
                 play();
@@ -627,14 +631,14 @@ public class PandoraRadioService extends Service {
         public void onPreExecute(){
             try {
                 this.m_song = m_song_playback.getSong();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 Log.e("Pandoroid", "No song to rate.");
             }
         }
-        public Void doInBackground(String... ratings){
+        public Void doInBackground(final String... ratings){
             if (m_song != null){
-                String rating = ratings[0];             
-                boolean rating_bool = rating.equals(PandoroidPlayer.RATING_LOVE) ? true : false;
+                final String rating = ratings[0];             
+                final boolean rating_bool = rating.equals(PandoroidPlayer.RATING_LOVE) ? true : false;
                 try {
                     m_pandora_remote.rate(this.m_song, rating_bool);
                     Log.i("Pandoroid", "A " + 
@@ -647,7 +651,7 @@ public class PandoraRadioService extends Service {
 //              } catch (RPCException e) {
 //              } catch (IOException e) {
                 } 
-                catch (Exception e) {
+                catch (final Exception e) {
                     Log.e("Pandoroid", "Exception while sending a song rating.", e);
                 }
             }
@@ -693,8 +697,8 @@ public class PandoraRadioService extends Service {
          * @return An alert dialog builder that can be converted into an alert
          *  dialog.
          */
-        protected AlertDialog.Builder buildErrorDialog(int error, final Context context) {
-            AlertDialog.Builder alert_builder = new AlertDialog.Builder(context);
+        protected AlertDialog.Builder buildErrorDialog(final int error, final Context context) {
+            final AlertDialog.Builder alert_builder = new AlertDialog.Builder(context);
             alert_builder.setCancelable(false);
             alert_builder.setPositiveButton("Quit",
                     (dialog, which) -> quit());
@@ -761,7 +765,7 @@ public class PandoraRadioService extends Service {
          * @param e
          * @return
          */
-        protected int rpcExceptionHandler(RPCException e) {
+        protected int rpcExceptionHandler(final RPCException e) {
             int success_flag = ERROR_UNKNOWN;
             if (RPCException.URL_PARAM_MISSING_METHOD <= e.code
                     && e.code <= RPCException.API_VERSION_NOT_SUPPORTED) {
@@ -782,7 +786,7 @@ public class PandoraRadioService extends Service {
          * @param e
          * @return
          */
-        protected int httpResponseExceptionHandler(HttpResponseException e) {
+        protected int httpResponseExceptionHandler(final HttpResponseException e) {
             int success_flag = ERROR_UNKNOWN;
             if (e.getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
                 success_flag = ERROR_REMOTE_SERVER;
@@ -799,7 +803,7 @@ public class PandoraRadioService extends Service {
          * @param e
          * @return
          */
-        protected int ioExceptionHandler(IOException e) {
+        protected int ioExceptionHandler(final IOException e) {
             return ERROR_NETWORK;
         }
 
@@ -809,7 +813,7 @@ public class PandoraRadioService extends Service {
          * @param e
          * @return
          */
-        protected int generalExceptionHandler(Exception e) {
+        protected int generalExceptionHandler(final Exception e) {
             return ERROR_UNKNOWN;
         }
     }
