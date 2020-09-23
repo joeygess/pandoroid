@@ -292,10 +292,10 @@ public class PandoraRadioService extends Service {
                 }
                 
                 if (is_pandora_one_user){
-                    m_audio_quality = PandoraRadio.MP3_192;
+                    m_audio_quality = PandoraRadio.AAC_64;
                 }
                 else {
-                    m_audio_quality = PandoraRadio.MP3_128;
+                    m_audio_quality = PandoraRadio.AAC_32;
                 }
                 Log.i("Pandoroid", "Running a user login.");
                 m_pandora_remote.connect(user, password);
