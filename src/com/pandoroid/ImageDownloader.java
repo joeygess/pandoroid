@@ -267,6 +267,7 @@ public class ImageDownloader {
         protected Bitmap doInBackground(String... params) {
             final OkHttpClient client2;
             client2 = new OkHttpClient();
+            client2.retryOnConnectionFailure();
             url = params[0];
             URI uri = URI.create(url);
             try {
@@ -277,11 +278,13 @@ public class ImageDownloader {
                 Request request = new Request.Builder()
                         .url(url)
                         //.post(body)
-                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                        //.addHeader("Content-Type", "application/json; charset=utf-8")
                         //.addHeader("User-Agent", user_agent) //Notice this request has header if you don't need to send a header just erase this part
                         .build();
                 Call call = client2.newCall(request);
                 Response response = call.execute();
+                Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + response.networkResponse());
+                Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + response.headers());
                 InputStream content = response.body().byteStream();
                 Log.i("Pandoroid", "url for Bitmap in ImageDownloader." + url);
                 if (response.code() == 200) {
