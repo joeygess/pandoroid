@@ -93,7 +93,8 @@
             android:indeterminateBehavior="cycle"
             android:indeterminateOnly="false"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"></SeekBar> -->
+            android:layout_width="match_parent">
+        </SeekBar> -->
 
         <ImageView
             android:id="@+id/player_ban"

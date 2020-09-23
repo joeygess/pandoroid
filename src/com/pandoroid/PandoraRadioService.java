@@ -329,8 +329,7 @@ public class PandoraRadioService extends Service {
         try {
             Song tmp_song;
             tmp_song = m_song_playback.getSong();
-            tmp_song.getAlbumCoverUrl();
-            tmp_song.getAlbum();
+            Log.i("Pandoroid", "setNotification:" + " By Station ID " + tmp_song.getStationId());
             Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 final NotificationManager notificationManager =
