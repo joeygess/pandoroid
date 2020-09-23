@@ -19,8 +19,6 @@ package com.pandoroid;
 
 import java.io.IOException;
 
-import cz.msebera.android.httpclient.client.HttpResponseException;
-
 import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -557,9 +555,6 @@ public class PandoroidPlayer extends AppCompatActivity {
                 } else {
                     success_flag = rpcExceptionHandler(e);
                 }
-            } catch (HttpResponseException e) {
-                Log.e("Pandoroid", "Error running partner login.", e);
-                success_flag = httpResponseExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error running partner login.", e);
                 success_flag = ioExceptionHandler(e);
@@ -608,9 +603,6 @@ public class PandoroidPlayer extends AppCompatActivity {
             } catch (RPCException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
                 success_flag = rpcExceptionHandler(e);
-            } catch (HttpResponseException e) {
-                Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = httpResponseExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
                 success_flag = ioExceptionHandler(e);
@@ -669,9 +661,6 @@ public class PandoroidPlayer extends AppCompatActivity {
                 } else {
                     success_flag = rpcExceptionHandler(e);
                 }
-            } catch (HttpResponseException e) {
-                Log.e("Pandoroid", "Error running user login.", e);
-                success_flag = httpResponseExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error running user login.", e);
                 success_flag = ioExceptionHandler(e);

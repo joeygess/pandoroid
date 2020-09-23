@@ -20,8 +20,6 @@ package com.pandoroid;
 import java.io.IOException;
 import java.util.List;
 
-import cz.msebera.android.httpclient.client.HttpResponseException;
-
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Station;
 import com.pandoroid.PandoraRadioService.ServerAsyncTask;
@@ -212,9 +210,6 @@ public class PandoroidStationSelect extends ListActivity {
             } catch (RPCException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
                 success_flag = rpcExceptionHandler(e);
-            } catch (HttpResponseException e) {
-                Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = httpResponseExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
                 success_flag = ioExceptionHandler(e);

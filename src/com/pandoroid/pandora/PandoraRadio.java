@@ -33,8 +33,6 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-
-import cz.msebera.android.httpclient.client.HttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -174,13 +172,11 @@ public class PandoraRadio {
      * @throws SubscriberTypeException when a Pandora user is identified as not
      *  being the expected subscriber type.
      * @throws IOException when Pandora's servers can't be reached.
-     * @throws HttpResponseException when an unexpected HTTP response occurs.
      * @throws Exception when an improper call to connect has been made.
      */
     public void connect(String user, String password) throws RPCException, 
                                                              SubscriberTypeException,
                                                              IOException,
-                                                             HttpResponseException,
                                                              Exception {
         if (!this.isPartnerAuthorized()){
             throw new Exception("Improper call to connect(), " +
@@ -244,8 +240,7 @@ public class PandoraRadio {
                               boolean encrypt,
                               Map<String, String> opt_url_params) throws Exception, 
                                                                          RPCException,
-                                                                         IOException,
-                                                                         HttpResponseException{
+                                                                         IOException{
         JSONObject response = null;
         JSONObject request = null;
         if (json_params != null){
@@ -302,14 +297,12 @@ public class PandoraRadio {
      *  identification token.
      * @throws RPCException when a Pandora RPC error has occurred.
      * @throws IOException when Pandora's remote servers could not be reached.
-     * @throws HttpResponseException when an unexpected HTTP response occurs.
      * @throws Exception when an improper call has been made, or an unexpected 
      *  error occurs.
      */
     @SuppressWarnings("unchecked")
     public Vector<Song> getPlaylist(String station_token) throws RPCException,
                                                                  IOException,
-                                                                 HttpResponseException,
                                                                  Exception{
         
         //This protects against a temporary account suspension from too many 
@@ -400,7 +393,6 @@ public class PandoraRadio {
      */
     public ArrayList<Station> getStations() throws RPCException,
                                                    IOException,
-                                                   HttpResponseException,
                                                    Exception {
         if (!this.isUserAuthorized()){
             throw new Exception("Improper call to getStations(), " +
@@ -538,7 +530,6 @@ public class PandoraRadio {
      */
     private void partnerLogin() throws RPCException,
                                        IOException,
-                                       HttpResponseException,
                                        Exception{
         Map<String, Object> partner_params = new HashMap<>(4);
         partner_params.put("username", credentials.username);
@@ -563,7 +554,6 @@ public class PandoraRadio {
      */
     public void rate(Song song, boolean rating) throws RPCException,
                                                        IOException,
-                                                       HttpResponseException,
                                                        Exception{
         Map<String, Object> feedback_params = new HashMap<>(2);
         feedback_params.put("trackToken", song.getId());
@@ -577,7 +567,6 @@ public class PandoraRadio {
      */
     public void runPartnerLogin(boolean is_pandora_one) throws RPCException,
                                                                IOException,
-                                                               HttpResponseException,
                                                                Exception{
         setCredentials(is_pandora_one);
         this.partnerLogin();

@@ -21,9 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cz.msebera.android.httpclient.HttpStatus;
-import cz.msebera.android.httpclient.client.HttpResponseException;
-
 import com.pandoroid.pandora.PandoraRadio;
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Song;
@@ -272,7 +269,6 @@ public class PandoraRadioService extends Service {
     
     public void runPartnerLogin(final boolean pandora_one_subscriber_flag) throws RPCException, 
                                                                             IOException,
-                                                                            HttpResponseException,
                                                                             Exception{
         Log.i("Pandoroid", 
               "Running a partner login for a " +
@@ -281,8 +277,7 @@ public class PandoraRadioService extends Service {
         m_pandora_remote.runPartnerLogin(pandora_one_subscriber_flag);
     }
     
-    public void runUserLogin(final String user, final String password) throws HttpResponseException, 
-                                                                  RPCException,
+    public void runUserLogin(final String user, final String password) throws RPCException,
                                                                   IOException, 
                                                                   Exception{
         boolean needs_partner_login = false;
@@ -450,8 +445,7 @@ public class PandoraRadioService extends Service {
         return m_pandora_remote.isAlive();
     }
     
-    public void updateStations() throws HttpResponseException, 
-                                        RPCException, 
+    public void updateStations() throws RPCException,
                                         IOException, 
                                         Exception {
         m_stations = m_pandora_remote.getStations();
@@ -510,9 +504,6 @@ public class PandoraRadioService extends Service {
             mWakeLock.release();
         }
     }
-    
-    
-
     
     public void rate(final String rating) {
         if(rating == PandoroidPlayer.RATING_NONE) {
@@ -737,21 +728,16 @@ public class PandoraRadioService extends Service {
         /**
          * Description: A test to show off different exceptions.
          * @throws RPCException
-         * @throws HttpResponseException
          * @throws IOException
          * @throws Exception
          */
-        public void exceptionTest() throws RPCException, HttpResponseException,
+        public void exceptionTest() throws RPCException,
                 IOException, Exception {
             switch (1) {
                 case 0:
                     throw new RPCException(
                             RPCException.API_VERSION_NOT_SUPPORTED,
                             "Invalid API test");
-                case 1:
-                    throw new HttpResponseException(
-                            HttpStatus.SC_INTERNAL_SERVER_ERROR,
-                            "Internal server error test");
                 case 2:
                     throw new IOException("IO exception test");
                 case 3:
@@ -775,23 +761,6 @@ public class PandoraRadioService extends Service {
                 success_flag = ERROR_REMOTE_SERVER;
             } else {
                 success_flag = ERROR_UNKNOWN;
-            }
-
-            return success_flag;
-        }
-
-        /**
-         * Description: A handler that must be called when an HttpResponseException
-         *  has occurred.
-         * @param e
-         * @return
-         */
-        protected int httpResponseExceptionHandler(final HttpResponseException e) {
-            int success_flag = ERROR_UNKNOWN;
-            if (e.getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
-                success_flag = ERROR_REMOTE_SERVER;
-            } else {
-                success_flag = ERROR_NETWORK;
             }
 
             return success_flag;
