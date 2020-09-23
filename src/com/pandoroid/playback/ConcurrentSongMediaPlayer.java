@@ -8,9 +8,12 @@ import com.pandoroid.pandora.Song;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.media.audiofx.Equalizer;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -288,6 +291,16 @@ public class ConcurrentSongMediaPlayer{
         
         synchronized(this){
             m_player.setDataSource(url.toString());
+            //m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                AudioAttributes aa = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build();
+                m_player.setAudioAttributes(aa);
+            } else {
+                m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            }
             m_player.prepare();
             //if (prev_playback_pos > 0){
             //    m_seeking_flag = true;
