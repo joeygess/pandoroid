@@ -453,6 +453,7 @@ public class PandoraRadioService extends Service {
     public boolean setCurrentStation(final String station_id) {
         for(int i = 0; i < m_stations.size(); ++i){
             final Station tmp_station = m_stations.get(i);
+            Log.i("Pandoroid", "Station" + m_stations.get(i));
             if (tmp_station.compareTo(station_id) == 0){
                 m_current_station = tmp_station;
                 stopForeground(true);
