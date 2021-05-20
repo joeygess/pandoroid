@@ -359,6 +359,7 @@ public class PandoraRadioService extends Service {
             //notificationStyle.setMediaSession(mSessionToken);
             //if (!m_paused)
             //    mBuilder.addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo);
+            //m_current_station.getName()
             if (m_paused)
                 mBuilder
                         //.setLargeIcon(BitmapFactory.decodeStream(image_downloader)

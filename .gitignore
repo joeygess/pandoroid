@@ -10,3 +10,7 @@ local.properties
 
 # The gen/ directory should be ignored as everything there is automatically generated.
 gen/
+
+app/.project
+
+app/.settings/org.eclipse.buildship.core.prefs

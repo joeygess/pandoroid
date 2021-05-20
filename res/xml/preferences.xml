@@ -29,7 +29,7 @@
         <CheckBoxPreference android:key="player_equalizer" android:summary="Check to enable equalizer" android:title="Enable Equalizer" android:defaultValue="true"></CheckBoxPreference>
         <ListPreference
             android:key="player_preset"
-            android:summary="TODO preset goes here"
+            android:summary="%s"
             android:title="Preset"
             android:entries="@array/preset"
             android:entryValues="@array/presetvalue"

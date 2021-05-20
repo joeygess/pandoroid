@@ -423,7 +423,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         if (song != null){
             getSupportActionBar().setTitle("" + song.getTitle());
             m_service.image_downloader.download(song.getAlbumCoverUrl(), image);
-            top.setText(String.format("%s\n%s", song.getArtist(), song.getAlbum()));
+            top.setText(String.format("%s\n%s\n%s", "Artist: " + song.getArtist(), "Album: " + song.getAlbum(), "Station: " + m_service.getCurrentStation().getName()));
         }
         else{
             image.setImageResource(R.drawable.transparent);

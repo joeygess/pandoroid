@@ -44,6 +44,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -276,6 +277,7 @@ public class ImageDownloader {
                     url = "http:\\" + url;
                 }
                 Request request = new Request.Builder()
+                        .addHeader("Connection","close")
                         .url(url)
                         //.post(body)
                         //.addHeader("Content-Type", "application/json; charset=utf-8")
@@ -298,8 +300,9 @@ public class ImageDownloader {
                     return bitmap;
                 }
 
-            }
-            catch (MalformedURLException e){
+            } catch (ProtocolException e){
+                Log.e("Pandoroid", "ProtocolException." + url);
+            } catch (MalformedURLException e){
                 Log.e("Pandoroid", "improper url for Bitmap in ImageDownloader." + url, e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "IOException for Bitmap in ImageDownloader." + url, e);
