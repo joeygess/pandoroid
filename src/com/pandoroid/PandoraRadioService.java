@@ -17,53 +17,47 @@
  */
 package com.pandoroid;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.session.MediaSession;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.Build;
+import android.os.IBinder;
+import android.os.PowerManager;
+import android.preference.PreferenceManager;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.KeyEvent;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 
 import com.pandoroid.pandora.PandoraRadio;
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Song;
 import com.pandoroid.pandora.Station;
 import com.pandoroid.pandora.SubscriberTypeException;
-import com.pandoroid.playback.ConcurrentSongMediaPlayer;
 import com.pandoroid.playback.MediaPlaybackController;
 import com.pandoroid.playback.OnNewSongListener;
 import com.pandoroid.playback.OnPlaybackContinuedListener;
 import com.pandoroid.playback.OnPlaybackHaltedListener;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.session.MediaController;
-import android.media.session.MediaSession;
-import android.media.MediaPlayer;
-import android.media.session.MediaSessionManager;
-import android.os.Build;
-import android.os.PowerManager;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import androidx.core.app.NotificationCompat;
-
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Description: Someone really needs to give this class some loving, document

@@ -17,21 +17,6 @@
  */
 package com.pandoroid;
 
-import java.io.IOException;
-
-import android.os.Build;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
-import com.pandoroid.pandora.RPCException;
-import com.pandoroid.pandora.Song;
-import com.pandoroid.playback.MediaPlaybackController;
-import com.pandoroid.playback.OnNewSongListener;
-import com.pandoroid.playback.OnPlaybackContinuedListener;
-import com.pandoroid.playback.OnPlaybackHaltedListener;
-import com.pandoroid.PandoraRadioService.ServerAsyncTask;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -39,19 +24,34 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.MenuItemCompat;
 
-import static android.R.color.white;
+import com.pandoroid.PandoraRadioService.ServerAsyncTask;
+import com.pandoroid.pandora.RPCException;
+import com.pandoroid.pandora.Song;
+import com.pandoroid.playback.MediaPlaybackController;
+import com.pandoroid.playback.OnNewSongListener;
+import com.pandoroid.playback.OnPlaybackContinuedListener;
+import com.pandoroid.playback.OnPlaybackHaltedListener;
+
+import java.io.IOException;
+
 import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class PandoroidPlayer extends AppCompatActivity {
@@ -280,7 +280,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         MenuItem subMenu = sub.getItem();
         subMenu.setIcon(android.R.drawable.ic_menu_preferences);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            subMenu.setShowAsAction(2);
+            MenuItemCompat.setShowAsAction(subMenu, 2);
         }
         return super.onCreateOptionsMenu(menu);
     }
