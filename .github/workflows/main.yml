@@ -1,12 +1,12 @@
-name: Android Pull Request & Master CI
+name: Android Pull Request & CI
 
 on:
   pull_request:
     branches:
-      - 'master'
+      - 'main'
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   test:
@@ -34,8 +34,10 @@ jobs:
           java-version: 1.8
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
+      - name: Run LS
+        run: ls $GITHUB_WORKSPACE/build/outputs/apk/debug
       - name: Upload APK
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: app
-          path: build/outputs/apk/debug/*.apk
+          path: ${{ github.workspace }}/build/outputs/apk/debug/*.apk
