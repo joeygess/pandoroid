@@ -17,18 +17,38 @@
  */
 package com.pandoroid;
 
+//import android.app.Activity;
 import android.os.Bundle;
+//import android.app.Activity;
 import android.preference.PreferenceActivity;
 
-public class PandoroidSettings extends PreferenceActivity {
-    /** Called when the activity is first created. */
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceFragmentCompat;
+
+public class PandoroidSettings extends FragmentActivity {
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        /* this.setTheme(R.style.Theme_Sherlock); */
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
-        // this.getSupportActionBar().setTitle(R.string.menu_settings);
+
+        // Display the fragment as the main content.
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager
+                .beginTransaction();
+        PreferenceFragment mPrefsFragment = new PreferenceFragment();
+        mFragmentTransaction.replace(android.R.id.content, mPrefsFragment);
+        mFragmentTransaction.commit();
+
+    }
+
+    public static class PreferenceFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            // Load the preferences from an XML resource
+            //setPreferencesFromResource(R.xml.preferences, rootKey);
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }

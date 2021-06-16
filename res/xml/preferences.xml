@@ -15,25 +15,25 @@
 -->
 
 <!-- This is a primitive example showing the different types of preferences available. -->
-<PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/account">
-        <EditTextPreference android:title="@string/username_title" android:dialogTitle="@string/username_title" android:key="pandora_username" android:summary="@string/username_desc"/>
-        <EditTextPreference android:title="@string/password_title" android:dialogTitle="@string/password_title" android:key="pandora_password" android:inputType="textPassword" android:summary="@string/password_desc"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/behavior">
-        <CheckBoxPreference android:key="behave_nextOnBan" android:summary="@string/skip_desc" android:title="@string/skip_title" android:defaultValue="true"></CheckBoxPreference>
-        <CheckBoxPreference android:key="behave_resumeOnHangup" android:summary="@string/resume_desc" android:title="@string/resume_title" android:defaultValue="true"></CheckBoxPreference>    
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Equalizer Settings">
-        <CheckBoxPreference android:key="player_equalizer" android:summary="Check to enable equalizer" android:title="Enable Equalizer" android:defaultValue="true"></CheckBoxPreference>
-        <ListPreference
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory android:title="@string/account">
+        <androidx.preference.EditTextPreference android:title="@string/username_title" android:dialogTitle="@string/username_title" android:key="pandora_username" android:summary="@string/username_desc"/>
+        <androidx.preference.EditTextPreference android:title="@string/password_title" android:dialogTitle="@string/password_title" android:key="pandora_password" android:inputType="textPassword" android:summary="@string/password_desc"/>
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/behavior">
+        <androidx.preference.CheckBoxPreference android:key="behave_nextOnBan" android:summary="@string/skip_desc" android:title="@string/skip_title" android:defaultValue="true"></androidx.preference.CheckBoxPreference>
+        <androidx.preference.CheckBoxPreference android:key="behave_resumeOnHangup" android:summary="@string/resume_desc" android:title="@string/resume_title" android:defaultValue="true"></androidx.preference.CheckBoxPreference>
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="Equalizer Settings">
+        <androidx.preference.CheckBoxPreference android:key="player_equalizer" android:summary="Check to enable equalizer" android:title="Enable Equalizer" android:defaultValue="true"></androidx.preference.CheckBoxPreference>
+        <androidx.preference.ListPreference
             android:key="player_preset"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="Preset"
             android:entries="@array/preset"
             android:entryValues="@array/presetvalue"
             android:defaultValue="0"
         />
-    </PreferenceCategory>
-</PreferenceScreen>
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>
