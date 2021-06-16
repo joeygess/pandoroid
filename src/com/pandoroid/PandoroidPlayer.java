@@ -17,21 +17,6 @@
  */
 package com.pandoroid;
 
-import java.io.IOException;
-
-import android.os.Build;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
-import com.pandoroid.pandora.RPCException;
-import com.pandoroid.pandora.Song;
-import com.pandoroid.playback.MediaPlaybackController;
-import com.pandoroid.playback.OnNewSongListener;
-import com.pandoroid.playback.OnPlaybackContinuedListener;
-import com.pandoroid.playback.OnPlaybackHaltedListener;
-import com.pandoroid.PandoraRadioService.ServerAsyncTask;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -39,19 +24,30 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.MenuItemCompat;
 
-import static android.R.color.white;
+import com.pandoroid.PandoraRadioService.ServerAsyncTask;
+import com.pandoroid.pandora.RPCException;
+import com.pandoroid.pandora.Song;
+
+import java.io.IOException;
+
 import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
 
 public class PandoroidPlayer extends AppCompatActivity {
@@ -68,7 +64,7 @@ public class PandoroidPlayer extends AppCompatActivity {
 
     private static AlertDialog m_alert;
     private static boolean m_alert_active_flag = false;
-    private static int m_song_halted_reason = MediaPlaybackController.HALT_STATE_CLEAR;
+    //private static int m_song_halted_reason = MediaPlaybackController.HALT_STATE_CLEAR;
     private boolean m_is_bound;
     private SharedPreferences m_prefs;
     private PartnerLoginTask m_partner_login_task;
@@ -143,23 +139,23 @@ public class PandoroidPlayer extends AppCompatActivity {
             m_is_bound = true;
             startup();
 
-            m_service.setListener(OnNewSongListener.class, new OnNewSongListener() {
-                public void onNewSong(Song song) {
-                    updateForNewSong(song);
-                }
-            });
-            m_service.setListener(OnPlaybackContinuedListener.class,
-                                  new OnPlaybackContinuedListener(){
-                public void onPlaybackContinued(){
-                    dismissSongHaltedProgress();
-                }
-            });
-            m_service.setListener(OnPlaybackHaltedListener.class,
-                                  new OnPlaybackHaltedListener(){
-                public void onPlaybackHalted(int reason){
-                    showSongHaltedProgress(reason);
-                }
-            });
+            //m_service.setListener(OnNewSongListener.class, new OnNewSongListener() {
+            //    public void onNewSong(Song song) {
+            //        updateForNewSong(song);
+            //    }
+            //});
+            //m_service.setListener(OnPlaybackContinuedListener.class,
+            //                      new OnPlaybackContinuedListener(){
+            //    public void onPlaybackContinued(){
+            //        dismissSongHaltedProgress();
+            //    }
+            //});
+            //m_service.setListener(OnPlaybackHaltedListener.class,
+            //                      new OnPlaybackHaltedListener(){
+            //    public void onPlaybackHalted(int reason){
+            //        showSongHaltedProgress(reason);
+            //    }
+            //});
             m_service.setListener(PandoraRadioService.OnInvalidAuthListener.class,
                                   new PandoraRadioService.OnInvalidAuthListener() {
 
@@ -169,7 +165,7 @@ public class PandoroidPlayer extends AppCompatActivity {
                                     }
                                 }
             );
-            m_service.resetPlaybackListeners();
+            //m_service.resetPlaybackListeners();
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -213,7 +209,7 @@ public class PandoroidPlayer extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.baned_song), Toast.LENGTH_SHORT).show();
             if (m_prefs.getBoolean("behave_nextOnBan", true)) {
-                m_service.skip();
+                //m_service.skip();
             }
             break;
         /*case R.id.player_tempban:
@@ -238,7 +234,7 @@ public class PandoroidPlayer extends AppCompatActivity {
             break;
 
         case R.id.player_next:
-            m_service.skip();
+            //m_service.skip();
             break;
         }
     }
@@ -255,7 +251,7 @@ public class PandoroidPlayer extends AppCompatActivity {
     }
 
     private void dismissSongHaltedProgress(){
-        m_song_halted_reason = MediaPlaybackController.HALT_STATE_CLEAR;
+        //m_song_halted_reason = MediaPlaybackController.HALT_STATE_CLEAR;
         View progress = findViewById(R.id.progressUpdate);
         progress.setVisibility(View.INVISIBLE);
     }
@@ -280,7 +276,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         MenuItem subMenu = sub.getItem();
         subMenu.setIcon(android.R.drawable.ic_menu_preferences);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            subMenu.setShowAsAction(2);
+            MenuItemCompat.setShowAsAction(subMenu, 2);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -370,27 +366,27 @@ public class PandoroidPlayer extends AppCompatActivity {
     }
 
     private void showSongHaltedProgress(int reason){
-        m_song_halted_reason = reason;
+        //m_song_halted_reason = reason;
         View progress = findViewById(R.id.progressUpdate);
         TextView view_text = (TextView) findViewById(R.id.progressText);
 
         int reason_str;
         switch(reason){
-            case MediaPlaybackController.HALT_STATE_NO_NETWORK:
-                reason_str = R.string.no_network;
-                break;
-            case MediaPlaybackController.HALT_STATE_NO_INTERNET:
-                reason_str = R.string.no_internet;
-                break;
-            case MediaPlaybackController.HALT_STATE_BUFFERING:
-                reason_str = R.string.buffering;
-                break;
-            case MediaPlaybackController.HALT_STATE_PREPARING:
-                reason_str = R.string.preparing;
-                break;
-            case MediaPlaybackController.HALT_STATE_NO_SONGS:
-                reason_str = R.string.no_songs;
-                break;
+            //case MediaPlaybackController.HALT_STATE_NO_NETWORK:
+            //    reason_str = R.string.no_network;
+            //    break;
+            //case MediaPlaybackController.HALT_STATE_NO_INTERNET:
+            //    reason_str = R.string.no_internet;
+            //    break;
+            //case MediaPlaybackController.HALT_STATE_BUFFERING:
+            //    reason_str = R.string.buffering;
+            //    break;
+            //case MediaPlaybackController.HALT_STATE_PREPARING:
+            //    reason_str = R.string.preparing;
+            //    break;
+            //case MediaPlaybackController.HALT_STATE_NO_SONGS:
+            //    reason_str = R.string.no_songs;
+            //    break;
             default:
                 reason_str = R.string.buffering;
         }
@@ -464,11 +460,11 @@ public class PandoroidPlayer extends AppCompatActivity {
             setStation();
         }
         else {
-            if (m_song_halted_reason != MediaPlaybackController.HALT_STATE_CLEAR){
-                showSongHaltedProgress(m_song_halted_reason);
-            }
+            //if (m_song_halted_reason != MediaPlaybackController.HALT_STATE_CLEAR){
+            //    showSongHaltedProgress(m_song_halted_reason);
+            //}
             try{
-                songRefresh(m_service.getCurrentSong());
+                //songRefresh(m_service.getCurrentSong());
             }
             catch(Exception e){
                 songRefresh(null);
@@ -619,7 +615,7 @@ public class PandoroidPlayer extends AppCompatActivity {
                 dismissWaiting();
                 String last_station_id = m_prefs.getString("lastStationId", null);
                 if (last_station_id != null && m_service.setCurrentStation(last_station_id)){
-                    m_service.startPlayback();
+                    //m_service.startPlayback();
                 }
                 else{
                     spawnStationActivity();

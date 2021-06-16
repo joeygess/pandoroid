@@ -17,53 +17,42 @@
  */
 package com.pandoroid;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.session.MediaSession;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Binder;
+import android.os.Build;
+import android.os.IBinder;
+import android.os.PowerManager;
+import android.preference.PreferenceManager;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.KeyEvent;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 
 import com.pandoroid.pandora.PandoraRadio;
 import com.pandoroid.pandora.RPCException;
 import com.pandoroid.pandora.Song;
 import com.pandoroid.pandora.Station;
 import com.pandoroid.pandora.SubscriberTypeException;
-import com.pandoroid.playback.ConcurrentSongMediaPlayer;
-import com.pandoroid.playback.MediaPlaybackController;
-import com.pandoroid.playback.OnNewSongListener;
-import com.pandoroid.playback.OnPlaybackContinuedListener;
-import com.pandoroid.playback.OnPlaybackHaltedListener;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.session.MediaController;
-import android.media.session.MediaSession;
-import android.media.MediaPlayer;
-import android.media.session.MediaSessionManager;
-import android.os.Build;
-import android.os.PowerManager;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import androidx.core.app.NotificationCompat;
-
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Description: Someone really needs to give this class some loving, document
@@ -77,7 +66,7 @@ public class PandoraRadioService extends Service {
     
     // tools this service uses
     private PandoraRadio m_pandora_remote;
-    public MediaPlaybackController m_song_playback;
+    //public MediaPlaybackController m_song_playback;
     public ImageDownloader image_downloader;
     
     private TelephonyManager telephonyManager;
@@ -186,13 +175,13 @@ public class PandoraRadioService extends Service {
 
                 case TelephonyManager.CALL_STATE_IDLE:
                     Log.d("DEBUG", "***********IDLE********");
-                    if(pausedForRing && m_song_playback != null) {
-                        if(m_prefs.getBoolean("behave_resumeOnHangup", true)) {
-                            if(m_song_playback != null && !m_paused){
-                                m_song_playback.play();
-                            }
-                        }
-                    }
+                    //if(pausedForRing && m_song_playback != null) {
+                    //    if(m_prefs.getBoolean("behave_resumeOnHangup", true)) {
+                    //        if(m_song_playback != null && !m_paused){
+                    //            m_song_playback.play();
+                    //        }
+                    //    }
+                    //}
 
                     pausedForRing = false;
                     break;
@@ -200,9 +189,9 @@ public class PandoraRadioService extends Service {
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                 case TelephonyManager.CALL_STATE_RINGING:
                     Log.d("DEBUG", "***********RINGING********");
-                    if(m_song_playback != null) {
-                        m_song_playback.pause();
-                    }
+                    //if(m_song_playback != null) {
+                    //    m_song_playback.pause();
+                    //}
 
                     pausedForRing = true;
                     break;
@@ -221,9 +210,9 @@ public class PandoraRadioService extends Service {
     }
     
     public void onDestroy() {
-        if (m_song_playback != null){
-            m_song_playback.stop();
-        }
+        //if (m_song_playback != null){
+        //    m_song_playback.stop();
+        //}
         this.unregisterReceiver(m_music_intent_receiver);
         stopForeground(true);
         final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -247,9 +236,9 @@ public class PandoraRadioService extends Service {
         }
     }
     
-    public Song getCurrentSong() throws Exception{
-        return m_song_playback.getSong();
-    }
+    //public Song getCurrentSong() throws Exception{
+    //    return m_song_playback.getSong();
+    //}
     
     public Station getCurrentStation() {
         return m_current_station;
@@ -328,9 +317,9 @@ public class PandoraRadioService extends Service {
     public void setNotification() {
         try {
             Song tmp_song;
-            tmp_song = m_song_playback.getSong();
-            Log.i("Pandoroid", "setNotification:" + " By Station ID " + tmp_song.getStationId());
-            Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
+            //tmp_song = m_song_playback.getSong();
+            //Log.i("Pandoroid", "setNotification:" + " By Station ID " + tmp_song.getStationId());
+            //Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 final NotificationManager notificationManager =
                         (NotificationManager) Pandoroid.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -344,8 +333,8 @@ public class PandoraRadioService extends Service {
             final NotificationCompat.Builder mBuilder =
                     (NotificationCompat.Builder) new NotificationCompat.Builder(Pandoroid.getContext(), "default");
             //final Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
-            Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
-            Log.i("Pandoroid", "setNotification:" + " By " + tmp_song.getAlbumCoverUrl());
+            //Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
+            //Log.i("Pandoroid", "setNotification:" + " By " + tmp_song.getAlbumCoverUrl());
             //private PandoraRadioService m_service;
             //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
             final Intent yesReceive = new Intent();
@@ -360,49 +349,49 @@ public class PandoraRadioService extends Service {
             //if (!m_paused)
             //    mBuilder.addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo);
             //m_current_station.getName()
-            if (m_paused)
-                mBuilder
-                        //.setLargeIcon(BitmapFactory.decodeStream(image_downloader)
-                        .setLargeIcon(largeIcon)
-                        .setSmallIcon(R.drawable.notification_icon)
-                        .setOngoing(false)
-                        .setShowWhen(false)
-                        //.addAction(android.R.drawable.ic_media_play, "Play", pendingIntentYes) // #0
-                        .addAction(generateAction(android.R.drawable.ic_media_play, "Play", KeyEvent.KEYCODE_MEDIA_PLAY))
-                        //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
-                        .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
-                        .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                                .setShowActionsInCompactView(0,1 /* #1: pause button */)
-                                .setMediaSession(mSessionToken)
-                                .setShowCancelButton(true)
-                                .setCancelButtonIntent(generateActionIntent(getApplicationContext(), KeyEvent.KEYCODE_MEDIA_STOP))
-                        )
-                        .setContentText(tmp_song.getArtist())
-                        .setContentInfo(tmp_song.getAlbum())
-                        .setContentTitle(tmp_song.getTitle())
-                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            if (!m_paused)
-                mBuilder
-                        //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
-                        .setLargeIcon(largeIcon)
-                        .setSmallIcon(R.drawable.notification_icon)
-                        .setOngoing(false)
-                        .setShowWhen(false)
-                        //.addAction(android.R.drawable.ic_media_pause, "Pause", pendingIntentNo) // #0
-                        .addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", KeyEvent.KEYCODE_MEDIA_PAUSE))
-                        //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
-                        .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
-                        .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                                .setShowActionsInCompactView(0,1 /* #1: pause button */)
-                                .setMediaSession(mSessionToken))
-                        .setContentText(tmp_song.getArtist())
-                        .setContentInfo(tmp_song.getAlbum())
-                        .setContentTitle(tmp_song.getTitle())
-                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            final int mNotificationId = 001;
-            final NotificationManager mNotifyMgr =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
+            //if (m_paused)
+            //    mBuilder
+            //            //.setLargeIcon(BitmapFactory.decodeStream(image_downloader)
+            //            .setLargeIcon(largeIcon)
+            //            .setSmallIcon(R.drawable.notification_icon)
+            //            .setOngoing(false)
+            //            .setShowWhen(false)
+            //            //.addAction(android.R.drawable.ic_media_play, "Play", pendingIntentYes) // #0
+            //            .addAction(generateAction(android.R.drawable.ic_media_play, "Play", KeyEvent.KEYCODE_MEDIA_PLAY))
+            //            //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
+            //            .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
+            //            .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+            //                    .setShowActionsInCompactView(0,1 /* #1: pause button */)
+            //                    .setMediaSession(mSessionToken)
+            //                    .setShowCancelButton(true)
+            //                    .setCancelButtonIntent(generateActionIntent(getApplicationContext(), KeyEvent.KEYCODE_MEDIA_STOP))
+            //            )
+            //            .setContentText(tmp_song.getArtist())
+            //            .setContentInfo(tmp_song.getAlbum())
+            //            .setContentTitle(tmp_song.getTitle())
+            //            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+            //if (!m_paused)
+            //    mBuilder
+            //            //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
+            //            .setLargeIcon(largeIcon)
+            //            .setSmallIcon(R.drawable.notification_icon)
+            //            .setOngoing(false)
+            //            .setShowWhen(false)
+            //            //.addAction(android.R.drawable.ic_media_pause, "Pause", pendingIntentNo) // #0
+            //            .addAction(generateAction(android.R.drawable.ic_media_pause, "Pause", KeyEvent.KEYCODE_MEDIA_PAUSE))
+            //            //.addAction(android.R.drawable.ic_media_next, "next", pendingIntentYes) // #1
+            //            .addAction(generateAction(android.R.drawable.ic_media_next, "Next", KeyEvent.KEYCODE_MEDIA_NEXT))
+            //            .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+            //                    .setShowActionsInCompactView(0,1 /* #1: pause button */)
+            //                    .setMediaSession(mSessionToken))
+            //            .setContentText(tmp_song.getArtist())
+            //            .setContentInfo(tmp_song.getAlbum())
+            //            .setContentTitle(tmp_song.getTitle())
+            //            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+            //final int mNotificationId = 001;
+            //final NotificationManager mNotifyMgr =
+            //        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            //mNotifyMgr.notify(mNotificationId, mBuilder.build());
         } catch (final Exception e) {
             Log.i("Pandoroid", "Error Setting Notification");
         }
@@ -427,10 +416,10 @@ public class PandoraRadioService extends Service {
     }
     
     public void signOut() {
-        if(m_song_playback != null) {
-            stopForeground(true);
-            m_song_playback.stop();
-        }
+        //if(m_song_playback != null) {
+        //    stopForeground(true);
+        //    m_song_playback.stop();
+        //}
 
         if(m_pandora_remote != null) {
             m_pandora_remote.disconnect();
@@ -458,7 +447,7 @@ public class PandoraRadioService extends Service {
             if (tmp_station.compareTo(station_id) == 0){
                 m_current_station = tmp_station;
                 stopForeground(true);
-                setPlaybackController();
+                //setPlaybackController();
                 m_prefs.edit().putString("lastStationId", station_id).apply();
                 return true;
             }
@@ -470,22 +459,22 @@ public class PandoraRadioService extends Service {
 
     
     public boolean playPause(){
-        if (m_song_playback != null){
-            if (!m_paused){
-                pause();
-                return false;
-            }
-            else{
-                play();
-                return true;
-            }
-        }
+        //if (m_song_playback != null){
+        //    if (!m_paused){
+        //        pause();
+        //        return false;
+        //    }
+        //    else{
+        //        play();
+        //        return true;
+        //    }
+        //}
         return false;
     }
 
     private void play() {
         m_paused = false;
-        m_song_playback.play();
+        //m_song_playback.play();
         setNotification();
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "WakeLock Already Active");
@@ -496,7 +485,7 @@ public class PandoraRadioService extends Service {
     }
     
     private void pause() {
-        m_song_playback.pause();            
+        //m_song_playback.pause();
         m_paused = true;
         //stopForeground(true);
         setNotification();
@@ -515,89 +504,87 @@ public class PandoraRadioService extends Service {
         (new RateTask()).execute(rating);
     }
     
-    public void resetPlaybackListeners(){
-        if (m_song_playback != null){
-            try {
-                m_song_playback.setOnNewSongListener(
-                        (OnNewSongListener) listeners.get(OnNewSongListener.class)
-                                                  );
-                m_song_playback.setOnPlaybackContinuedListener(
-                        (OnPlaybackContinuedListener) listeners.get(OnPlaybackContinuedListener.class)
-                                                               );
-                m_song_playback.setOnPlaybackHaltedListener(
-                        (OnPlaybackHaltedListener) listeners.get(OnPlaybackHaltedListener.class)
-                                                           );
-                m_song_playback.setOnErrorListener(new PlaybackOnErrorListener());
-
-            } 
-            catch (final Exception e) {
-                Log.e("Pandoroid", e.getMessage(), e);
-            }
-        }
-    }
+    //public void resetPlaybackListeners(){
+    //    if (m_song_playback != null){
+    //        try {
+    //            m_song_playback.setOnNewSongListener(
+    //                    (OnNewSongListener) listeners.get(OnNewSongListener.class)
+    //                                              );
+    //            m_song_playback.setOnPlaybackContinuedListener(
+    //                    (OnPlaybackContinuedListener) listeners.get(OnPlaybackContinuedListener.class)
+    //                                                           );
+    //            m_song_playback.setOnPlaybackHaltedListener(
+    //                    (OnPlaybackHaltedListener) listeners.get(OnPlaybackHaltedListener.class)
+    //                                                       );
+    //            m_song_playback.setOnErrorListener(new PlaybackOnErrorListener());
+    //        }
+    //        catch (final Exception e) {
+    //            Log.e("Pandoroid", e.getMessage(), e);
+    //        }
+    //    }
+    //}
     
-    private void setPlaybackController(){
-        try{    
-            if (m_song_playback == null){       
-                m_song_playback = new MediaPlaybackController(m_current_station.getStationIdToken(),
-                                                            PandoraRadio.AAC_32,
-                                                            m_audio_quality,
-                                                            m_pandora_remote,
-                                                            connectivity_manager);
-
-                
-            }
-            else{
-                m_song_playback.reset(m_current_station.getStationIdToken(), m_pandora_remote);
-                
-            }
-            resetPlaybackListeners();
-        } 
-        catch (final Exception e) {
-            Log.e("Pandoroid", e.getMessage(), e);
-            m_song_playback = null;
-        }
-    }
+    //private void setPlaybackController(){
+    //    try{
+    //        if (m_song_playback == null){
+    //            m_song_playback = new MediaPlaybackController(m_current_station.getStationIdToken(),
+    //                                                        PandoraRadio.AAC_32,
+    //                                                        m_audio_quality,
+    //                                                        m_pandora_remote,
+    //                                                        connectivity_manager);
+    //
+    //        }
+    //        else{
+    //            m_song_playback.reset(m_current_station.getStationIdToken(), m_pandora_remote);
+    //
+    //        }
+    //        resetPlaybackListeners();
+    //    }
+    //    catch (final Exception e) {
+    //        Log.e("Pandoroid", e.getMessage(), e);
+    //        m_song_playback = null;
+    //    }
+    //}
     
-    public void skip(){
-        m_song_playback.skip();
-    }
+    //public void skip(){
+    //    m_song_playback.skip();
+    //}
     
-    public void startPlayback(){        
-        if (m_song_playback != null){
-            final Thread t = new Thread(m_song_playback);
-            t.start();
-        }       
-    }
+    //public void startPlayback(){
+    //    if (m_song_playback != null){
+    //        final Thread t = new Thread(m_song_playback);
+    //        t.start();
+    //    }
+    //}
     
-    public void stopPlayback(){
-        if (m_song_playback != null){
-            m_song_playback.stop();
-        }
-        stopForeground(true);
-    }
+    //public void stopPlayback(){
+    //    if (m_song_playback != null){
+    //        m_song_playback.stop();
+    //    }
+    //    stopForeground(true);
+    //}
     
     public abstract static class OnInvalidAuthListener{
         public abstract void onInvalidAuth();
     }
     
-    public class PlaybackOnErrorListener extends com.pandoroid.playback.OnErrorListener{
-        public void onError(final String error_message, 
-                            final Throwable e, 
-                            final boolean remote_error_flag,
-                            final int rpc_error_code){
-            if (remote_error_flag){
-                if (rpc_error_code == RPCException.INVALID_AUTH_TOKEN){
-                    m_pandora_remote.disconnect();
-                    final OnInvalidAuthListener 
-                        listener = (OnInvalidAuthListener) listeners.get(OnInvalidAuthListener.class);
-                    if (listener != null){
-                        listener.onInvalidAuth();
-                    }
-                }
-            }           
-        }
-    }
+    //public class PlaybackOnErrorListener extends com.pandoroid.playback.OnErrorListener{
+    //    public void onError(final String error_message,
+    //                        final Throwable e,
+    //                        final boolean remote_error_flag,
+    //                        final int rpc_error_code){
+    //        if (remote_error_flag){
+    //            if (rpc_error_code == RPCException.INVALID_AUTH_TOKEN){
+    //                m_pandora_remote.disconnect();
+    //                final OnInvalidAuthListener
+    //                    listener = (OnInvalidAuthListener) listeners.get(OnInvalidAuthListener.class);
+    //                if (listener != null){
+    //                    listener.onInvalidAuth();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
     public class AppConstant
     {
         public static final String YES_ACTION = "YES_ACTION";
@@ -622,7 +609,7 @@ public class PandoraRadioService extends Service {
     public class RateTask extends AsyncTask<String, Void, Void>{
         public void onPreExecute(){
             try {
-                this.m_song = m_song_playback.getSong();
+                //this.m_song = m_song_playback.getSong();
             } catch (final Exception e) {
                 Log.e("Pandoroid", "No song to rate.");
             }

@@ -17,10 +17,7 @@
  */
 package com.pandoroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,6 +27,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PandoroidLogin extends AppCompatActivity {
     private SharedPreferences m_prefs;
@@ -93,7 +93,7 @@ public class PandoroidLogin extends AppCompatActivity {
                 finish();
             }
             else{
-                AlertDialog.Builder 
+                AlertDialog.Builder
                     alert_builder = new AlertDialog.Builder(PandoroidLogin.this);
                 alert_builder.setMessage("Internal Error. Please Try Again");
                 alert_builder.setPositiveButton("Retry",

@@ -14,7 +14,7 @@ android {
     buildToolsVersion '30.0.3'
     defaultConfig{
         applicationId 'com.pandoroid'
-        minSdkVersion 24
+        minSdkVersion 14
         targetSdkVersion 30
         versionCode 19
         versionName generateVersionName()

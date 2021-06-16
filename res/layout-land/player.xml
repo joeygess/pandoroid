@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/PandoroidBlackBgTheme"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -31,7 +32,7 @@
             android:layout_alignEnd="@+id/player_topText"
             android:layout_below="@+id/player_topText"
             android:paddingTop="5dip"
-            android:src="@drawable/transparent"
+            app:srcCompat="@drawable/transparent"
             android:contentDescription="Main Windows Image">
         </ImageView>
 
@@ -92,7 +93,7 @@
         
         <ImageView
             android:id="@+id/player_next"
-            android:src="@android:drawable/ic_media_next"
+            app:srcCompat="@android:drawable/ic_media_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"
@@ -103,7 +104,7 @@
         
         <ImageView
             android:id="@+id/player_pause"
-            android:src="@android:drawable/ic_media_pause"
+            app:srcCompat="@android:drawable/ic_media_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"
@@ -117,7 +118,7 @@
 
         <ImageView
             android:id="@+id/player_love"
-            android:src="@android:drawable/btn_star"
+            app:srcCompat="@android:drawable/btn_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/player_pause"
@@ -131,7 +132,7 @@
         
         <ImageView
             android:id="@+id/player_ban"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="controlButtonPressed"

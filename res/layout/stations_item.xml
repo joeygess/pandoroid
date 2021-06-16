@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/PandoroidWhiteBgTheme"
     android:background="@android:color/background_light">
 
@@ -7,7 +8,7 @@
         android:id="@+id/stations_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/transparent"
+        app:srcCompat="@drawable/transparent"
         android:contentDescription="Stations Menu Item">
     </ImageView>
 

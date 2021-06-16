@@ -168,15 +168,19 @@ public class ConcurrentSongMediaPlayer{
         
         // The Android API's are borked in KitKat. It's better to simply not 
         // bother with it.
-//      int song_length = getDuration();
-//      int current_pos = getCurrentPosition();
-//      
-//      double end_song_position = song_length * (MINIMUM_SONG_COMPLETENESS / 100F);
-//      
-//      if (current_pos < end_song_position){
-//          return false;
-//      }
-        
+        if (isPlaying()) {
+            int song_length = getDuration();
+            int current_pos = getCurrentPosition();
+
+            double end_song_position = song_length * (MINIMUM_SONG_COMPLETENESS / 100F);
+            Log.i("Pandoroid", "isPlaybackComplete" + "song_length: " + song_length + "current_pos: " + current_pos + "end_song_position: " + end_song_position);
+
+            if (current_pos < end_song_position) {
+                return false;
+            }
+
+            return true;
+        }
         return true;
     }
     

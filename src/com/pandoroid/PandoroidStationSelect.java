@@ -17,20 +17,10 @@
  */
 package com.pandoroid;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.pandoroid.pandora.RPCException;
-import com.pandoroid.pandora.Station;
-import com.pandoroid.PandoraRadioService.ServerAsyncTask;
-
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
@@ -41,11 +31,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.pandoroid.PandoraRadioService.ServerAsyncTask;
+import com.pandoroid.pandora.RPCException;
+import com.pandoroid.pandora.Station;
+
+import java.io.IOException;
+import java.util.List;
 
 public class PandoroidStationSelect extends ListActivity {
     private static AlertDialog m_alert;
@@ -176,7 +173,7 @@ public class PandoroidStationSelect extends ListActivity {
         lv.setOnItemClickListener((parent, view, position, id) -> {
             String str_id = Long.toString(id);
             m_service.setCurrentStation(str_id);
-            m_service.startPlayback();
+            //m_service.startPlayback();
             m_stations_current_flag = false;
             finish();
         });
@@ -227,7 +224,7 @@ public class PandoroidStationSelect extends ListActivity {
                 showStations();
             }
             else{
-                AlertDialog.Builder 
+                AlertDialog.Builder
                     alert_builder = super.buildErrorDialog(success, 
                                                            PandoroidStationSelect.this);
                 alert_builder.setPositiveButton("Back", (dialog, which) -> {
@@ -260,7 +257,7 @@ public class PandoroidStationSelect extends ListActivity {
         //This is a half-assed quit
         protected void quit() {
             m_stations_current_flag = false;
-            m_service.stopPlayback();
+            //m_service.stopPlayback();
             doUnbindService();
             
             //The main activity is still bound so the service won't be destroyed
