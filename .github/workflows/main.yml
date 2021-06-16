@@ -39,5 +39,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: app
+          name: Pandoroid-${{ github.sha }}
           path: ${{ github.workspace }}/build/outputs/apk/debug/*.apk
