@@ -19,6 +19,7 @@ package com.pandoroid;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+//import 	androidx.preference.PreferenceFragmentCompat;
 
 public class PandoroidSettings extends PreferenceActivity {
     /** Called when the activity is first created. */
@@ -32,3 +33,12 @@ public class PandoroidSettings extends PreferenceActivity {
         // this.getSupportActionBar().setTitle(R.string.menu_settings);
     }
 }
+
+//public class PandoroidSettings extends PreferenceFragmentCompat {
+
+    //@Override
+    //public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        // Load the preferences from an XML resource
+    //    setPreferencesFromResource(R.xml.preferences, rootKey);
+    //}
+//}

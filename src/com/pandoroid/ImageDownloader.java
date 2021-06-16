@@ -17,6 +17,7 @@ package com.pandoroid;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -49,6 +50,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -269,6 +271,13 @@ public class ImageDownloader {
             final OkHttpClient client2;
             client2 = new OkHttpClient();
             client2.retryOnConnectionFailure();
+            //try {
+            //    client2.wait(5);
+            //} catch (InterruptedException e) {
+            //    e.printStackTrace();
+            //}
+            //List list = ();
+            //client2.protocols(list);
             url = params[0];
             URI uri = URI.create(url);
             try {

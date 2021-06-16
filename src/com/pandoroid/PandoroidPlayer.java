@@ -53,6 +53,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import static android.R.color.white;
 import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
+import android.widget.ProgressBar;
 
 public class PandoroidPlayer extends AppCompatActivity {
 
@@ -260,6 +261,32 @@ public class PandoroidPlayer extends AppCompatActivity {
         progress.setVisibility(View.INVISIBLE);
     }
 
+    //private void updateProgressBar(){
+    //    ProgressBar progressBar;
+    //    progressBar = (ProgressBar) findViewById(R.id.player_seekbar);
+    //    //progressBar.setMin(0);
+    //    m_active_player = instantiateMediaPlayer();
+    //    progressBar.setMax(m_active_player.getDuration());
+    //    progressBar.setProgress(m_active_player.getCurrentPosition());
+    //    //progressBar.setVisibility(View.INVISIBLE);
+    //    //while (progressStatus < 100) {
+    //    //    progressStatus += 1;
+    //    //    // Update the progress bar and display the
+    //    //    //current value in the text view
+    //    //    handler.post(new Runnable() {
+    //    //        public void run() {
+    //    //            progressBar.setProgress(progressStatus);
+    //    //        }
+    //    //    });
+    //    //    try {
+    //    //        // Sleep for 200 milliseconds.
+    //    //        Thread.sleep(200);
+    //    //    } catch (InterruptedException e) {
+    //    //        e.printStackTrace();
+    //    //    }
+    //    //}
+    //}
+
     /**
      * Description: Removes waiting prompts.
      */
@@ -282,6 +309,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             subMenu.setShowAsAction(2);
         }
+        //updateProgressBar();
         return super.onCreateOptionsMenu(menu);
     }
 
