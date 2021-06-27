@@ -398,8 +398,11 @@ public class PandoraRadio {
             throw new Exception("Improper call to getStations(), " +
                                         "the user has not been logged in yet.");
         }
+
+        Map<String, Object> request_args = new HashMap<>();
+        request_args.put("returnAllStations", "True");
         
-        JSONObject result = doCall("user.getStationList", null, 
+        JSONObject result = doCall("user.getStationList", request_args, 
                                    false, true, null);
         
         //Our stations come in a JSONArray within the JSONObject
