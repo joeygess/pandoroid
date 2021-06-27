@@ -21,7 +21,7 @@ jobs:
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
       - name: Build release APK
-        run: bash ./gradlew --stacktrace
+        run: bash ./gradlew build --stacktrace
       - name: Run LS
         run: ls $GITHUB_WORKSPACE/build/outputs/apk/debug && ls $GITHUB_WORKSPACE/build/outputs/apk/release
       - name: Create Release
