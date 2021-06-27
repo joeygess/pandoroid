@@ -20,8 +20,10 @@ jobs:
           java-version: 1.8
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
+      - name: Build release APK
+        run: bash ./gradlew --stacktrace
       - name: Run LS
-        run: ls $GITHUB_WORKSPACE/build/outputs/apk/debug
+        run: ls $GITHUB_WORKSPACE/build/outputs/apk/debug && ls $GITHUB_WORKSPACE/build/outputs/apk/release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -32,3 +34,15 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-arm64-v8a-release-unsigned.apk
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-armeabi-v7a-release-unsigned.apk
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-mips-release-unsigned.apk
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-mips64-release-unsigned.apk
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-universal-release-unsigned.apk
+            ${{ github.workspace }}/build/outputs/apk/release/pandoroid-x86-release-unsigned.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
