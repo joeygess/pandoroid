@@ -524,7 +524,7 @@ public class PandoroidPlayer extends AppCompatActivity {
         }
 
         protected void reportAction(){
-            String issue_url = "https://github.com/dylanPowers/pandoroid/issues";
+            String issue_url = "https://github.com/doadin/pandoroid/issues";
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(issue_url));
             startActivity(i);
         }

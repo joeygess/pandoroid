@@ -46,10 +46,10 @@ public class AboutDialog extends AppCompatActivity {
         
         String version_text = "Version " + version_name + " (" + build_num + ")";
         SpannableString about_text = new SpannableString(getString(R.string.about) + 
-                                                         " (https://github.com/dylanPowers/pandoroid/wiki).");
+                                                         " (https://github.com/doadin/pandoroid/wiki).");
         int url_start = about_text.length() - 47;
         int url_end = about_text.length() - 2;
-        about_text.setSpan(new URLSpan("https://github.com/dylanPowers/pandoroid/wiki"), 
+        about_text.setSpan(new URLSpan("https://github.com/doadin/pandoroid/wiki"), 
                            url_start, url_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((TextView) findViewById(R.id.version_text)).setText(version_text);
         TextView about_view = (TextView) findViewById(R.id.about_text);
