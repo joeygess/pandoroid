@@ -217,11 +217,6 @@ public class ConcurrentSongMediaPlayer{
             short NumberOfPresets = mEqualizer.getNumberOfPresets();
             final Equalizer.Settings settings = new Equalizer.Settings();
             settings.curPreset = CurrentPreset;
-            //try {
-            //    equalizer.setProperties(settings);
-            //} catch (IllegalArgumentException e) {
-            //    Log.e(TAG, "Failed restoring equalizer settings", e);
-            //}
             if (m_prefs.getBoolean("player_equalizer", true)) {
                 mEqualizer.setEnabled(true);
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS enabled");
@@ -231,13 +226,12 @@ public class ConcurrentSongMediaPlayer{
                 Log.i("Pandoroid", "ConcurrentSongMediaPlayer: eq IS disabled");
             }
             String preset = m_prefs.getString("player_preset", "0");
-            //int preset = 6;
             int presetset = Integer.parseInt(preset);
-            if (presetset >= 0 && presetset < mEqualizer.getNumberOfPresets()){
+            if (presetset >= 0 && presetset < NumberOfPresets){
 
                 mEqualizer.usePreset((short) presetset);
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets: " + mEqualizer.getNumberOfPresets());
-                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: current preset: " + presetset + " " + mEqualizer.getCurrentPreset() + " " + mEqualizer.getPresetName((short) mEqualizer.getCurrentPreset()));
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: num of presets: " + NumberOfPresets);
+                Log.i("Pandoroid", "ConcurrentSongMediaPlayer: current preset: " + presetset + " " + CurrentPreset + " " + mEqualizer.getPresetName((short) CurrentPreset));
                 //Number of supported = 10 aka 0-9
                 //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 0));
                 //Log.i("Pandoroid", "ConcurrentSongMediaPlayer: preset" + mEqualizer.getPresetName((short) 1));
