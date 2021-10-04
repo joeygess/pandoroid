@@ -399,10 +399,12 @@ public class PandoraRadio {
                                         "the user has not been logged in yet.");
         }
 
-        Map<String, Object> request_args = new HashMap<>();
-        request_args.put("returnAllStations", "True");
+        //Map<String, Object> request_args = new HashMap<>();
+        //request_args.put("returnAllStations", "True");
+        //JSONObject result = doCall("user.getStationList", request_args,
+        //        false, true, null);
         
-        JSONObject result = doCall("user.getStationList", request_args, 
+        JSONObject result = doCall("user.getStationList", null,
                                    false, true, null);
         
         //Our stations come in a JSONArray within the JSONObject
