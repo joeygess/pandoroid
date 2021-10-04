@@ -83,18 +83,10 @@ public class RPC {
         else{
             full_url = "http://" + request_url;
         }
-        //MediaType textPlainMT = MediaType.parse("text/plain; charset=utf-8");
-        //RequestBody requestBody = new MultipartBody.Builder()
-        //        .setType(MultipartBody.FORM) //this is what I say in my POSTman (Chrome plugin)
-        //        .addFormDataPart("username", "android")
-        //        .addFormDataPart("password", "androidpassword")
-        //        .addFormDataPart("deviceModel", "D01")
-        //        .addFormDataPart("version", "5")
-        //        .build();
+
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(entity_data, JSON);
 
-        //HttpPost request = new HttpPost();
         Request request = new Request.Builder()
                 .url(full_url.concat(makeUrlParamString(url_params)))
                 .post(body)
@@ -115,8 +107,7 @@ public class RPC {
         }
         Log.i("pandoroid", "Responce Body: " + response.body().byteStream());
         Log.i("pandoroid", "Responce Code: " + response.code());
-        //return response.body().string();
-        //Read the response returned and turn it from a byte stream to a string.
+
         int BUFFER_BYTE_SIZE = 512;
         String ret_data = new String();
         byte[] bytes = new byte[BUFFER_BYTE_SIZE];
