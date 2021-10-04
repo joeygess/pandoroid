@@ -67,6 +67,6 @@ public class RPCException extends Exception {
     }
     
     public String getMessage(){
-        return (super.getMessage() + " (Code: " + Integer.toString(code) + ")");
+        return (super.getMessage() + " (Code: " + code + ")");
     }
 }

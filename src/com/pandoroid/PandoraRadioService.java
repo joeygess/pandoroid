@@ -754,8 +754,6 @@ public class PandoraRadioService extends Service {
             } else if (e.code == RPCException.INTERNAL
                     || e.code == RPCException.MAINTENANCE_MODE) {
                 success_flag = ERROR_REMOTE_SERVER;
-            } else {
-                success_flag = ERROR_UNKNOWN;
             }
 
             return success_flag;
@@ -764,20 +762,18 @@ public class PandoraRadioService extends Service {
         /**
          * Description: A handler that must be called when an IOException
          *  has been encountered.
-         * @param e
          * @return
          */
-        protected int ioExceptionHandler(final IOException e) {
+        protected int ioExceptionHandler() {
             return ERROR_NETWORK;
         }
 
         /**
          * Description: A handler that must be called when a generic Exception has
          *  been encountered.
-         * @param e
          * @return
          */
-        protected int generalExceptionHandler(final Exception e) {
+        protected int generalExceptionHandler() {
             return ERROR_UNKNOWN;
         }
     }

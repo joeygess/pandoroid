@@ -96,7 +96,7 @@ public class MediaBandwidthEstimator {
                     Log.d("Pandoroid", 
                           "Media Id: " + audio_session_id + "    " +
                           "Buffer: " + buffer_position + "%    " +
-                          "Bitrate: " + Float.toString(bandwidth) + "kpbs    " +
+                          "Bitrate: " + bandwidth + "kpbs    " +
                           "\nBandwidth Avg: " + getBitrate() + "kpbs"
                     );
                 }

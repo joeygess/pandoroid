@@ -279,9 +279,7 @@ public class PandoroidPlayer extends AppCompatActivity {
 
         MenuItem subMenu = sub.getItem();
         subMenu.setIcon(android.R.drawable.ic_menu_preferences);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            MenuItemCompat.setShowAsAction(subMenu, 2);
-        }
+        subMenu.setShowAsAction(2);
         return super.onCreateOptionsMenu(menu);
     }
 

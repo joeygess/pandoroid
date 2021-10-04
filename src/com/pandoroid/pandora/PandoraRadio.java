@@ -465,17 +465,11 @@ public class PandoraRadio {
     }
     
     private boolean isGetPlaylistCallValid(String station_token){
-        if ((station_token.compareTo(last_acquired_playlist_station) == 0)
-                                             &&
-            (this.last_acquired_playlist_time > (       
-                  (System.currentTimeMillis() / 1000L) - MIN_TIME_BETWEEN_PLAYLIST_CALLS
-                                                )
-            )
-           ){
-            return false;
-            
-        }
-        return true;
+        return (station_token.compareTo(last_acquired_playlist_station) != 0)
+                ||
+                (this.last_acquired_playlist_time <= (
+                        (System.currentTimeMillis() / 1000L) - MIN_TIME_BETWEEN_PLAYLIST_CALLS
+                ));
     }
     
     public boolean isPandoraOneCredentials(){
@@ -501,8 +495,7 @@ public class PandoraRadio {
             throws GeneralSecurityException, BadPaddingException {
         byte[] bytes = fromHex(s);
         byte[] raw_decoded = blowfish_decode.doFinal(bytes);
-        String result_string = new String(raw_decoded);
-        return result_string;
+        return new String(raw_decoded);
     }
     
     
