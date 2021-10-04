@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
 /**
  * Description: Someone really needs to give this class some loving, document
  *  it up, organize it, and make it thread safe.
@@ -417,9 +418,9 @@ public class PandoraRadioService extends Service {
         intent.setPackage(context.getPackageName());
         intent.putExtra(Intent.EXTRA_KEY_EVENT,
                 new KeyEvent(KeyEvent.ACTION_DOWN, mediaKeyEvent));
-        return PendingIntent.getBroadcast(context, mediaKeyEvent, intent, 0);
+        return PendingIntent.getBroadcast(context, mediaKeyEvent, intent, FLAG_IMMUTABLE);
     }
-    
+
     public void signOut() {
         if(m_song_playback != null) {
             stopForeground(true);
