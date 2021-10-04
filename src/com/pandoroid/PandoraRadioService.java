@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+//import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.session.MediaSession;
 import android.net.ConnectivityManager;
@@ -328,7 +329,7 @@ public class PandoraRadioService extends Service {
             Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
             final NotificationCompat.Builder mBuilder =
                     (NotificationCompat.Builder) new NotificationCompat.Builder(Pandoroid.getContext(), "default");
-            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
+            //Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
             //Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
             Log.i("Pandoroid", "setNotification:" + " By " + tmp_song.getAlbumCoverUrl());
             if (m_paused)
