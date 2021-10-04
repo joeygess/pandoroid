@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -40,7 +39,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 
 import com.pandoroid.PandoraRadioService.ServerAsyncTask;
 import com.pandoroid.pandora.RPCException;
@@ -51,6 +49,7 @@ import com.pandoroid.playback.OnPlaybackContinuedListener;
 import com.pandoroid.playback.OnPlaybackHaltedListener;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static androidx.appcompat.R.style.Base_Theme_AppCompat_Light;
 
@@ -419,14 +418,14 @@ public class PandoroidPlayer extends AppCompatActivity {
         ImageView image = (ImageView) findViewById(R.id.player_image);
 
         if (song != null){
-            getSupportActionBar().setTitle("" + song.getTitle());
+            Objects.requireNonNull(getSupportActionBar()).setTitle("" + song.getTitle());
             m_service.image_downloader.download(song.getAlbumCoverUrl(), image);
             top.setText(String.format("%s\n%s\n%s", "Artist: " + song.getArtist(), "Album: " + song.getAlbum(), "Station: " + m_service.getCurrentStation().getName()));
         }
         else{
             image.setImageResource(R.drawable.transparent);
             top.setText(R.string.loading);
-            getSupportActionBar().setTitle(R.string.app_name);
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name);
         }
 
     }
