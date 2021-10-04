@@ -323,7 +323,7 @@ public class PandoroidPlayer extends AppCompatActivity {
      * Description: Executes a PartnerLoginTask.
      */
     private void partnerLogin() {
-        if (m_partner_login_finished_flag == true) {
+        if (m_partner_login_finished_flag) {
             m_partner_login_finished_flag = false;
             m_partner_login_task = new PartnerLoginTask();
             boolean pandora_one_flag = m_prefs.getBoolean("pandora_one_flag", false);
@@ -348,7 +348,7 @@ public class PandoroidPlayer extends AppCompatActivity {
      * Description: Executes the RetrieveStationsTask.
      */
     private void setStation(){
-        if (m_retrieve_stations_finished_flag == true) {
+        if (m_retrieve_stations_finished_flag) {
             m_retrieve_stations_finished_flag = false;
             m_retrieve_stations_task = new RetrieveStationsTask();
             m_retrieve_stations_task.execute();
@@ -491,7 +491,7 @@ public class PandoroidPlayer extends AppCompatActivity {
      * Description: Executes the UserLoginTask.
      */
     private void userLogin() {
-        if (m_user_login_finished_flag == true) {
+        if (m_user_login_finished_flag) {
             String username = m_prefs.getString("pandora_username", null);
             String password = m_prefs.getString("pandora_password", null);
 

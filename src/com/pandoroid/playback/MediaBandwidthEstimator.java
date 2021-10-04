@@ -74,7 +74,7 @@ public class MediaBandwidthEstimator {
             float bandwidth = session.calcBitrate(buffer_position, media_length, bitrate, time_stamp);
             
             if (bandwidth >= 0){
-                if (session.queued_flag == true){
+                if (session.queued_flag){
                     resetQueueFlags();
                     if (m_bitrate_queue.size() == NUM_AVERAGED_DATA_POINTS){
                         m_sum -= m_bitrate_queue.poll();

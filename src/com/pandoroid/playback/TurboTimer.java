@@ -8,10 +8,7 @@ public class TurboTimer {
     
     public boolean isTurbo(){
         cleanTimes();
-        if (times.size() >= TURBO_TRIGGER_SIZE){
-            return true;
-        }
-        return false;
+        return times.size() >= TURBO_TRIGGER_SIZE;
     }
     
     public void updateForBuffer(){
@@ -28,10 +25,8 @@ public class TurboTimer {
     
     private boolean needsCleaned(){
         Long time_stamp = times.peek();
-        if (time_stamp != null){ 
-            if (System.currentTimeMillis() - time_stamp > TURBO_TRIGGER_TIME_LENGTH){
-                return true;
-            }           
+        if (time_stamp != null){
+            return System.currentTimeMillis() - time_stamp > TURBO_TRIGGER_TIME_LENGTH;
         }
         return false;
     }
