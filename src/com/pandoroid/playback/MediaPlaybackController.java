@@ -164,8 +164,8 @@ public class MediaPlaybackController implements Runnable{
                 //Sleep for 1 second
                 alive = m_stop_exchanger.exchange(alive, 1, TimeUnit.SECONDS); 
             } 
-            catch (InterruptedException e) {} //We don't care
-            catch (TimeoutException e) {} //Yes we do want this to happen
+            catch (InterruptedException | TimeoutException e) {} //We don't care
+            //Yes we do want this to happen
         }
         
         //Cleanup!
