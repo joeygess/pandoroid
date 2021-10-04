@@ -19,7 +19,6 @@ package com.pandoroid.pandora;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.LinkedList;
 import java.util.Map;
 

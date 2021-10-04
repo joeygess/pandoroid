@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.media.audiofx.Equalizer;
 import android.os.Build;
 import android.preference.PreferenceManager;

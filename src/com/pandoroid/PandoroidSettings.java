@@ -20,7 +20,6 @@ package com.pandoroid;
 //import android.app.Activity;
 import android.os.Bundle;
 //import android.app.Activity;
-import android.preference.PreferenceActivity;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;

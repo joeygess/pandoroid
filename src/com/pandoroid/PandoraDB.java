@@ -19,7 +19,6 @@ package com.pandoroid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import com.pandoroid.pandora.Station;
 
