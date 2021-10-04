@@ -296,8 +296,7 @@ public class ImageDownloader {
                 final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 
                 if (content != null) {
-                    Bitmap bitmap = BitmapFactory.decodeStream(content);
-                    return bitmap;
+                    return BitmapFactory.decodeStream(content);
                 }
 
             } catch (ProtocolException e){
