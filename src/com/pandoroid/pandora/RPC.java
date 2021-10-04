@@ -157,8 +157,8 @@ public class RPC {
             else{
                 first_loop = false;
             }
-            url_string += URLEncoder.encode(entry.getKey()) + "="
-                    + URLEncoder.encode(entry.getValue());
+            url_string += URLEncoder.encode(entry.getKey(), "UTF-8") + "="
+                    + URLEncoder.encode(entry.getValue() , "UTF-8");
         }
 
         return url_string;
