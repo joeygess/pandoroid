@@ -326,39 +326,15 @@ public class PandoraRadioService extends Service {
             tmp_song = m_song_playback.getSong();
             Log.i("Pandoroid", "setNotification:" + " By Station ID " + tmp_song.getStationId());
             Log.i("Pandoroid", "setNotification:" + tmp_song.getTitle() + " By " + tmp_song.getArtist());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                final NotificationManager notificationManager =
-                        (NotificationManager) Pandoroid.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                final NotificationChannel notificationChannel = new NotificationChannel("default", "Pandoroid", NotificationManager.IMPORTANCE_LOW);
-                notificationChannel.setDescription("Channel description");
-                notificationChannel.enableLights(false);
-                notificationChannel.enableVibration(false);
-                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-                notificationManager.createNotificationChannel(notificationChannel);
-            }
             final NotificationCompat.Builder mBuilder =
                     (NotificationCompat.Builder) new NotificationCompat.Builder(Pandoroid.getContext(), "default");
-            //final Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
-            Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
+            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.id.player_image);
+            //Bitmap largeIcon = ImageDownloader.getBitmapFromCachee(tmp_song.getAlbumCoverUrl());
             Log.i("Pandoroid", "setNotification:" + " By " + tmp_song.getAlbumCoverUrl());
-            //private PandoraRadioService m_service;
-            //m_service = ((PandoraRadioService.PandoraRadioBinder)m_service).getService();
-            final Intent yesReceive = new Intent();
-            yesReceive.setAction(AppConstant.YES_ACTION);
-            final PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-            final Intent noReceive = new Intent();
-            yesReceive.setAction(AppConstant.NO_ACTION);
-            final PendingIntent pendingIntentNo = PendingIntent.getBroadcast(this, 12345, noReceive, PendingIntent.FLAG_UPDATE_CURRENT);
-            //androidx.media.app.NotificationCompat.MediaStyle notificationStyle = new androidx.media.app.NotificationCompat.MediaStyle();
-            //notificationStyle.setShowActionsInCompactView(1, 2);
-            //notificationStyle.setMediaSession(mSessionToken);
-            //if (!m_paused)
-            //    mBuilder.addAction(R.drawable.ic_menu_pause_clip, "Pause", pendingIntentNo);
-            //m_current_station.getName()
             if (m_paused)
                 mBuilder
                         //.setLargeIcon(BitmapFactory.decodeStream(image_downloader)
-                        .setLargeIcon(largeIcon)
+                        //.setLargeIcon(largeIcon)
                         .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(false)
                         .setShowWhen(false)
@@ -375,11 +351,17 @@ public class PandoraRadioService extends Service {
                         .setContentText(tmp_song.getArtist())
                         .setContentInfo(tmp_song.getAlbum())
                         .setContentTitle(tmp_song.getTitle())
+                        //.setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
+                        //        PlaybackStateCompat.ACTION_STOP))
+                        //.addAction(new NotificationCompat.Action(
+                        //        android.R.drawable.ic_media_play, "Play",
+                        //        MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
+                        //                PlaybackStateCompat.ACTION_PLAY_PAUSE)))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             if (!m_paused)
                 mBuilder
                         //.setLargeIcon(m_service.image_downloader.download(song.getAlbumCoverUrl(), image))
-                        .setLargeIcon(largeIcon)
+                        //.setLargeIcon(largeIcon)
                         .setSmallIcon(R.drawable.notification_icon)
                         .setOngoing(false)
                         .setShowWhen(false)
@@ -393,6 +375,12 @@ public class PandoraRadioService extends Service {
                         .setContentText(tmp_song.getArtist())
                         .setContentInfo(tmp_song.getAlbum())
                         .setContentTitle(tmp_song.getTitle())
+                        //.setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
+                        //        PlaybackStateCompat.ACTION_STOP))
+                        //.addAction(new NotificationCompat.Action(
+                        //        android.R.drawable.ic_media_pause, "Pause",
+                        //        MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
+                        //                PlaybackStateCompat.ACTION_PLAY_PAUSE)))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             final int mNotificationId = 001;
             final NotificationManager mNotifyMgr =
