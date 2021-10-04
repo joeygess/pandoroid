@@ -545,7 +545,6 @@ public class PandoroidPlayer extends AppCompatActivity {
             Integer success_flag = -1;
             try {
                 m_service.runPartnerLogin(subscriber_type[0]);
-                // exceptionTest();
             } catch (RPCException e) {
                 Log.e("Pandoroid", "Error running partner login.", e);
                 if (e.code == RPCException.INVALID_PARTNER_CREDENTIALS) {
@@ -555,10 +554,10 @@ public class PandoroidPlayer extends AppCompatActivity {
                 }
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error running partner login.", e);
-                success_flag = ioExceptionHandler(e);
+                success_flag = ioExceptionHandler();
             } catch (Exception e) {
                 Log.e("Pandoroid", "Error running partner login.", e);
-                success_flag = generalExceptionHandler(e);
+                success_flag = generalExceptionHandler();
             }
 
             return success_flag;
@@ -603,10 +602,10 @@ public class PandoroidPlayer extends AppCompatActivity {
                 success_flag = rpcExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = ioExceptionHandler(e);
+                success_flag = ioExceptionHandler();
             } catch (Exception e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = generalExceptionHandler(e);
+                success_flag = generalExceptionHandler();
             }
 
             return success_flag;
@@ -651,7 +650,6 @@ public class PandoroidPlayer extends AppCompatActivity {
             Integer success_flag = -1;
             try {
                 m_service.runUserLogin(strings[0], strings[1]);
-                // exceptionTest();
             } catch (RPCException e) {
                 Log.e("Pandoroid", "RPC error running user login. " + e.getMessage());
                 if (e.code == RPCException.INVALID_USER_CREDENTIALS) {
@@ -661,10 +659,10 @@ public class PandoroidPlayer extends AppCompatActivity {
                 }
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error running user login.", e);
-                success_flag = ioExceptionHandler(e);
+                success_flag = ioExceptionHandler();
             } catch (Exception e) {
                 Log.e("Pandoroid", "Error running user login.", e);
-                success_flag = generalExceptionHandler(e);
+                success_flag = generalExceptionHandler();
             }
 
             return success_flag;

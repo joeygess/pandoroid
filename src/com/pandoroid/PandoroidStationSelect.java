@@ -203,16 +203,15 @@ public class PandoroidStationSelect extends ListActivity {
             Integer success_flag = -1;
             try {
                 m_service.updateStations();
-                //exceptionTest();
             } catch (RPCException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
                 success_flag = rpcExceptionHandler(e);
             } catch (IOException e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = ioExceptionHandler(e);
+                success_flag = ioExceptionHandler();
             } catch (Exception e) {
                 Log.e("Pandoroid", "Error fetching stations.", e);
-                success_flag = generalExceptionHandler(e);
+                success_flag = generalExceptionHandler();
             }
             
             return success_flag;
