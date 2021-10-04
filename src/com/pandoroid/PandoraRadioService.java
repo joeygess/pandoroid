@@ -222,7 +222,7 @@ public class PandoraRadioService extends Service {
         this.unregisterReceiver(m_music_intent_receiver);
         stopForeground(true);
         final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(001);
+        mNotificationManager.cancel(1);
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
             mWakeLock.release();
@@ -235,7 +235,7 @@ public class PandoraRadioService extends Service {
     @Override
     public void onTaskRemoved(final Intent rootIntent) {
         final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(001);
+        mNotificationManager.cancel(1);
         if (mWakeLock.isHeld()) {
             Log.i("Pandoroid", "onTaskRemoved WakeLock is held, releasing");
             mWakeLock.release();
@@ -382,7 +382,7 @@ public class PandoraRadioService extends Service {
                         //        MediaButtonReceiver.buildMediaButtonPendingIntent(getApplicationContext(),
                         //                PlaybackStateCompat.ACTION_PLAY_PAUSE)))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            final int mNotificationId = 001;
+            final int mNotificationId = 1;
             final NotificationManager mNotifyMgr =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
