@@ -69,7 +69,7 @@ public class PandoroidStationSelect extends ListActivity {
             startup();
         }
         else {
-            m_waiting = ProgressDialog.show(PandoroidStationSelect.this, 
+            m_waiting = ProgressDialog.show(PandoroidStationSelect.this,
                                             "",  
                                             getString(R.string.loading));
         }
@@ -91,7 +91,7 @@ public class PandoroidStationSelect extends ListActivity {
     /*
      * Fancy pants service stuff
      */
-    private ServiceConnection m_connection = new ServiceConnection() {
+    private final ServiceConnection m_connection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
             // established, giving us the service object we can use to
@@ -283,8 +283,8 @@ public class PandoroidStationSelect extends ListActivity {
     
     private class StationListAdapter extends BaseAdapter {
 
-        private List<Station> stations;
-        private Context context;
+        private final List<Station> stations;
+        private final Context context;
 
         public StationListAdapter(List<Station> StationList, Context context) {
             this.stations = StationList;

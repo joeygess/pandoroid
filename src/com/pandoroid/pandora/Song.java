@@ -24,23 +24,23 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Song {
-    private String album;
-    private String artist;
-    private String fileGain;
-    private String musicId;
-    private Integer rating;
-    private String stationId;
-    private String title;
-    private String songDetailURL;
-    private String albumDetailURL;
-    private String album_art_url;
-    private boolean tired;
-    private String message;
-    private Object startTime;
-    private boolean finished;
-    private long time_acquired;
+    private final String album;
+    private final String artist;
+    private final String fileGain;
+    private final String musicId;
+    private final Integer rating;
+    private final String stationId;
+    private final String title;
+    private final String songDetailURL;
+    private final String albumDetailURL;
+    private final String album_art_url;
+    private final boolean tired;
+    private final String message;
+    private final Object startTime;
+    private final boolean finished;
+    private final long time_acquired;
 
-    private LinkedList<PandoraAudioUrl> audio_urls;
+    private final LinkedList<PandoraAudioUrl> audio_urls;
     
     private static final int MAX_TIME_ALIVE = 60 * 60 * 1000; //60 minutes
 

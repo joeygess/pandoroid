@@ -131,7 +131,7 @@ public class PandoroidPlayer extends AppCompatActivity {
     /*
      * Service connection specific stuff.
      */
-    private ServiceConnection m_connection = new ServiceConnection() {
+    private final ServiceConnection m_connection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
             // established, giving us the service object we can use to

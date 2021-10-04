@@ -21,6 +21,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
@@ -38,8 +39,8 @@ import okhttp3.RequestBody;
  */
 public class RPC {
     private final OkHttpClient client2;
-    private String request_url;
-    private String user_agent;
+    private final String request_url;
+    private final String user_agent;
 
     /**
      * Description: Our constructor class. This will set our default parameters
@@ -146,7 +147,7 @@ public class RPC {
      *  of strings, so multiple calls to this function will create an invalid 
      *  URL request string.
      */
-    private String makeUrlParamString(Map<String, String> mapped_url_params){
+    private String makeUrlParamString(Map<String, String> mapped_url_params) throws UnsupportedEncodingException {
         String url_string = "?";
         boolean first_loop = true;
         for (Map.Entry<String, String> entry : mapped_url_params.entrySet()){

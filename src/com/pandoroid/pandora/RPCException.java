@@ -60,7 +60,7 @@ public class RPCException extends Exception {
     /* End constants */
     
     
-    public int code;
+    public final int code;
     public RPCException(int error_code, String message) {
         super(message);
         this.code = error_code;

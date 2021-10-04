@@ -246,7 +246,7 @@ public class MediaBandwidthEstimator {
             return m_num_bitrate_calcs;
         }
 
-        private int m_id;
+        private final int m_id;
         private long m_prev_time;
         private int m_prev_buffer_pos;
         private int m_num_bitrate_calcs;
@@ -258,8 +258,8 @@ public class MediaBandwidthEstimator {
      * Private
      */
     private float m_sum;
-    private LinkedList<Float> m_bitrate_queue;
-    private LinkedList<AudioSession> m_active_audio_sessions;
+    private final LinkedList<Float> m_bitrate_queue;
+    private final LinkedList<AudioSession> m_active_audio_sessions;
     
     /**
      * Description: Gets an AudioSession by id and if it doesn't exist, it 

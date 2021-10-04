@@ -27,15 +27,15 @@ import android.util.Log;
 public class Station implements Comparable<Station>, Serializable {
     private static final long serialVersionUID = 1L;
     
-    private String id;
-    private String idToken;
+    private final String id;
+    private final String idToken;
     //private boolean isCreator;
-    private boolean isQuickMix;
-    private String name;
+    private final boolean isQuickMix;
+    private final String name;
 
     transient private Song[] currentPlaylist;
     //transient private boolean useQuickMix;
-    transient private PandoraRadio pandora;
+    final transient private PandoraRadio pandora;
 
     public Station(HashMap<String, Object> d, PandoraRadio instance) {
         id = (String) d.get("stationId");

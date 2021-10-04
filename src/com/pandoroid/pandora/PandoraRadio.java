@@ -89,7 +89,7 @@ public class PandoraRadio {
     //End Audio
 
     private RPC pandora_rpc;
-    private PartnerCredentials credentials;
+    private final PartnerCredentials credentials;
     private Cipher blowfish_encode;
     private Cipher blowfish_decode;
     private String user_auth_token;
@@ -98,7 +98,7 @@ public class PandoraRadio {
     private long sync_obtained_time;
     private long last_acquired_playlist_time;
     private String last_acquired_playlist_station;
-    private Map<String, String> standard_url_params;
+    private final Map<String, String> standard_url_params;
 
     /**
      * 

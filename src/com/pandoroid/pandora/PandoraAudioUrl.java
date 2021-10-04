@@ -10,9 +10,9 @@ import java.util.Map;
  *
  */
 public class PandoraAudioUrl implements Comparable<PandoraAudioUrl>{
-    public String m_type;
-    public int m_bitrate;
-    public String m_url_str;
+    public final String m_type;
+    public final int m_bitrate;
+    public final String m_url_str;
     
     public PandoraAudioUrl(String type, int bitrate, String url){
         this.m_type = type;

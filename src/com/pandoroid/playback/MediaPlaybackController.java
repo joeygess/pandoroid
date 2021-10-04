@@ -391,7 +391,7 @@ public class MediaPlaybackController implements Runnable{
     private String m_min_quality;
     private String m_max_quality;
     private volatile Boolean m_need_next_song;
-    private ConnectivityManager m_net_conn;
+    private final ConnectivityManager m_net_conn;
     private PandoraRadio m_pandora_remote;
     private volatile Boolean m_pause = false;
     private LinkedList<Song> m_play_queue;
@@ -400,8 +400,8 @@ public class MediaPlaybackController implements Runnable{
     private volatile Boolean m_reset_player_flag;
     private volatile Boolean m_restart_song_flag;
     private String m_station_token;
-    private Exchanger<Boolean> m_stop_exchanger = new Exchanger<>();
-    private TurboTimer m_turbo_mode = new TurboTimer();
+    private final Exchanger<Boolean> m_stop_exchanger = new Exchanger<>();
+    private final TurboTimer m_turbo_mode = new TurboTimer();
     private volatile Boolean m_valid_play_command_flag = false;
     
     /**
@@ -659,7 +659,7 @@ public class MediaPlaybackController implements Runnable{
         if (m_playback_engine_thread != null){
             if (m_playback_engine_thread.isAlive()){
                 return true;
-            }           
+            }
         }
         
         return false;
@@ -912,9 +912,9 @@ public class MediaPlaybackController implements Runnable{
      *  a MediaPlayer session id it's affiliated with.
      */
     private class BufferSample{
-        public int m_percent;
-        public int m_session_id;
-        public long m_time_stamp;
+        public final int m_percent;
+        public final int m_session_id;
+        public final long m_time_stamp;
         
         public BufferSample(int session_id, int percent){
             this.m_percent = percent;
@@ -1005,8 +1005,8 @@ public class MediaPlaybackController implements Runnable{
      *  values.
      */
     private class ResetThread implements Runnable{
-        public String station_token;
-        public PandoraRadio pandora_remote;
+        public final String station_token;
+        public final PandoraRadio pandora_remote;
         
         public ResetThread(String station_token, PandoraRadio pandora_remote){
             this.station_token = station_token;
@@ -1043,10 +1043,10 @@ public class MediaPlaybackController implements Runnable{
             }
         }
         
-        private String m_message;
-        private Throwable m_e;
-        private Boolean m_remote_error_flag;
-        private int m_rpc_error_code;
+        private final String m_message;
+        private final Throwable m_e;
+        private final Boolean m_remote_error_flag;
+        private final int m_rpc_error_code;
     }
     
     /**
@@ -1065,7 +1065,7 @@ public class MediaPlaybackController implements Runnable{
             }
         }
         
-        private Song m_song;
+        private final Song m_song;
     }
     
     /**
@@ -1084,7 +1084,7 @@ public class MediaPlaybackController implements Runnable{
             }
         }
         
-        private int m_code;
+        private final int m_code;
     }
     
     /**
@@ -1105,8 +1105,8 @@ public class MediaPlaybackController implements Runnable{
      *  quality minimum and maximum.
      */
     private class SetAudioQualityThread implements Runnable{
-        public String min;
-        public String max;
+        public final String min;
+        public final String max;
         
         public SetAudioQualityThread(String min_quality, String max_quality){
             this.min = min_quality;
